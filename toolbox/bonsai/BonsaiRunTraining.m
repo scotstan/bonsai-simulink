@@ -7,7 +7,7 @@ function BonsaiRunTraining(config, mdl, episodeStartCallback)
     % configure and start session
     session = bonsai.Session.getInstance();
     session.configure(config);
-    session.startNewSession();
+    session.startTrainingSession();
 
     % loop over training
     runException = [];
@@ -47,7 +47,7 @@ function BonsaiRunTraining(config, mdl, episodeStartCallback)
             causeMessage = runException.cause{1}.message;
         end
         if strcmp(runException.identifier, userTerminatedIdentifier) || ...
-            contains(causeMessage, 'operation terminated by user') || ...
+            contains(causeMessage, 'terminated by user') || ...
             contains(causeMessage, 'Program interruption (Ctrl-C) has been detected')
             logger.log('Session terminated by user.');
         else

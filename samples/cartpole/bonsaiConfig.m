@@ -29,7 +29,7 @@ function config = bonsaiConfig
     % %   your simulator to advance, defaults to 60
     % config.timeout = 60;
 
-    % path to csv file where training data should be logged
+    % path to csv file where episode data should be logged
     config.outputCSV = "cartpole-training.csv";
 
     % display verbose logs

@@ -57,11 +57,27 @@ function setup(block)
     block.RegBlockMethod('Start', @Start);
     block.RegBlockMethod('Update', @Update);
     block.RegBlockMethod('Outputs', @Outputs);
+    block.RegBlockMethod('Terminate', @Terminate);
 
 end
 
 function Start(block)
-    % nothing to do
+
+    % get session instance and logger
+    session = bonsai.Session.getInstance();
+    logger = bonsai.Logger('BonsaiBlock', session.config.verbose);
+
+    % if no session ID is set, assume sim should register for assessment
+    if isempty(session.sessionId)
+        logger.verboseLog('No SessionID found, starting a new assessment session...');
+        session.startAssessmentSession();
+        fig = uifigure;
+        message = sprintf('Open the Bonsai Portal to begin assessment on your brain.');
+        uialert(fig, message, 'Simulator Registered', 'Icon', 'info');
+    else
+        logger.verboseLog('Session ID found, assuming sim is registered for training');
+    end
+
 end
 
 function Update(block)
@@ -103,6 +119,17 @@ function Outputs(block)
         block.OutputPort(2).Data = false;
     end
 
+end
+
+function Terminate(block)
+
+        % terminate session if we are in an assessment session
+        session = bonsai.Session.getInstance();
+        if session.isTrainingSession
+            % session will be terminated by BonsaiRunTraining
+        else
+            session.terminateSession();
+        end
 end
 
 function SetInpPortFrameData(block, idx, fd)
