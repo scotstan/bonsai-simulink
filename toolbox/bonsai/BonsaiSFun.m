@@ -1,7 +1,7 @@
 % Level-2 S-Function for the bonsai toolbox
 % Copyright 2020 Microsoft
 
-function bonsai(block)
+function BonsaiSFun(block)
     setup(block);
 end
 
