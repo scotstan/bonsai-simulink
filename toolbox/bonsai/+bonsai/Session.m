@@ -10,6 +10,7 @@ classdef Session < handle
     properties
         config BonsaiConfiguration
         sessionId char
+        isTrainingSession logical
         lastSequenceId double
         lastEvent bonsai.EventTypes
         lastAction struct
@@ -38,6 +39,14 @@ classdef Session < handle
     methods (Access = private)
         function obj = MySingleton
             obj.counter = 0;
+        end
+
+        function resetSessionProperties(obj)
+            obj.sessionId = '';
+            obj.lastSequenceId = 1;
+            obj.lastEvent = bonsai.EventTypes.Idle;
+            obj.lastAction = struct();
+            obj.episodeConfig = struct();
         end
     end
 
@@ -91,23 +100,22 @@ classdef Session < handle
                 end
             end
 
-            % initialize remaining properties
             obj.config = config;
             obj.client = bonsai.Client(config);
-            obj.sessionId = '';
-            obj.lastSequenceId = 1;
-            obj.lastEvent = bonsai.EventTypes.Idle;
-            obj.lastAction = struct();
-            obj.episodeConfig = struct();
-            if config.csvWriterEnabled()
-                obj.logger.verboseLog('CSV Writer enabled');
-                obj.csvWriter = bonsai.CSVWriter(config);
-            else
-                obj.logger.verboseLog('CSV Writer disabled');
-            end
         end
 
         function startNewSession(obj)
+
+            % reset session
+            obj.resetSessionProperties();
+
+            % initialize CSV Writer if enabled
+            if obj.config.csvWriterEnabled()
+                obj.logger.verboseLog('CSV Writer enabled');
+                obj.csvWriter = bonsai.CSVWriter(obj.config);
+            else
+                obj.logger.verboseLog('CSV Writer disabled');
+            end
 
             % register sim and reset episode count
             r = obj.client.registerSimulator(obj.config.registrationJson());
@@ -125,6 +133,16 @@ classdef Session < handle
             obj.lastEvent = bonsai.EventTypes.Registered;
         end
 
+        function startTrainingSession(obj)
+            obj.isTrainingSession = true;
+            obj.startNewSession();
+        end
+
+        function startAssessmentSession(obj)
+            obj.isTrainingSession = false;
+            obj.startNewSession();
+        end
+
         function episodeConfig = startNewEpisode(obj)
 
             if ~strcmp(obj.lastEvent, bonsai.EventTypes.EpisodeStart.str)
@@ -133,7 +151,7 @@ classdef Session < handle
             
             blank_state = zeros(1, obj.config.numStates);
             while ~strcmp(obj.lastEvent, bonsai.EventTypes.EpisodeStart.str)
-                obj.getNextEvent(-1, blank_state, false);
+                obj.getNextEvent(obj.lastSequenceId, blank_state, false);
             end
 
             % increment episode count
@@ -147,7 +165,7 @@ classdef Session < handle
         end
 
         function terminateSession(obj)
-            % delete sim
+            % unregister sim
             if strcmp(obj.sessionId, '')
                 obj.logger.log('No SessionID found to unregister')
             else
@@ -155,9 +173,8 @@ classdef Session < handle
                 obj.client.deleteSimulator(obj.sessionId);
             end
 
-            % delete session ID to keep next session from picking it up
-            obj.sessionId = '';
-
+            % reset session and close csv
+            obj.resetSessionProperties();
             obj.csvWriter.close();
         end
 
@@ -186,9 +203,14 @@ classdef Session < handle
                 error('Unexpected Registration event');
             case bonsai.EventTypes.Idle.str
                 if (obj.episodeCount < 1)
-                    obj.logger.log(['Received event: Idle, please visit https://preview.bons.ai ', ...
-                    'and select or create a brain to begin training. Hit "Train" and select ', ...
-                    'simulator "', obj.config.name, '" to connect this model.']);
+                    if obj.isTrainingSession
+                        obj.logger.log(['Received event: Idle, please visit https://preview.bons.ai ', ...
+                        'and select or create a brain to begin training. Hit "Train" and select ', ...
+                        'simulator "', obj.config.name, '" to connect this model.']);
+                    else
+                        obj.logger.log(['Received event: Idle, please visit https://preview.bons.ai ', ...
+                        'and to begin assessment on your brain.']);
+                    end
                 else
                     obj.logger.log('Received event: Idle');
                 end
