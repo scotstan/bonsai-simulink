@@ -3,7 +3,10 @@ function config = BonsaiConfig()
     config = BonsaiConfiguration();
     config.url = "https://api.bons.ai";
     config.name = "Simulink - Moab";
-    config.timeout = 120;
+    
+    %system performance and connection speeds vary. If you receive timeout
+    %errors, please increase up to 300
+    config.timeout = 180;
     
     % bonsai workspace
     config.workspace = "<your workspace here>";

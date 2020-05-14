@@ -40,7 +40,7 @@ noise_variance = 0.333;
 MAX_ITER = Inf;
 
 % Set obstacles
-DEFAULT_OBSTACLE_RADIUS = 0.05;   % m, if radius is zero, obstacle is disabled
+DEFAULT_OBSTACLE_RADIUS = 0;   % m, if radius is zero, obstacle is disabled
 DEFAULT_OBSTACLE_X = 0.03;       % m, arbitrarily chosen
 DEFAULT_OBSTACLE_Y = 0.03;       % m, arbitrarily chosen
 

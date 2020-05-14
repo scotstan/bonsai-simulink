@@ -56,7 +56,7 @@ function episodeStartCallback(mdl, episodeConfig)
     in = in.setVariable('arm1_alpha0',a1);
     in = in.setVariable('arm2_alpha0',a2);
     in = in.setVariable('arm3_alpha0',a3);
-    
+
     %tutorial 2
     if isfield(episodeConfig, 'ball_radius') == 1
         disp('running tutorial 2');
