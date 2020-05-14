@@ -63,10 +63,9 @@ function episodeStartCallback(mdl, episodeConfig)
         
         
         ball_radius = episodeConfig.ball_radius;
-        
+        ball_shell = episodeConfig.ball_shell;
+   
         % Recalculate variables affected by ball parameter changes
-        %ball_z0 = evalin('base','DEFAULT_PLATE_HEIGHT + PLATE_ORIGIN_TO_SURFACE_OFFSET') + ball_radius;
-        ball_shell = evalin('base','DEFAULT_BALL_SHELL');
         ball_mass = evalin('base','DEFAULT_BALL_MASS');
         ball_cor = evalin('base','DEFAULT_BALL_COR');
         ball_z0 = evalin('base','DEFAULT_PLATE_HEIGHT + PLATE_ORIGIN_TO_SURFACE_OFFSET') + ball_radius;
