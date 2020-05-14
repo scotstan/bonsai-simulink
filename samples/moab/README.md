@@ -1,6 +1,6 @@
 
 # Moab Overview
-<img src="images/hero.png" alt="The Moab M2 robot" width="400" style="float: right; ">
+<img src="Images/hero.png" alt="The Moab M2 robot" width="400" style="float: right; ">
 Project Moab is a small balancing robot useful for demonstrating machine teaching on a physical device for Engineers. Project Moab is based on a basic problem: keep a ball balanced on top of a plate held by three arms. But rather than using differential equations and other traditional ways of solving the problem, an engineer will instead teach the AI system how to balance it. Users can very quickly take it into areas where doing it in traditional ways would not be easy, such as balancing an egg instead of a ball.
 
 The Moab M2 robot is an optional companion for Project Bonsai. The Bonsai Azure service contains a complete simulation of Moab, allowing one to experience machine teaching in software. The trained brain can then be downloaded to the bot, allowing direct control.
@@ -70,7 +70,7 @@ To start the model, run the **startup_MOAb** script from the MATLAB command prom
 
 If you prefer to use the UI, you can double-click on the Controller block and change the value in the dropdown, as shown below:
 
-![Controller Prompt - Sinusoid](images/change_local_bonsai.png =500x)
+![Controller Prompt - Sinusoid](Images/change_local_bonsai.png =500x)
 
 If you would like to test by changing various parameters, you can run the **Scripts_Data/runMoabLocalLoop.m** script.  This is a representation of what the Bonsai platform will do once the model is connected to the Bonsai platform. 
 
@@ -82,7 +82,7 @@ In both examples you will see that there are a number of parameters that get mod
 After getting acclimated with the Moab model and setting up a Bonsai account, you are now ready to train your first Bonsai brain for Moab. Be sure to select **Bonsai** in the Controller block and save your model. 
 
 
-![Controller Prompt - Bonsai](images/change_bonsai.png =500x)
+![Controller Prompt - Bonsai](Images/change_bonsai.png =500x)
 
 There are two scripts that are used to connect your model to Bonsai: **bonsaiConfig** and **bonsaiTrain**.
 
@@ -315,15 +315,15 @@ Back in the Bonsai dashboard, next to **Simulators**, click the **Add sim** butt
 
 This will open a dialog. 
 
-![Add Sim Prompt](images/add_sim.png =500x)
+![Add Sim Prompt](Images/add_sim.png =500x)
 
 Select MathWorks. 
 
-![Add Sim Prompt](images/add_sim_mw_nozip.png =500x)
+![Add Sim Prompt](Images/add_sim_mw_nozip.png =500x)
 
 Select or drag the moab.zip file. 
 
-![Add Sim Prompt](images/add_sim_mw_zip.png =500x)
+![Add Sim Prompt](Images/add_sim_mw_zip.png =500x)
 
 Give your simulator a name, then click **Create simulator**. 
 
@@ -356,7 +356,7 @@ Below you will see some examples about how the Simulink model performs during th
 
 Speed will vary, but after about 318,000 iterations, the brain will achieve its goals:
 
-![Tutorial 1 results](images/tut_1_results.png =800x)
+![Tutorial 1 results](Images/tut_1_results.png =800x)
 
 ## Tutorial 2
 <a href="https://aka.ms/moab/tutorial2">Tutorial 2</a> introduces domain randomization. Domain randomization is used to train the brain to use allow Moab to balance balls other than a ping pong ball.
@@ -364,7 +364,7 @@ Speed will vary, but after about 318,000 iterations, the brain will achieve its 
 Speed will vary, but after about 474,000 iterations, the brain will achieve its goals:
 
 
-![Tutorial 2 results](images/tut_2_results.png =800x)
+![Tutorial 2 results](Images/tut_2_results.png =800x)
 
 ## Tutorial 3
  https://aka.ms/moab/tutorial3

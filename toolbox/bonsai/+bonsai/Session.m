@@ -15,6 +15,8 @@ classdef Session < handle
         lastEvent bonsai.EventTypes
         lastAction struct
         episodeConfig struct
+        model string;
+        episodeStartCallback function_handle;
     end
 
     properties (Access = private)
@@ -52,7 +54,7 @@ classdef Session < handle
 
     methods
 
-        function configure(obj, config)
+        function configure(obj, config, mdl, episodeStartCallback)
 
             % display version of toolbox being used
             addons = matlab.addons.installedAddons;
@@ -102,6 +104,8 @@ classdef Session < handle
 
             obj.config = config;
             obj.client = bonsai.Client(config);
+            obj.model = mdl;
+            obj.episodeStartCallback = episodeStartCallback;
         end
 
         function startNewSession(obj)
@@ -143,7 +147,8 @@ classdef Session < handle
             obj.startNewSession();
         end
 
-        function episodeConfig = startNewEpisode(obj)
+        function startNewEpisode(obj)
+            fprintf(1, newline);
 
             if ~strcmp(obj.lastEvent, bonsai.EventTypes.EpisodeStart.str)
                 obj.logger.log('Requesting events until EpisodeStart received...');
@@ -157,11 +162,16 @@ classdef Session < handle
             % increment episode count
             obj.episodeCount = obj.episodeCount + 1;
 
-            % return episode config if used
-            episodeConfig = struct;
-            if obj.config.numConfigs > 0
-                episodeConfig = obj.episodeConfig;
+            % call episodeStartCallback to set episode configuration and, if
+            % training, run the model
+            fprintf(1, newline);
+            if obj.isTrainingSession
+                obj.logger.log(['Starting model ', char(obj.model), ' with episodeStartCallback']);
+            else
+                obj.logger.log('Setting episode configuration with episodeStartCallback');
             end
+            feval(obj.episodeStartCallback, obj.model, obj.episodeConfig);
+            obj.logger.log('Callback complete.');
         end
 
         function terminateSession(obj)
@@ -209,7 +219,7 @@ classdef Session < handle
                         'simulator "', obj.config.name, '" to connect this model.']);
                     else
                         obj.logger.log(['Received event: Idle, please visit https://preview.bons.ai ', ...
-                        'and to begin assessment on your brain.']);
+                        'to begin assessment on your brain.']);
                     end
                 else
                     obj.logger.log('Received event: Idle');

@@ -6,24 +6,14 @@ function BonsaiRunTraining(config, mdl, episodeStartCallback)
 
     % configure and start session
     session = bonsai.Session.getInstance();
-    session.configure(config);
+    session.configure(config, mdl, episodeStartCallback);
     session.startTrainingSession();
 
     % loop over training
     runException = [];
     try
         while true
-
-            % poll for next EpisodeStart event
-            fprintf(1, newline);
-            episodeConfig = session.startNewEpisode();
-
-            % run model for one episode
-            fprintf(1, newline);
-            logger.log(['Starting model ', mdl, '...']);
-            feval(episodeStartCallback, mdl, episodeConfig);
-            logger.log(['Model ', mdl, ' has finished running.']);
-
+            session.startNewEpisode();
         end
     catch runException
         % exception still gets checked below
