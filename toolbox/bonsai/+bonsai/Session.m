@@ -56,18 +56,18 @@ classdef Session < handle
 
         function configure(obj, config, mdl, episodeStartCallback)
 
+            % initialize logger
+            obj.logger = bonsai.Logger('Session', config.verbose);
+
             % display version of toolbox being used
             addons = matlab.addons.installedAddons;
             addonLookup = contains(addons.Name, 'Bonsai');
             if any(addonLookup)
                 toolboxVersion = addons{addonLookup, {'Version'}};
-                disp(strcat('Bonsai MATLAB Toolbox Version: ', toolboxVersion));
+                obj.logger.log(strcat('Bonsai MATLAB Toolbox Version: ', toolboxVersion));
             else
-                disp('Bonsai MATLAB Toolbox Version: Dev/Local');
+                obj.logger.log('Bonsai MATLAB Toolbox Version: Dev/Local');
             end
-
-            % initialize logger
-            obj.logger = bonsai.Logger('Session', config.verbose);
 
             % validate configuration
             config.validate();
@@ -185,7 +185,9 @@ classdef Session < handle
 
             % reset session and close csv
             obj.resetSessionProperties();
-            obj.csvWriter.close();
+            if obj.config.csvWriterEnabled()
+                obj.csvWriter.close();
+            end
         end
 
         function getNextEvent(obj, time, state, halted)
