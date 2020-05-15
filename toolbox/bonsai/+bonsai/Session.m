@@ -106,6 +106,7 @@ classdef Session < handle
             obj.client = bonsai.Client(config);
             obj.model = mdl;
             obj.episodeStartCallback = episodeStartCallback;
+            obj.resetSessionProperties();
         end
 
         function startNewSession(obj)

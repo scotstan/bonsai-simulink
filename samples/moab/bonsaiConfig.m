@@ -1,5 +1,5 @@
 
-function config = BonsaiConfig()
+function config = bonsaiConfig()
     config = BonsaiConfiguration();
     config.url = "https://api.bons.ai";
     config.name = "Simulink - Moab";
@@ -40,5 +40,7 @@ function config = BonsaiConfig()
     config.configSchema = ["initial_x","initial_y","initial_pitch","initial_roll","initial_vel_x","initial_vel_y", ...
                            "ball_radius", ...
                            "obstacle_x","obstacle_y","obstacle_radius"];
-    config.verbose = true;
+
+    % display verbose logs
+    % config.verbose = true;
 end
