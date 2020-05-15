@@ -3,7 +3,7 @@
 % simulator.
 
 % load model and enable fast restart
-mdl = 'cartpole_discrete_no_animation';
+mdl = 'cartpole_discrete';
 load_system(mdl);
 set_param(mdl, 'FastRestart', 'on');
 

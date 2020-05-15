@@ -5,7 +5,7 @@
 %   3. begin assessmnet in the web, selecting the "Simulink Cartpole" simulator.
 
 % load model
-mdl = 'cartpole_discrete_no_animation';
+mdl = 'cartpole_discrete';
 load_system(mdl);
 
 % configure assessment

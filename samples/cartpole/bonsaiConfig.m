@@ -16,7 +16,7 @@ function config = bonsaiConfig
     config.name = "Simulink Cartpole";
 
     % path to bonsai block in your model, used to determine state and action schemas
-    config.bonsaiBlock = "cartpole_discrete_no_animation/Bonsai";
+    config.bonsaiBlock = "cartpole_discrete/Bonsai";
 
     % % set state and action schemas (overrides data from bonsaiBlock)
     % config.stateSchema = ["position", "velocity", "angle", "rotation"];
