@@ -27,3 +27,5 @@ To run the model the following products are required:
 2.	Simscape Multibody (R2019b) or greater
 3.	Bonsai Toolbox 1.0
 4.  Bonsai <a href="https://docs.microsoft.com/en-us/bonsai/quickstart/setup">account</a>
+
+Use the MOAB.mlx live script file to get started with the model.

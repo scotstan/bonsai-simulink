@@ -1,27 +1,19 @@
 
 function config = bonsaiConfig()
     config = BonsaiConfiguration();
-    config.url = "https://api.bons.ai";
-    
-    %this is the Simulator name that will show in the Bonsai UI
-    config.name = "Simulink - Moab";
-<<<<<<< HEAD
-=======
-    
-    %system performance and connection speeds vary. If you receive timeout
-    %errors, please increase up to 300
-    config.timeout = 180;
->>>>>>> e6881baaece73ef9c88465ee971c38b90361a979
-    
-    %system performance and connection speeds vary. If you receive timeout
-    %errors, please increase up to 300
-    config.timeout = 500;
     
     % bonsai workspace ID, see https://preview.bons.ai/accounts/settings
     config.workspace = "<your workspace here>";
 
     % access key, generated from https://preview.bons.ai/accounts/settings
     config.accessKey = "<your access key here>";
+    
+    %this is the Simulator name that will show in the Bonsai UI
+    config.name = "Simulink - Moab";
+    
+    %system performance and connection speeds vary. If you receive timeout
+    %errors, please increase up to 300
+    config.timeout = 180;
 
     %local log file
     config.outputCSV = "moab_log.csv";
@@ -63,12 +55,4 @@ function config = bonsaiConfig()
     config.configSchema = ["initial_x","initial_y","initial_pitch","initial_roll","initial_vel_x","initial_vel_y", ...
                            "ball_radius", ...
                            "obstacle_x","obstacle_y","obstacle_radius"];
-<<<<<<< HEAD
-    
-    
-=======
-
-    % display verbose logs
-    % config.verbose = true;
->>>>>>> e6881baaece73ef9c88465ee971c38b90361a979
 end
