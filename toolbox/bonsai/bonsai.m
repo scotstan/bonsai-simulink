@@ -11,12 +11,12 @@ function setup(block)
     session = bonsai.Session.getInstance();
     logger = bonsai.Logger('BonsaiBlock', session.config.verbose);
 
-    % if no session ID is set, assume sim should register for assessment
-    if isempty(session.sessionId)
+    % if not in a training session, start assessment
+    if ~session.isTrainingSession
 
         % start assessment session
-        logger.verboseLog('No SessionID found, starting a new assessment session...');
-        session.startAssessmentSession();
+        logger.verboseLog('Starting a new assessment session...');
+        session.startNewSession();
 
         % signal to user they should start assessment in the web
         fig = uifigure;

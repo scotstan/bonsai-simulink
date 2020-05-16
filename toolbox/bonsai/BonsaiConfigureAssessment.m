@@ -5,7 +5,7 @@ function BonsaiConfigureAssessment(config, mdl, episodeStartCallback)
 
     % configure session
     session = bonsai.Session.getInstance();
-    session.configure(config, mdl, episodeStartCallback);
+    session.configure(config, mdl, episodeStartCallback, false);
 
     % print success
     logger = bonsai.Logger('BonsaiConfigureAssessment', config.verbose);

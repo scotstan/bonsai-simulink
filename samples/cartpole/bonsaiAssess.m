@@ -4,9 +4,10 @@
 %   2. open the model and click "Run"
 %   3. begin assessmnet in the web, selecting the "Simulink Cartpole" simulator.
 
-% load model
+% load model and disable fast restart
 mdl = 'cartpole_discrete';
 load_system(mdl);
+set_param(mdl, 'FastRestart', 'off');
 
 % configure assessment
 config = bonsaiConfig;

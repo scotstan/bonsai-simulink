@@ -32,7 +32,7 @@ function config = bonsaiConfig
     % path to csv file where episode data should be logged
     config.outputCSV = "cartpole-training.csv";
 
-    % display verbose logs
+    % % display verbose logs
     % config.verbose = true;
 
 end

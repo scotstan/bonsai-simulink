@@ -6,8 +6,8 @@ function BonsaiRunTraining(config, mdl, episodeStartCallback)
 
     % configure and start session
     session = bonsai.Session.getInstance();
-    session.configure(config, mdl, episodeStartCallback);
-    session.startTrainingSession();
+    session.configure(config, mdl, episodeStartCallback, true);
+    session.startNewSession();
 
     % loop over training
     runException = [];

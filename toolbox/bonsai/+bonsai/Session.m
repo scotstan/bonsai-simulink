@@ -15,7 +15,7 @@ classdef Session < handle
         lastEvent bonsai.EventTypes
         lastAction struct
         episodeConfig struct
-        model string;
+        model char;
         episodeStartCallback function_handle;
     end
 
@@ -54,7 +54,7 @@ classdef Session < handle
 
     methods
 
-        function configure(obj, config, mdl, episodeStartCallback)
+        function configure(obj, config, mdl, episodeStartCallback, isTrainingSession)
 
             % initialize logger
             obj.logger = bonsai.Logger('Session', config.verbose);
@@ -87,7 +87,7 @@ classdef Session < handle
                         config.actionSchema = portData.actionSchema;
                     end
 
-                    % % TODO: use types from portData when we support more than just doubles
+                    % % TODO: use types from portData when there is support for more than just doubles
                     % if isempty(config.stateType)
                     %     config.stateType = portData.stateType;
                     % end
@@ -102,10 +102,12 @@ classdef Session < handle
                 end
             end
 
+            % set session properties
             obj.config = config;
-            obj.client = bonsai.Client(config);
-            obj.model = mdl;
+            obj.model = char(mdl);
             obj.episodeStartCallback = episodeStartCallback;
+            obj.isTrainingSession = isTrainingSession;
+            obj.client = bonsai.Client(config);
             obj.resetSessionProperties();
         end
 
@@ -136,16 +138,6 @@ classdef Session < handle
             % update session data
             obj.sessionId = r.sessionId;
             obj.lastEvent = bonsai.EventTypes.Registered;
-        end
-
-        function startTrainingSession(obj)
-            obj.isTrainingSession = true;
-            obj.startNewSession();
-        end
-
-        function startAssessmentSession(obj)
-            obj.isTrainingSession = false;
-            obj.startNewSession();
         end
 
         function startNewEpisode(obj)
