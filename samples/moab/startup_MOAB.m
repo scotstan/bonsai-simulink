@@ -1,14 +1,3 @@
-folder_pathlist = {...
-    'CAD'...
-    'Images'...
-    'Scripts_Data'...
-    };
-addpath(pwd);
-for i=1:length(folder_pathlist)
-    addpath([pwd filesep folder_pathlist{i}]);
-end
+initializeMoab;
 
-MOAB_PARAMS
-
-open_system('MOAB');
-
+open_system(moab_mdl);

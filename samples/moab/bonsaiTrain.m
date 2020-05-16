@@ -1,42 +1,47 @@
+%%% NOTES %%%
+%{
+The general flow of Bonsai is:
 
-%load the paths
-folder_pathlist = {...
-    'CAD'...
-    'Images'...
-    'Scripts_Data'...
-    };
-addpath(pwd);
-for i=1:length(folder_pathlist)
-    addpath([pwd filesep folder_pathlist{i}]);
-end
+1. Session register
+2. Episode start
+3. Receive callback with initialization parameters 
+4. Send episode step information using the State inputs
+5. Receive an Action from Bonsai
+6. The Bonsai Action is an input to a subsystem
+7. Steps 5 and 6 are repeated until an episode End event or an error occurs
+8. Upon an episode End event, the model will close and the Bonsai toolbox will create 
+   a new Episode. Steps 2-8 will repeat.
 
-% Run variable initialization script
-MOAB_PARAMS
+When Bonsai initiates a training session, a callback is fired and handled in episodeStartCallback. 
+This method configures the model environment and sets parameters to what a particular model 
+requires. The model should also be started in this callback. Some users may choose to pass just th
+e *mdl* to *sim()* while others have more dynamic SimulationInput requirements.
+%}
 
-% load model and enable fast restart
-mdl = 'MOAB';
-
-load_system(mdl);
+%initializes variables, paths, etc.
+initializeMoab;
 
 % for performance
-set_param(mdl, 'FastRestart', 'on');
-
-% are we running in our local desktop
-if usejava('desktop')
-    disp('showing Mechanics Explorer');
-    set_param(mdl,'SimMechanicsOpenEditorOnUpdate','on');
-else %or in the Bonsai server environment?
-    disp('hiding Mechanics Explorer');
-    set_param(mdl,'SimMechanicsOpenEditorOnUpdate','off'); %
-end
+set_param(moab_mdl, 'FastRestart', 'on');
 
 % run training
 config = bonsaiConfig;
-BonsaiRunTraining(config, mdl, @episodeStartCallback);
+BonsaiRunTraining(config, moab_mdl, @episodeStartCallback);
 
 % callback for setting the model's initial episode configuration
 function episodeStartCallback(mdl, episodeConfig)
     
+%{
+
+- Each time you start a new training Episode in Bonsai, the Bonsai brain will send initial 
+  start up parameters that can be used to initialize the model to set it to various states
+- The Moab model is used in multiple tutorials. However, each tutorial has a slightly different 
+  set of parameters. All tutorials use the first set of variables (tilt_x0. tilt_y0, etc). 
+- The *isfield* function determines whether a configuration parameter is included and then 
+  set the parameter values accordingly. 
+
+ %} 
+
     in = Simulink.SimulationInput(mdl);
     
     tilt_x0 = episodeConfig.initial_pitch;
@@ -59,7 +64,7 @@ function episodeStartCallback(mdl, episodeConfig)
 
     %tutorial 2
     if isfield(episodeConfig, 'ball_radius') == 1
-        disp('running tutorial 2');
+        disp('training tutorial 2');
         
         
         ball_radius = episodeConfig.ball_radius;
@@ -85,7 +90,7 @@ function episodeStartCallback(mdl, episodeConfig)
    
     %tutorial 3
     if isfield(episodeConfig, 'obstacle_radius') == 1
-        disp('running tutorial 3');
+        disp('training tutorial 3');
         
         ob_radius = episodeConfig.obstacle_radius;
        

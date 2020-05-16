@@ -1,20 +1,19 @@
-function trainMoab()
-
-% Run variable initialization script
-MOAB_PARAMS;
+%this file mimics what bonsaiTrain does when the model is connected to the
+%brain, but without a connection to Bonsai. It is intended to demonstrate
+%what to expect when connected to the Bonsai platform.
 
 % Load the model
-mdl = 'MOAB';
-open_system(mdl);
+open_system(moab_mdl);
 
 % Turn on fast restart for the model
-set_param(mdl,'FastRestart','on');
+set_param(moab_mdl,'FastRestart','on');
 
 % Set options for training
 doTraining = true;
-maxEpisodes = 250;
 iter = 1;
+maxEpisodes = 10; 
 
+%maximum initial velocity
 MaxInitialVelocity = 0.05;
 
 while doTraining
@@ -33,12 +32,8 @@ while doTraining
         cor2SpringDamperParams(DEFAULT_BALL_COR,ball_mass);
     
     
-    
-    
-
-    
     % Create a simulation input object to set the variables
-    in = Simulink.SimulationInput(mdl);
+    in = Simulink.SimulationInput(moab_mdl);
     in = in.setVariable('ball_radius',ball_radius);
     in = in.setVariable('ball_mass',ball_mass);
     in = in.setVariable('ball_shell',ball_shell);
