@@ -1,3 +1,0 @@
-# Sample Simulink Models
-
-TODO
