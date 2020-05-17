@@ -11,8 +11,9 @@ function setup(block)
     session = bonsai.Session.getInstance();
     logger = bonsai.Logger('BonsaiBlock', session.config.verbose);
 
-    % if not in a training session, start assessment
-    if ~session.isTrainingSession
+    % if not in a training session or stopped state, start assessment
+    simStatus = get_param(session.model, 'SimulationStatus');
+    if ~session.isTrainingSession && ~strcmp(simStatus, 'stopped')
 
         % start assessment session
         logger.verboseLog('Starting a new assessment session...');
