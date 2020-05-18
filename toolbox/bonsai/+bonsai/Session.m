@@ -15,6 +15,8 @@ classdef Session < handle
         lastEvent bonsai.EventTypes
         lastAction struct
         episodeConfig struct
+        model char;
+        episodeStartCallback function_handle;
     end
 
     properties (Access = private)
@@ -52,20 +54,20 @@ classdef Session < handle
 
     methods
 
-        function configure(obj, config)
+        function configure(obj, config, mdl, episodeStartCallback, isTrainingSession)
+
+            % initialize logger
+            obj.logger = bonsai.Logger('Session', config.verbose);
 
             % display version of toolbox being used
             addons = matlab.addons.installedAddons;
             addonLookup = contains(addons.Name, 'Bonsai');
             if any(addonLookup)
                 toolboxVersion = addons{addonLookup, {'Version'}};
-                disp(strcat('Bonsai MATLAB Toolbox Version: ', toolboxVersion));
+                obj.logger.log(strcat('Bonsai MATLAB Toolbox Version: ', toolboxVersion));
             else
-                disp('Bonsai MATLAB Toolbox Version: Dev/Local');
+                obj.logger.log('Bonsai MATLAB Toolbox Version: Dev/Local');
             end
-
-            % initialize logger
-            obj.logger = bonsai.Logger('Session', config.verbose);
 
             % validate configuration
             config.validate();
@@ -85,7 +87,7 @@ classdef Session < handle
                         config.actionSchema = portData.actionSchema;
                     end
 
-                    % % TODO: use types from portData when we support more than just doubles
+                    % % TODO: use types from portData when there is support for more than just doubles
                     % if isempty(config.stateType)
                     %     config.stateType = portData.stateType;
                     % end
@@ -100,8 +102,13 @@ classdef Session < handle
                 end
             end
 
+            % set session properties
             obj.config = config;
+            obj.model = char(mdl);
+            obj.episodeStartCallback = episodeStartCallback;
+            obj.isTrainingSession = isTrainingSession;
             obj.client = bonsai.Client(config);
+            obj.resetSessionProperties();
         end
 
         function startNewSession(obj)
@@ -133,17 +140,8 @@ classdef Session < handle
             obj.lastEvent = bonsai.EventTypes.Registered;
         end
 
-        function startTrainingSession(obj)
-            obj.isTrainingSession = true;
-            obj.startNewSession();
-        end
-
-        function startAssessmentSession(obj)
-            obj.isTrainingSession = false;
-            obj.startNewSession();
-        end
-
-        function episodeConfig = startNewEpisode(obj)
+        function startNewEpisode(obj)
+            fprintf(1, newline);
 
             if ~strcmp(obj.lastEvent, bonsai.EventTypes.EpisodeStart.str)
                 obj.logger.log('Requesting events until EpisodeStart received...');
@@ -157,11 +155,16 @@ classdef Session < handle
             % increment episode count
             obj.episodeCount = obj.episodeCount + 1;
 
-            % return episode config if used
-            episodeConfig = struct;
-            if obj.config.numConfigs > 0
-                episodeConfig = obj.episodeConfig;
+            % call episodeStartCallback to set episode configuration and, if
+            % training, run the model
+            fprintf(1, newline);
+            if obj.isTrainingSession
+                obj.logger.log(['Starting model ', char(obj.model), ' with episodeStartCallback']);
+            else
+                obj.logger.log('Setting episode configuration with episodeStartCallback');
             end
+            feval(obj.episodeStartCallback, obj.model, obj.episodeConfig);
+            obj.logger.log('Callback complete.');
         end
 
         function terminateSession(obj)
@@ -175,7 +178,9 @@ classdef Session < handle
 
             % reset session and close csv
             obj.resetSessionProperties();
-            obj.csvWriter.close();
+            if obj.config.csvWriterEnabled()
+                obj.csvWriter.close();
+            end
         end
 
         function getNextEvent(obj, time, state, halted)
@@ -209,7 +214,7 @@ classdef Session < handle
                         'simulator "', obj.config.name, '" to connect this model.']);
                     else
                         obj.logger.log(['Received event: Idle, please visit https://preview.bons.ai ', ...
-                        'and to begin assessment on your brain.']);
+                        'to begin assessment on your brain.']);
                     end
                 else
                     obj.logger.log('Received event: Idle');

@@ -1,5 +1,9 @@
+% Main entrypoint for training a Bonsai brain. After starting this script you
+% must begin training your brain in the web, selecting the "Simulink Cartpole"
+% simulator.
+
 % load model and enable fast restart
-mdl = 'cartpole_discrete_no_animation';
+mdl = 'cartpole_discrete';
 load_system(mdl);
 set_param(mdl, 'FastRestart', 'on');
 
