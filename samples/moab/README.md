@@ -25,7 +25,7 @@ Moab is a dynamic ball-on-plate system is modeled using Simulink and Simscape Mu
 To run the model the following products are required:
 1.	Simulink Version 10.0 (R2019b) or greater
 2.	Simscape Multibody (R2019b) or greater
-3.	Bonsai Toolbox 1.0
+3.	Bonsai Toolbox 0.1.0
 4.  Bonsai <a href="https://docs.microsoft.com/en-us/bonsai/quickstart/setup">account</a>
 
 Use the MOAB.mlx live script file to get started with the model.

@@ -21,14 +21,19 @@ load_system(moab_mdl);
 % Run variable initialization script
 MOAB_PARAMS
 
+
+
 % are we running in our local desktop
 if usejava('desktop')
     disp('showing Mechanics Explorer');
     set_param(moab_mdl,'SimMechanicsOpenEditorOnUpdate','on');
 else %or in the Bonsai server environment?
     disp('hiding Mechanics Explorer');
-    set_param(moab_mdl,'SimMechanicsOpenEditorOnUpdate','off'); %
+    set_param(moab_mdl,'SimMechanicsOpenEditorOnUpdate','off'); 
+    set_param(moab_mdl,'SimscapeLogType','none');
+    mode = get_param(moab_mdl,'SimulationMode')
 end
 
 %disable warnings
+set_param(moab_mdl,'SimMechanicsUnsatisfiedHighPriorityTargets','none'); 
 warning('off','all');

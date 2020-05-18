@@ -1,5 +1,5 @@
 %% FROM moab_sim.py
-DEFAULT_SIMULATION_RATE = 0.020;   % s, 20ms
+DEFAULT_SIMULATION_RATE = 0.045; %s, 45ms --> previous: 0.020;   % s, 20ms
 DEFAULT_GRAVITY = 9.81;          % m/s^2, Earth: there's no place like it.
 
 DEFAULT_BALL_RADIUS = 0.02;      % m, Ping-Pong ball: 20mm
