@@ -1,3 +1,6 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 %%% NOTES %%%
 %{
 The general flow of Bonsai is:

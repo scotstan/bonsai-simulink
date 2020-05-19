@@ -1,3 +1,6 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 function [k,c,w] = cor2SpringDamperParams(e,ball_mass)
 % Contact force parameters (these will work with ode23t RelTol 1e-4 AbsTol 1e-5 Auto scale disabled)
 %    Stiffness and damping coefficient are approximate values, converted from

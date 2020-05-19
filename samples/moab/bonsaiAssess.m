@@ -1,3 +1,6 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 % Script to configure assessment of your trained Bonsai brain. Assessment can be
 % run in 3 steps:
 %   1. run this script to configure an assessment session and set required variables

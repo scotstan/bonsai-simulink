@@ -1,3 +1,6 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 %this file mimics what bonsaiTrain does when the model is connected to the
 %brain, but without a connection to Bonsai. It is intended to demonstrate
 %what to expect when connected to the Bonsai platform.
