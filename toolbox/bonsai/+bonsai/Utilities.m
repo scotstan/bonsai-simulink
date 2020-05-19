@@ -1,5 +1,7 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 % Generic helper functions for the Bonsai toolbox
-% Copyright 2020 Microsoft
 
 classdef Utilities
 

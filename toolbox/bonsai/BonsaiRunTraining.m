@@ -1,5 +1,7 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 % Model run loop for training a Bonsai brain
-% Copyright 2020 Microsoft
 
 function BonsaiRunTraining(config, mdl, episodeStartCallback)
     logger = bonsai.Logger('BonsaiRunTraining', config.verbose);

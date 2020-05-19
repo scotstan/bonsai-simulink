@@ -1,5 +1,7 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 % Networking client for the Bonsai toolbox
-% Copyright 2020 Microsoft
 
 classdef Client
 

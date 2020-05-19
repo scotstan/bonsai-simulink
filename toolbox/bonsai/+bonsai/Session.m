@@ -1,5 +1,7 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 % Simulator session base class for the Bonsai toolbox
-% Copyright 2020 Microsoft
 
 classdef Session < handle
 

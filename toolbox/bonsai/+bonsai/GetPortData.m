@@ -1,5 +1,7 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 % Function to get datatypes and signal names from Bonsi block ports
-% Copyright 2020 Microsoft
 
 function portdata = GetPortData(bonsaiblock)
 
