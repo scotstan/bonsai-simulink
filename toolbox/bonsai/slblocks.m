@@ -1,6 +1,8 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 % Specify that the library should appear in the Library
 % Browser and be cached in the browser repository
-% Copyright 2020 Microsoft
 
 function blkStruct = slblocks
 

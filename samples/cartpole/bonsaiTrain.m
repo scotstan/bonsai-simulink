@@ -1,3 +1,6 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 % Main entrypoint for training a Bonsai brain. After starting this script you
 % must begin training your brain in the web, selecting the "Simulink Cartpole"
 % simulator.

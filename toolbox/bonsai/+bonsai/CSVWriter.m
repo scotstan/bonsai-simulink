@@ -1,5 +1,7 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 % Class to write training data to CSV for the Bonsai toolbox
-% Copyright 2020 Microsoft
 
 classdef CSVWriter
 

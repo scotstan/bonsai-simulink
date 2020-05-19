@@ -1,5 +1,7 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 % function to configure assessment of a Bonsai brain
-% Copyright 2020 Microsoft
 
 function BonsaiConfigureAssessment(config, mdl, episodeStartCallback)
 

@@ -1,5 +1,7 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 % Level-2 S-Function for the bonsai toolbox
-% Copyright 2020 Microsoft
 
 function bonsai(block)
     setup(block);

@@ -1,3 +1,6 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 function [alpha1,alpha2,alpha3] = runMixer(h,tilt_x,tilt_y)
 % Approx servo angles (in rad) from plate position.
 % tilt_x (in rad) is the tilt angle w.r.t. y axis

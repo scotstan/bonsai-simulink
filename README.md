@@ -133,3 +133,11 @@ simulator Simulator(action: Action, config: SimConfig): SimState {
 Now click **Train**. Since you indicated the package name you do not need to select a simulator from the dropdown like you did when you started locally.
 
 Within a few minutes time you will see several simulators connect to and train your brain.  
+
+## Cartpole Sample Model
+
+The cartpole sample in /bonsai-simulink/samples/cartpole/ contains model and code based on copyrighted example files from The MathWorks, Inc.
+
+## Microsoft Open Source Code of Conduct
+
+This repository is subject to the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct).
