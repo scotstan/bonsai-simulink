@@ -136,7 +136,7 @@ Within a few minutes time you will see several simulators connect to and train y
 
 ## Cartpole Sample Model
 
-The cartpole sample in /bonsai-simulink/samples/cartpole/ contains model and code based on copyrighted example files from The MathWorks, Inc.
+The cartpole sample in [samples/cartpole/](samples/cartpole/) contains model and code based on copyrighted example files from The MathWorks, Inc. and is licensed by the terms outlined in [samples/cartpole/XSLA.txt](samples/cartpole/XSLA.txt).
 
 ## Microsoft Open Source Code of Conduct
 
