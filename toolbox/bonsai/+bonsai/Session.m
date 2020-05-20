@@ -142,31 +142,39 @@ classdef Session < handle
             obj.lastEvent = bonsai.EventTypes.Registered;
         end
 
-        function startNewEpisode(obj)
+        function keepGoing = startNewEpisode(obj)
             fprintf(1, newline);
+            keepGoing = true;
 
-            if ~strcmp(obj.lastEvent, bonsai.EventTypes.EpisodeStart.str)
+            if ~eq(obj.lastEvent, bonsai.EventTypes.EpisodeStart) && ...
+                ~eq(obj.lastEvent, bonsai.EventTypes.Unregister)
+
+                % request events until episodeStart (success) or unregister (failure)
                 obj.logger.log('Requesting events until EpisodeStart received...');
-            end
-            
-            blank_state = zeros(1, obj.config.numStates);
-            while ~strcmp(obj.lastEvent, bonsai.EventTypes.EpisodeStart.str)
-                obj.getNextEvent(obj.lastSequenceId, blank_state, false);
+                blank_state = zeros(1, obj.config.numStates);
+                while ~eq(obj.lastEvent, bonsai.EventTypes.EpisodeStart) && ...
+                    ~eq(obj.lastEvent, bonsai.EventTypes.Unregister)
+                    obj.getNextEvent(obj.lastSequenceId, blank_state, false);
+                end
             end
 
-            % increment episode count
-            obj.episodeCount = obj.episodeCount + 1;
-
-            % call episodeStartCallback to set episode configuration and, if
-            % training, run the model
-            fprintf(1, newline);
-            if obj.isTrainingSession
-                obj.logger.log(['Starting model ', char(obj.model), ' with episodeStartCallback']);
+            if eq(obj.lastEvent, bonsai.EventTypes.Unregister)
+                keepGoing = false;
             else
-                obj.logger.log('Setting episode configuration with episodeStartCallback');
+
+                % increment episode count and print appropriate message
+                obj.episodeCount = obj.episodeCount + 1;
+                fprintf(1, newline);
+                if obj.isTrainingSession
+                    obj.logger.log(['Starting model ', char(obj.model), ' with episodeStartCallback']);
+                else
+                    obj.logger.log('Setting episode configuration with episodeStartCallback');
+                end
+
+                % call episodeStartCallback to set episode configuration and, if training, run the model
+                feval(obj.episodeStartCallback, obj.model, obj.episodeConfig);
+                obj.logger.log('Callback complete.');
             end
-            feval(obj.episodeStartCallback, obj.model, obj.episodeConfig);
-            obj.logger.log('Callback complete.');
         end
 
         function terminateSession(obj)

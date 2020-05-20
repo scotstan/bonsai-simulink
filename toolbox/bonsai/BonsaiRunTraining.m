@@ -14,8 +14,9 @@ function BonsaiRunTraining(config, mdl, episodeStartCallback)
     % loop over training
     runException = [];
     try
-        while true
-            session.startNewEpisode();
+        keepGoing = true;
+        while keepGoing
+            keepGoing = session.startNewEpisode();
         end
     catch runException
         % exception still gets checked below
