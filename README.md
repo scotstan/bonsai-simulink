@@ -24,7 +24,7 @@ These files have the below properties:
 :warning: NOTE: You can only copy an Access Key once! If you you have closed the window once it pops up, generate another and keep it safe somewhere.
 
 
-The **bonsaiConfig** script contains the BonsaiConfig function. This is used to setup the connection between your model and the Bonsai platform. Here you describe several key factors:
+The **bonsaiConfig** script contains the BonsaiConfig functions. This is used to setup the connection between your model and the Bonsai platform. Here you describe several key factors:
 
 - **name** - The name of your simulator (you will see this when you connect to Bonsai)
 - **url** - Optional. The URL used to connect the Bonsai API service
@@ -37,6 +37,8 @@ The **bonsaiConfig** script contains the BonsaiConfig function. This is used to 
 - **configSchema** - The values that the Bonsai brain will send during a training episode. These are used as configuration parameters to initialize the model with different states.
 
 > A note about states: Your model may contain more states than what is in your inkling code for Bonsai. It is OK to have additional states that you send - these are ignored by the platform during execution. However, you must send all states that are required by the inkling code. If you do not, you will receive an error from the platform with an immediate Unregister command.
+
+>A note about schema: the bonsaiConfig script also has action and state schema set from the states and actions which you have configured to the Bonsai block in your simulink model. These enable you to automatically create a brain (inkling) from scratch. You may override these parameters if you wish to do so by uncommenting out the code block aka 'config.stateSchema' and 'config.actionSchema'.
 
 
 2. **bonsaiTrain.m**
@@ -132,7 +134,16 @@ simulator Simulator(action: Action, config: SimConfig): SimState {
 
 Now click **Train**. Since you indicated the package name you do not need to select a simulator from the dropdown like you did when you started locally.
 
-Within a few minutes time you will see several simulators connect to and train your brain.  
+Within a few minutes time you will see several simulators connect to and train your brain. 
+
+## Exporting your model
+
+Once you have successfully trained your AI and you have reached a point of goal satisfaction or reward convergence, you may choose to then 'Export' your brain for use elsewhere, such as on a specific device. To do this, navigate to the 'Train' tab and click "Export Brain". This provides you with a Docker container that can be addressed externally.
+
+>Note: You do not need to export your brain to test the AI that you have trained, necessarily. You may elect to use the 'assessment' feature (aka next to export, select "Start Assessment" on the Train tab) which will test the AI.
+
+## Uploading and Scaling Your Model
+
 
 ## Cartpole Sample Model
 
