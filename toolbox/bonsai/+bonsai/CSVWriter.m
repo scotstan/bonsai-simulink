@@ -99,7 +99,10 @@ classdef CSVWriter
 
         function addEntry(obj, time, lastEvent, state, halted, action, config)
 
-            simTime = num2str(time);
+            simTime = '';
+            if time > -1
+                simTime = num2str(time);
+            end
             realTime = char(datetime('now', 'TimeZone', 'UTC', 'Format', 'yyyy-MM-dd:hh:mm:ss'));
             stateStr = obj.stringifyDoubles(state);
             actionStr = obj.stringifyStruct(action, obj.config.numActions, obj.config.actionSchema);

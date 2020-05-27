@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
+- #16737: Session class should call halted if model does not.
+
 ## [0.1.2]
 
 - #16618: Stop requesting new training events on unregister.
