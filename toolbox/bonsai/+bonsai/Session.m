@@ -154,7 +154,14 @@ classdef Session < handle
                 blank_state = zeros(1, obj.config.numStates);
                 while ~eq(obj.lastEvent, bonsai.EventTypes.EpisodeStart) && ...
                     ~eq(obj.lastEvent, bonsai.EventTypes.Unregister)
-                    obj.getNextEvent(obj.lastSequenceId, blank_state, false);
+
+                    % send halted if an episode is still running
+                    halted = false;
+                    if eq(obj.lastEvent, bonsai.EventTypes.EpisodeStep)
+                        halted = true;
+                    end
+
+                    obj.getNextEvent(-1, blank_state, halted);
                 end
             end
 
