@@ -63,8 +63,8 @@ plate_pos_z0 = DEFAULT_PLATE_HEIGHT;        % m, initial height of glass plate c
 plate_zmin   = 0.0;                         % m, minimum height of plate from world frame
 plate_zmax   = PLATE_HEIGHT_MAX;            % m, maximum height of plate from world frame
 
-tilt_x0      = 0;   % rad, initial tilt of plate w.r.t. y axis (pitch)
-tilt_y0      = 0;   % rad, initial tilt of plate w.r.t. x axis (roll)
+tilt_x0      = deg2rad(0);   % rad, initial tilt of plate w.r.t. y axis (pitch)
+tilt_y0      = deg2rad(0);   % rad, initial tilt of plate w.r.t. x axis (roll)
 tilt_limit   = DEFAULT_PLATE_ANGLE_LIMIT;   % rad, max +/- tilt of plate w.r.t. x or y axis
 tilt_acc     = DEFAULT_PLATE_ANGULAR_ACCEL;
 tilt_max_vel = DEFAULT_PLATE_MAX_ANGULAR_VELOCITY;
@@ -94,7 +94,7 @@ clear a1 a2 a3
 target_pos_x = 0;
 target_pos_y = 0;
 
-ball.z0 = DEFAULT_BALL_Z_POSITION; 
+%ball.z0 = DEFAULT_BALL_Z_POSITION; 
 
 % Physical parameters
 ball_radius = DEFAULT_BALL_RADIUS;   % m
@@ -104,15 +104,22 @@ ball_shell  = DEFAULT_BALL_SHELL;    % m
 % Calculate ball moment of inertia
 ball_moi = calcMOI(ball_radius,ball_shell,ball_mass);
 
-% Initial conditions. +y is vertically downward
-ball_x0  = 0;               % m, ball initial x distance from center of plate
-ball_y0  = 0;               % m, ball initial height from the top surface of plate
-ball_z0  = DEFAULT_BALL_Z_POSITION;     
-                            % m, ball initial z distance from center of plate
+% Initial conditions. z is vertically updward
+ball_x0  = 0;               % m, ball initial x distance from plate origin
+ball_y0  = 0;               % m, ball initial y distance from plate origin
+% Rx = [cos(tilt_x0) 0 sin(tilt_x0); 0 1 0; -sin(tilt_x0) 0 cos(tilt_x0)];
+% Ry = [1 0 0; 0 cos(tilt_y0) -sin(tilt_y0); 0 sin(tilt_y0) cos(tilt_y0)];
+% a = [0;0;plate_pos_z0];
+% b = Rx*Ry*[ball_x0;ball_y0;ball_radius+PLATE_ORIGIN_TO_SURFACE_OFFSET];
+% c = a+b;
+% ball_pos_x0 = c(1);    % m, ball initial x distance from MOAB world frame
+% ball_pos_y0 = c(2);    % m, ball initial y distance from MOAB world frame
+% ball_pos_z0 = c(3);    % m, ball initial z distance from MOAB world frame
+ball_z0 = ball_radius + PLATE_ORIGIN_TO_SURFACE_OFFSET;
 
-ball_vel_x0 = 0;       % m/s, ball initial x speed from center of plate
-ball_vel_y0 = 0;       % m/s, ball initial height from the top surface of plate
-ball_vel_z0 = 0;       % m/s, ball initial x distance from center of plate
+ball_vel_x0 = 0;       % m/s, ball initial x speed
+ball_vel_y0 = 0;       % m/s, ball initial y speed
+ball_vel_z0 = 0;       % m/s, ball initial z speed
 
 % Contact friction parameters
 ball_staticfriction     = DEFAULT_FRICTION;
@@ -123,7 +130,7 @@ ball_criticalvelocity   = 1e-3;    % Simscape Multibody default, m/s
 [ball_stiffness, ball_damping, ball_transitionwidth] = ...
     cor2SpringDamperParams(DEFAULT_BALL_COR,ball_mass);
 
-clear r1 r2 I e dT
+clear r1 r2 I e dT a b c Rx Ry
 
 %% -------- OBSTACLE PARAMETERS --------
 
