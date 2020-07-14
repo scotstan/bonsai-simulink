@@ -76,7 +76,7 @@ function episodeStartCallback(mdl, episodeConfig)
         % Recalculate variables affected by ball parameter changes
         ball_mass = evalin('base','DEFAULT_BALL_MASS');
         ball_cor = evalin('base','DEFAULT_BALL_COR');
-        ball_z0 = evalin('base','DEFAULT_PLATE_HEIGHT + PLATE_ORIGIN_TO_SURFACE_OFFSET') + ball_radius;
+        ball_z0 = evalin('base','PLATE_ORIGIN_TO_SURFACE_OFFSET') + ball_radius;
         ball_moi  = calcMOI(ball_radius,ball_shell,ball_mass);
         [ball_stiffness, ball_damping, ball_transitionwidth] = cor2SpringDamperParams(ball_cor,ball_mass);
         

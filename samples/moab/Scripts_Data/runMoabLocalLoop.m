@@ -29,7 +29,7 @@ while doTraining
     target_pos_y = 0;
     
     % Recalculate variables affected by ball parameter changes
-    ball_z0 = DEFAULT_PLATE_HEIGHT + PLATE_ORIGIN_TO_SURFACE_OFFSET + ball_radius;
+    ball_z0 = PLATE_ORIGIN_TO_SURFACE_OFFSET + ball_radius;
     ball_moi  = calcMOI(ball_radius,ball_shell,ball_mass);
     [ball_stiffness, ball_damping, ball_transitionwidth] = ...
         cor2SpringDamperParams(DEFAULT_BALL_COR,ball_mass);
