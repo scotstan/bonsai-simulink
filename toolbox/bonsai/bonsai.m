@@ -101,14 +101,17 @@ function Update(block)
     state = block.InputPort(1).Data;
     halted = block.InputPort(2).Data;
 
-    % get next event (unless last event was EpisodeFinish or Unregister)
-    if eq(session.lastEvent, bonsai.EventTypes.EpisodeFinish) || ...
-        eq(session.lastEvent, bonsai.EventTypes.Unregister)
-        logger.log(['Last event was ', session.lastEvent.str, ', done requesting events.']);
+    if session.isPredictingSession == false
+        % get next event (unless last event was EpisodeFinish or Unregister)
+        if eq(session.lastEvent, bonsai.EventTypes.EpisodeFinish) || ...
+            eq(session.lastEvent, bonsai.EventTypes.Unregister)
+            logger.log(['Last event was ', session.lastEvent.str, ', done requesting events.']);
+        else
+            session.getNextEvent(block.CurrentTime, state, halted);
+        end
     else
-        session.getNextEvent(block.CurrentTime, state, halted);
+        session.getNextPrediction(block.CurrentTime, state, halted)
     end
-
 end
 
 function Outputs(block)
@@ -122,6 +125,7 @@ function Outputs(block)
         block.OutputPort(1).Data = bonsai.Utilities.getStructValuesInOrder(session.lastAction, session.config.actionSchema);
     end
 
+if session.isPredictingSession == false
     % signal a reset if last event was episode finish or unregister
     if eq(session.lastEvent, bonsai.EventTypes.EpisodeFinish) || ...
         eq(session.lastEvent, bonsai.EventTypes.Unregister)
@@ -129,7 +133,7 @@ function Outputs(block)
     else
         block.OutputPort(2).Data = false;
     end
-
+end
 end
 
 function Terminate(block)

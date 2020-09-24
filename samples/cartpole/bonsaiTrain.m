@@ -11,7 +11,7 @@ load_system(mdl);
 set_param(mdl, 'FastRestart', 'on');
 
 % run training
-config = bonsaiConfig;
+config = bonsaiConfig(false);
 BonsaiRunTraining(config, mdl, @episodeStartCallback);
 
 % callback for running model with provided episode configuration
