@@ -13,6 +13,7 @@ classdef Session < handle
         config BonsaiConfiguration
         sessionId char
         isTrainingSession logical
+        isPredictingSession logical
         lastSequenceId double
         lastEvent bonsai.EventTypes
         lastAction struct
@@ -26,6 +27,7 @@ classdef Session < handle
         logger bonsai.Logger
         csvWriter bonsai.CSVWriter
         episodeCount double
+        predictionClient bonsai.PredictionClient
     end
 
     methods (Static)
@@ -107,12 +109,20 @@ classdef Session < handle
             % set session properties
             obj.config = config;
             obj.model = char(mdl);
-            obj.episodeStartCallback = episodeStartCallback;
-            obj.isTrainingSession = isTrainingSession;
-            obj.client = bonsai.Client(config);
-            obj.resetSessionProperties();
-        end
+            if ~config.predict
+                obj.episodeStartCallback = episodeStartCallback;
+                obj.isTrainingSession = isTrainingSession;
+                obj.isPredictingSession = false;
+                obj.client = bonsai.Client(config);
+                obj.resetSessionProperties();
+            else
+                obj.isTrainingSession = false;
+                obj.isPredictingSession = true;
+                obj.predictionClient = bonsai.PredictionClient(config);
+            end
 
+
+        end 
         function startNewSession(obj)
 
             % reset session
@@ -126,20 +136,22 @@ classdef Session < handle
                 obj.logger.verboseLog('CSV Writer disabled');
             end
 
-            % register sim and reset episode count
-            r = obj.client.registerSimulator(obj.config.registrationJson());
-            obj.episodeCount = 0;
+            if  ~obj.isPredictingSession
+                % register sim and reset episode count
+                r = obj.client.registerSimulator(obj.config.registrationJson());
+                obj.episodeCount = 0;
 
-            % confirm registration successful
-            if isempty(r.sessionId)
-                error('There was a problem with sim registration');
-            else
-                obj.logger.log('Sim successfully registered');
-            end
+                % confirm registration successful
+                if isempty(r.sessionId)
+                    error('There was a problem with sim registration');
+                else
+                    obj.logger.log('Sim successfully registered');
+                end
 
-            % update session data
-            obj.sessionId = r.sessionId;
-            obj.lastEvent = bonsai.EventTypes.Registered;
+                % update session data
+                obj.sessionId = r.sessionId;
+                obj.lastEvent = bonsai.EventTypes.Registered;
+                end
         end
 
         function keepGoing = startNewEpisode(obj)
@@ -193,10 +205,12 @@ classdef Session < handle
                 obj.client.deleteSimulator(obj.sessionId);
             end
 
-            % reset session and close csv
-            obj.resetSessionProperties();
-            if obj.config.csvWriterEnabled()
-                obj.csvWriter.close();
+            if ~obj.isPredictingSession
+                % reset session and close csv
+                obj.resetSessionProperties();
+                if obj.config.csvWriterEnabled()
+                    obj.csvWriter.close();
+                end
             end
         end
 
@@ -262,5 +276,25 @@ classdef Session < handle
             end
         end
 
+    end
+
+    function getNextPrediction(obj, time, state, halted)
+
+            % write session data to file
+            %  if obj.config.csvWriterEnabled()
+            %    obj.csvWriter.addEntry(time, obj.lastEvent.str, state, halted, obj.lastAction, obj.episodeConfig);
+            % end
+
+            % request next event
+            simState = containers.Map(obj.config.stateSchema, state);
+
+            data = jsonencode(simState);
+            r = obj.predictionClient.getNextEvent(data);
+
+            actionString = jsonencode(r);
+            obj.logger.log(['Received event: Predict, actions: ', actionString]);
+
+            obj.lastAction = r;
+        end
     end
 end

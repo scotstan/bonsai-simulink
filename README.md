@@ -12,7 +12,8 @@ Once you have completed the above, download the Cartpole or Moab model from the 
 
 1. **bonsaiConfig.m**
 2. **bonsaiTrain.m**
-3. **bonsaiAssessData.m**
+3. **bonsaiAssess.m**
+4. **bonsaiPredict.m**
 4. your_model.slx
 
 
@@ -46,9 +47,15 @@ The **bonsaiConfig** script contains the BonsaiConfig functions. This is used to
 **bonsaiTrain.m** is our script which validates that the model has all the appropriate dependencies in the project folder and begins training. Note that `mdl` defines the model file, and fast restart is turned on. The script checks that all the appropriate configuration is set in **bonsaiConfig.m**. Make sure to run locally once to ensure the Simulink toolbox is hooked up correctly.
 
 
-3. **bonsaiAssessData.m**
+3. **bonsaiAssess.m**
 
-bonsaiAssessData sets the values necessary for a user to initiate assessment of a trained model. 
+bonsaiAssess sets the values necessary for a user to initiate assessment of a trained model. 
+
+
+3. **bonsaiPredict.m**
+
+bonsaiPredict sets the values necessary for a user to use prediction with a trained model. 
+
 
 ## Configuring the Bonsai Toolbox
 
