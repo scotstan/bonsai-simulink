@@ -49,7 +49,7 @@ classdef BonsaiConfiguration < handle
             obj.outputCSV = '';
             obj.verbose = false;
             obj.predict = false;
-	        obj.predictionUrl = ''; 
+	        obj.predictionUrl = 'http://localhost:5000/v1/prediction'; 
         end
 
         % set properties from the environment, if present
