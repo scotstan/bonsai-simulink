@@ -276,7 +276,7 @@ classdef Session < handle
             end
         end
 
-    end
+    
 
     function getNextPrediction(obj, time, state, halted)
 
