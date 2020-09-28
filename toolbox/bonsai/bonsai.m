@@ -18,7 +18,7 @@ function setup(block)
         if ~strcmp(simStatus, 'stopped')
 
             % if not in a training session, start assessment
-            if ~session.isTrainingSession
+            if ~session.isTrainingSession && ~session.isPredictingSession
 
                 % start assessment session
                 logger = bonsai.Logger('BonsaiBlock', session.config.verbose);

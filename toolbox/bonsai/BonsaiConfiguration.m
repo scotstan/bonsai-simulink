@@ -49,7 +49,7 @@ classdef BonsaiConfiguration < handle
             obj.outputCSV = '';
             obj.verbose = false;
             obj.predict = false;
-	        obj.predictionUrl = 'http://localhost:5000/v1/prediction'; 
+	        obj.predictionUrl = ''; 
         end
 
         % set properties from the environment, if present
@@ -66,6 +66,7 @@ classdef BonsaiConfiguration < handle
 
         function obj = set.workspace(obj, w)
             env_workspace = getenv('SIM_WORKSPACE');
+        
             if isempty(env_workspace)
                 obj.workspace = char(w);
             else
@@ -76,6 +77,7 @@ classdef BonsaiConfiguration < handle
 
         function obj = set.accessKey(obj, accessKey)
             env_accessKey = getenv('SIM_ACCESS_KEY');
+            
             if isempty(env_accessKey)
                 obj.accessKey = char(accessKey);
             else
