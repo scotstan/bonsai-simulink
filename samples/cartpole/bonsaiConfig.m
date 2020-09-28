@@ -6,7 +6,7 @@ function config = bonsaiConfig(predict)
     config = BonsaiConfiguration();
 
     % % override api url, defaults to "https://api.bons.ai"
-    % config.url = "https://api.bons.ai";
+    config.url = "https://api.bons.ai";
 
     % bonsai workspace ID, see https://preview.bons.ai/accounts/settings
     config.workspace = "<your workspace ID here>";
@@ -38,6 +38,6 @@ function config = bonsaiConfig(predict)
     % config.verbose = true;
 
     config.predict = predict;
-    config.predictionUrl = '<your prediction url>';
+    config.predictionUrl = 'http://localhost:5100/v1/prediction';
 
 end
