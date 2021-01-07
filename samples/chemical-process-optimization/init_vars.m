@@ -15,11 +15,6 @@ change_per_step_Tc_control = 1;
 % > 3: Concentration transition -->  8.57 to 2.000 over [0, 10, 20, 45]
 % > 4: Concentration transition -->  8.57 to 1.000 over [0, 10, 36, 45]
 
-% This writes to the Default Signal builder (j_scenario = 1)
-target_t = [0; 10; 36; 45];
-target_Cr = [8.57; 8.57; 2; 2]; 
-signalbuilder('ChemicalProcessOptimization/Target concentration', 'set', 'Signal 1', 'Group 1', target_t, target_Cr);
-
 j_scenario = 1;
 
 % Percentage of noise to include

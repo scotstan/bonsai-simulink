@@ -18,10 +18,10 @@ Cr_vec = [2 2.5 3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9];
 
 open_system('ChemicalProcessOptimization')
 
+% This writes to the Default Signal builder (j_scenario = 1)
 target_t = [0; 10; 36; 45];
 target_Cr = [8.57; 8.57; 2; 2]; 
 signalbuilder('ChemicalProcessOptimization/Target concentration', 'set', 'Signal 1', 'Group 1', target_t, target_Cr);
-
 %% Using Constant Gains (No Lookup)
 
 % PI Controller
@@ -120,6 +120,12 @@ plot_results(tout, simout)
 % i.e. signal builder
 % no noise, etc
 init_vars
+
+% This writes to the Default Signal builder (j_scenario = 1)
+target_t = [0; 10; 36; 45];
+target_Cr = [8.57; 8.57; 2; 2]; 
+signalbuilder('ChemicalProcessOptimization/Target concentration', 'set', 'Signal 1', 'Group 1', target_t, target_Cr);
+
 
 %% Functions 
 
