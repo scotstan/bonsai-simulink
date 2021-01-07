@@ -199,7 +199,7 @@ graph (input: ObservableState) {
             #  --> Goal not required when "change_per_step_Tc_control: 1" (doesn't harm either)
             #goal (State: SimState) {
             #    drive `Concentration Target`: 
-            #        Math.Abs(State.Cr-State.Cref) in Goal.RangeBelow(0.6)
+            #        Math.Abs(State.Cref - State.Cr) in Goal.RangeBelow(0.6)
             #    avoid `Thermal Runaway`:
             #        Math.Abs(State.Tr) in Goal.RangeAbove(400)
             #    avoid `Rate Limit Tc`:
@@ -215,7 +215,10 @@ graph (input: ObservableState) {
                 scenario {
                     # OPTION 1: dTc / OPTION 2: Tc_delta
                     change_per_step_Tc_control: 1,
-                    # 1: 8.75->2  /  2: 8.75->3.6425  /  3: 8.57->5.2850  /  4: 8.57->6.9275
+                    # > 1: Concentration transition -->  8.57 to 2.000 over [0, 10, 36, 45]
+                    # > 2: Concentration transition -->  8.57 to 2.000 over [0, 2, 28, 45]
+                    # > 3: Concentration transition -->  8.57 to 2.000 over [0, 10, 20, 45]
+                    # > 4: Concentration transition -->  8.57 to 1.000 over [0, 10, 36, 45]
                     j_scenario: 1,
                     # 1-100
                     noise_percentage: 0,
