@@ -18,7 +18,7 @@ Cr_vec = [2 2.5 3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9];
 
 open_system('ChemicalProcessOptimization')
 
-target_t = [0; 2; 28; 45];
+target_t = [0; 10; 36; 45];
 target_Cr = [8.57; 8.57; 2; 2]; 
 signalbuilder('ChemicalProcessOptimization/Target concentration', 'set', 'Signal 1', 'Group 1', target_t, target_Cr);
 
@@ -34,6 +34,14 @@ a_vec = ones(1, length(Cr_vec)) * 0.384207621232031;
 b_vec = ones(1, length(Cr_vec)) * 0.0628087670628903;
 
 sim('ChemicalProcessOptimization')
+% Calculate metrics
+metric_rms = sqrt(mean((simout(:, 1) - simout(:, 2)).^2));
+disp(['Constant Gains: Target Concentration followed with RMS of: ', num2str(metric_rms)])
+
+metric_rms = sqrt(mean((simout(:, 3) - simout(:, 4)).^2));
+disp(['Constant Gains: Target Reactor Temperature followed with RMS of: ', num2str(metric_rms)])
+disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
 plot_results(tout, simout)
 
 %% Benchmark
@@ -58,29 +66,60 @@ sim('ChemicalProcessOptimization')
 
 % Calculate metrics
 metric_rms = sqrt(mean((simout(:, 1) - simout(:, 2)).^2));
-disp(['Target Concentration followed with RMS of: ', num2str(metric_rms)])
+disp(['Benchmark: Target Concentration followed with RMS of: ', num2str(metric_rms)])
+
+metric_rms = sqrt(mean((simout(:, 3) - simout(:, 4)).^2));
+disp(['Benchmark: Target Reactor Temperature followed with RMS of: ', num2str(metric_rms)])
+disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
 plot_results(tout, simout)
 
-%% Benchmark Stretch
-target_t = [0; 2; 28; 50];
+%% Benchmark (stretch - 1% noise)
 
-% Change the target concentration ranges, extrapolating from gain schedule
-target_Cr = [10; 10; 1; 1];
-signalbuilder('ChemicalProcessOptimization/Target concentration', 'set', 'Signal 1', 'Group 1', target_t, target_Cr);
-% Sim starting params (check inside sim on derivative blocks -- initial value)
-Cr_sim_ini = 10;
-Tr_sim_ini = 296.6908;
+% Percentage of noise to include
+noise_magnitude = 1/100;
+% Auxiliary params
+conc_noise = (CrEQ(1)-CrEQ(5))*noise_magnitude;
+temp_noise = (TrEQ(1)-TrEQ(5))*noise_magnitude;
 
 sim('ChemicalProcessOptimization')
+
+% Calculate metrics
+metric_rms = sqrt(mean((simout(:, 1) - simout(:, 2)).^2));
+disp(['Strech Benchmark (noise): Target Concentration followed with RMS of: ', num2str(metric_rms)])
+
+metric_rms = sqrt(mean((simout(:, 3) - simout(:, 4)).^2));
+disp(['Strech Benchmark (1% noise): Target Reactor Temperature followed with RMS of: ', num2str(metric_rms)])
+disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
 plot_results(tout, simout)
 
-% RESET SIGNAL to initial value (to avoid conflicts with bonsai training)
-target_Cr = [8.57; 8.57; 2; 2]; 
-signalbuilder('rct_CSTR_bonsai/Target concentration', 'set', 'Signal 1', 'Group 1', target_t, target_Cr);
-% RESET Sim starting params (check inside sim on derivative blocks -- initial value)
-Cr_sim_ini = 8.57;
-Tr_sim_ini = 311.2612;
+
+%% Benchmark (stretch -  target Cr of 1)
+
+% get rid of noise
+init_vars
+
+% Change the target concentration ranges, extrapolating from gain schedule
+target_Cr = [8.57; 8.57; 1; 1];
+signalbuilder('ChemicalProcessOptimization/Target concentration', 'set', 'Signal 1', 'Group 1', target_t, target_Cr);
+
+sim('ChemicalProcessOptimization')
+
+% Calculate metrics
+metric_rms = sqrt(mean((simout(:, 1) - simout(:, 2)).^2));
+disp(['Strech Benchmark (Cr of 1): Target Concentration followed with RMS of: ', num2str(metric_rms)])
+
+metric_rms = sqrt(mean((simout(:, 3) - simout(:, 4)).^2));
+disp(['Strech Benchmark (Cr of 1): Target Reactor Temperature followed with RMS of: ', num2str(metric_rms)])
+disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
+plot_results(tout, simout)
+
+%% Initialize Default Variables to avoid issues with Bonsai training
+% i.e. signal builder
+% no noise, etc
+init_vars
 
 %% Functions 
 

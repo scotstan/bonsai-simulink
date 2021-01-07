@@ -96,11 +96,13 @@ Currently we operate under one configuration only, the shceduled values are fixe
 | Tref | 311.3 | 373.1 | [Kelvin] |
 | dTc | 0 | 7 | [Kelvin] |
 
-## Choosing Controller Type
+## Switching between Benchmark and Bonsai Block
+
+The controller block in ChemicalProcessOptimization.slx allows you to use the same file for both the benchmark controller and the bonsai brain. Simply right click on the block, then choose Variant-> Label Mode Active Choice -> Bonsai.
 
 <img src="img/variant.png" alt="drawing" width="500"/>
 
-## Constant Gains (No Table Lookup)
+## Constant Gain Controller (No Table Lookup)
 
 Constant gains demonstrate the instabilities and how complex it is to transition from 8.57 kmol/3 to 2 kmol/m3
 
@@ -108,7 +110,8 @@ Constant gains demonstrate the instabilities and how complex it is to transition
 
 ## Benchmark
 
-- 0.4045 kmol/m3 mean error (per iteration)
+- 0.5641 kmol/m3 rms error
+- 4.6046 degrees K rms error
 
 <img src="img/benchmark.png" alt="drawing" width="500"/>
 
@@ -116,7 +119,9 @@ Note, **"run_benchmark.m" contains the information required to retrieve the benc
 
 ## Bonsai Brain
 
-- 0.3973 kmol/m3 mean error (per iteration)
+- 0.3973 kmol/m3 mean error (per iteration)*
+
+** different set schedule
 
 <img src="img/brain_assessment.png" alt="drawing" width="500"/>
 
@@ -144,7 +149,7 @@ To evaluate performance a Python script is provided under "sim_evaluation" folde
 
 ## Benchmark Stretched
 
-The gains were designed with a specific region in mind and here we changed the range from [8.57, 2] to [9.57, 1] kmol/m3. 
+The gains were designed with a specific region in mind and here we changed the range from [8.57, 2] to [8.57, 1] kmol/m3. 
 
 <img src="img/benchmark_stretch.png" alt="drawing" width="500"/>
 
@@ -152,4 +157,4 @@ The gains were designed with a specific region in mind and here we changed the r
 
 [Simulink Example](https://www.mathworks.com/help/control/ug/gain-scheduled-control-of-a-chemical-reactor.html;jsessionid=46145216a86340e49ff92683290f#d122e64826)
 
-> Seborg, D.E. et al., "Process Dynamics and Control", 2nd Ed., 2004, Wiley, pp. 34-36.ss 
+> Seborg, D.E. et al., "Process Dynamics and Control", 2nd Ed., 2004, Wiley, pp. 34-36.ss
