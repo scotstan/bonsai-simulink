@@ -146,10 +146,10 @@ type SimConfig {
     change_per_step_Tc_control: number<1 .. 2 step 1>,
 
     # Scenario to be run - 4 scenarios: 1-based INT
-    # > 1: Concentration transition -->  8.57 to 2.000
-    # > 2: Concentration transition -->  8.57 to 3.6425
-    # > 3: Concentration transition -->  8.57 to 5.2850
-    # > 4: Concentration transition -->  8.57 to 6.9275
+    # > 1: Concentration transition -->  8.57 to 2.000 over [0, 10, 36, 45]
+    # > 2: Concentration transition -->  8.57 to 2.000 over [0, 2, 28, 45]
+    # > 3: Concentration transition -->  8.57 to 2.000 over [0, 10, 20, 45]
+    # > 4: Concentration transition -->  8.57 to 1.000 over [0, 10, 36, 45]
     j_scenario: number<1 .. 4 step 1>,
 
     # Percentage of noise to include
