@@ -34,7 +34,7 @@ const conc_delta_max = 3*conc_delta_target
 
 # Limits for temperature
 const temp_max = 500
-const temp_min = 100
+const temp_min = 90
 const temp_delta_target = 9.4691
 const temp_delta_max = 3*temp_delta_target
 
@@ -81,7 +81,7 @@ type SimState {
     # Reactor Concentration' Acceleration (derivative of derivative) - Accumulating absolute
     Cref_error_abs_accumulated: number<0 .. conc_error_accumulated_max>,
     # Reactor Temperature' Acceleration (derivative of derivative) - Accumulating absolute
-    Tref_error_abs_accumulated: number<0 .. temp_error_accumulated_max>,
+    Tref_error_abs_accumulated: number,
 
     # Current state is equilibrium
     #  - during transition: eq == 0
@@ -103,6 +103,11 @@ type SimState {
     C_plan: number<conc_min .. conc_max>,
     # Planned temperature (changes to equilibrium end value at the beginning of transition)
     T_plan: number<temp_min .. temp_max>,
+
+    # TcEQ(1), relating to Tc = TcEQ + dTc
+    TcEQ: number<290 .. 310>,
+    # dTC delayed 1 timestep
+    dTc_prev: number<coolant_temp_min .. coolant_temp_max>,
 }
 
 
@@ -114,13 +119,10 @@ type ObservableState {
     # Temperature: Real-time reactor read
     Tr: number<temp_min .. temp_max>,
 
-    # Concentration Error: Cr-Cref
-    Cref_error: number<-5*conc_delta_max .. 5*conc_delta_max>,
-    
     # Concentration: Target reference to follow
-    #Cref: number<conc_min .. conc_max>,
+    Cref: number<conc_min .. conc_max>,
     # Temperature: Target reference to follow
-    #Tref: number<temp_min .. temp_max>,
+    Tref: number<temp_min .. temp_max>,
     
     # Coolant absolute temperature as input to the simulation
     Tc: number<temp_min .. temp_max>,
@@ -185,29 +187,31 @@ graph (input: ObservableState) {
             training {
                 # Limit episodes to 100 iterations instead of the default 1000.
                 EpisodeIterationLimit: 90,
-                NoProgressIterationLimit: 750000
+                #NoProgressIterationLimit: 750000
             }
              
-            algorithm {
-                Algorithm: "SAC",
-            }
+            #algorithm {
+            #    Algorithm: "SAC",
+            #}
 
             # The objective of training is expressed as 3 goals
             # (1) drive concentration close to reference
             # (2) avoid temperature going beyond limit
             # (3) avoid temperature changing too fast
             #  --> Goal not required when "change_per_step_Tc_control: 1" (doesn't harm either)
-            #goal (State: SimState) {
-            #    drive `Concentration Target`: 
-            #        Math.Abs(State.Cref - State.Cr) in Goal.RangeBelow(0.6)
-            #    avoid `Thermal Runaway`:
-            #        Math.Abs(State.Tr) in Goal.RangeAbove(400)
-            #    avoid `Rate Limit Tc`:
-            #        Math.Abs(State.dTc_increment) in Goal.RangeAbove(coolant_temp_deriv_limit)
-            #}
+            goal (State: SimState) {
+                drive `Concentration Target`: 
+                    Math.Abs(State.Cref - State.Cr) in Goal.RangeBelow(0.122)
+                drive `Reactor Temp Target`: 
+                    Math.Abs(State.Tref - State.Tr) in Goal.RangeBelow(1.318)
+                avoid `Thermal Runaway`:
+                    Math.Abs(State.Tr) in Goal.RangeAbove(400)
+                #avoid `Rate Limit Tc`:
+                #    Math.Abs(State.dTc_increment) in Goal.RangeAbove(coolant_temp_deriv_limit)
+            }
 
-            terminal GetTerminal
-            reward GetReward
+            #terminal GetTerminal
+            #reward GetReward
 
             lesson `Follow Planned Concentration 1` {
                 # Specify the configuration parameters that should be varied
