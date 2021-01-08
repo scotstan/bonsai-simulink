@@ -11,7 +11,9 @@ const MaxDeviation = 5.0
 
 type SimState {
     Tset: number,
-    Troom: number,
+    Troom1: number,
+    Troom2: number,
+    Troom3: number,
     Toutdoor: number,
     total_cost: number
 }
@@ -36,13 +38,13 @@ type SimConfig {
 function TransformState(State: SimState): ObservableState {
     if State.Toutdoor > 73 {
         return {
-            Tdiff: State.Troom - State.Tset,
+            Tdiff: State.Troom1 - State.Tset,
             Toutdoor: State.Toutdoor,
             total_cost_fraction: State.total_cost / 4,
         } 
     } else {
         return {
-            Tdiff: State.Tset - State.Troom, 
+            Tdiff: State.Tset - State.Troom1, 
             Toutdoor: State.Toutdoor,
             total_cost_fraction: State.total_cost / 27,
         } 
