@@ -190,9 +190,9 @@ graph (input: ObservableState) {
                 #NoProgressIterationLimit: 750000
             }
              
-            #algorithm {
-            #    Algorithm: "SAC",
-            #}
+            algorithm {
+                Algorithm: "SAC",
+            }
 
             # The objective of training is expressed as 3 goals
             # (1) drive concentration close to reference

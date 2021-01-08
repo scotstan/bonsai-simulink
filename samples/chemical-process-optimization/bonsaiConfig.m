@@ -21,7 +21,7 @@ function config = bonsaiConfig
     %config.bonsaiBlock = "ChemicalProcessOptimization/Bonsai";
 
     % % set state and action schemas (overrides data from bonsaiBlock)
-    config.stateSchema = ["Cr_no_noise", "Tr_no_noise", "Cr", "Tr", "Cref_error", "Tref_error", "Cref", "Tref", "Cref_error_abs_accumulated", "Tref_error_abs_accumulated", "equilibrium", "dTc_abs_accumulated", "dTc_increment", "Tc_delta", "Tc", "C_plan", "T_plan"];
+    config.stateSchema = ["Cr_no_noise", "Tr_no_noise", "Cr", "Tr", "Cref_error", "Tref_error", "Cref", "Tref", "Cref_error_abs_accumulated", "Tref_error_abs_accumulated", "equilibrium", "dTc_abs_accumulated", "dTc_increment", "Tc_delta", "Tc", "C_plan", "T_plan", "TcEQ", "dTc_prev"];
     config.actionSchema = ["Tc_control"];
 
     % set config schema
