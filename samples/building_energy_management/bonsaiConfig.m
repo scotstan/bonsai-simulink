@@ -14,13 +14,13 @@ function config = bonsaiConfig()
     config.accessKey = "<key>";
 
     % simulator name, for an unmanaged simulator launched from the desktop to show up on the web
-    config.name = "Simulink BuildingEnergyManagement";
+    config.name = "BuildingEnergyManagement";
 
     % path to bonsai block in your model, used to determine state and action schemas
 %     config.bonsaiBlock = "Bonsai";
 
     % % set state and action schemas (overrides data from bonsaiBlock)
-    config.stateSchema = ["Tset","Troom","Toutdoor","total_cost"];
+    config.stateSchema = ["Tset","Troom1","Troom2","Troom3","Toutdoor","total_cost"];
     config.actionSchema = ["command"];
 
     % set config schema

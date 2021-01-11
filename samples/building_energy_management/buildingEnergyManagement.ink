@@ -19,9 +19,10 @@ type SimState {
 }
 
 type ObservableState {
-    Tdiff: number,
+    Tset: number,
+    Troom1: number,
     Toutdoor: number,
-    total_cost_fraction: number
+    total_cost: number
 }
 
 type SimAction {
@@ -29,36 +30,19 @@ type SimAction {
 }
 
 type SimConfig {
-    input_Toutdoor: number,
-    input_Tset: number
+    input_Toutdoor: number
 }
 
-# Transform Tdiff and total_cost according the outdoor temperature.
-# The goal is to drive Troom below Tset on hot days and above Tset on cold days.
-function TransformState(State: SimState): ObservableState {
-    if State.Toutdoor > 73 {
-        return {
-            Tdiff: State.Troom1 - State.Tset,
-            Toutdoor: State.Toutdoor,
-            total_cost_fraction: State.total_cost / 4,
-        } 
-    } else {
-        return {
-            Tdiff: State.Tset - State.Troom1, 
-            Toutdoor: State.Toutdoor,
-            total_cost_fraction: State.total_cost / 27,
-        } 
-    }
+function TempDiff(Tin:number, Tset:number) {
+    return Math.Abs(Tin - Tset)
 }
 
 graph (input: ObservableState): SimAction {
     concept adjust(input): SimAction {
         curriculum {
-            source simulator (action: SimAction, config: SimConfig): SimState {
+            source simulator (action: SimAction, config: SimConfig): ObservableState {
                 # package "bem_final"
             }
-
-            state TransformState
 
             training {
                 # Limit episodes to 288 iterations, which is 1 day (24 hours).
@@ -66,9 +50,9 @@ graph (input: ObservableState): SimAction {
                 NoProgressIterationLimit: 600000
             }
 
-            goal (State: SimState) {
-                drive `Temp Deviation`:
-                    TransformState(State).Tdiff in Goal.RangeBelow(MaxDeviation)
+            goal (State: ObservableState) {
+                minimize `Temp Deviation`:
+                    TempDiff(State.Troom1, State.Tset) in Goal.RangeBelow(MaxDeviation)
             }
 
             lesson adjust_easy {

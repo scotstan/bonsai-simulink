@@ -12,7 +12,7 @@ init_vars
 initToutdoor = 60;
 sim('buildingEnergyManagement.slx')
 
-for i = 1:3
+for i = 1:n_rooms
     mae(simout(:, i+1), simout(:, 1), i)
 end
 disp(['Cost = $', num2str(simout(end, 6))]) 
@@ -24,7 +24,7 @@ plot_results(tout, simout)
 initToutdoor = 95;
 sim('buildingEnergyManagement.slx')
 
-for i = 1:3
+for i = 1:n_rooms
     mae(simout(:, i+1), simout(:, 1), i)
 end
 disp(['Cost = $', num2str(simout(end, 6))]) 
@@ -33,10 +33,10 @@ plot_results(tout, simout)
 
 %% Benchmark Cold Day
 
-initToutdoor = 30; %[F]
+initToutdoor = 35; %[F]
 sim('buildingEnergyManagement.slx')
 
-for i = 1:3
+for i = 1:n_rooms
     mae(simout(:, i+1), simout(:, 1), i)
 end
 disp(['Cost = $', num2str(simout(end, 6))]) 

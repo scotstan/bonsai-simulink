@@ -1,7 +1,7 @@
 % -------------------------------
 % Define Equivalent Resistance and internal air mass
 % -------------------------------
-n_rooms =  2;
+n_rooms =  1;
 numWindows_room_1 = 6;
 numWindows_room_2 = 6;
 numWindows_room_3 = 6;
