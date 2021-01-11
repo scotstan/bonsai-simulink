@@ -15,7 +15,7 @@ sim('buildingEnergyManagement.slx')
 for i = 1:n_rooms
     mae(simout(:, i+1), simout(:, 1), i)
 end
-disp(['Cost = $', num2str(simout(end, 6))]) 
+disp(['Cost = $', num2str(round(simout(end, 6), 2))]) 
 
 plot_results(tout, simout)
 
@@ -27,7 +27,7 @@ sim('buildingEnergyManagement.slx')
 for i = 1:n_rooms
     mae(simout(:, i+1), simout(:, 1), i)
 end
-disp(['Cost = $', num2str(simout(end, 6))]) 
+disp(['Cost = $', num2str(round(simout(end, 6), 2))]) 
 
 plot_results(tout, simout)
 
@@ -39,7 +39,7 @@ sim('buildingEnergyManagement.slx')
 for i = 1:n_rooms
     mae(simout(:, i+1), simout(:, 1), i)
 end
-disp(['Cost = $', num2str(simout(end, 6))]) 
+disp(['Cost = $', num2str(round(simout(end, 6), 2))]) 
 
 plot_results(tout, simout)
 
@@ -80,3 +80,5 @@ function [] = mae(set, actual, roomnum)
     metric_mae = mean(abs(actual - set));
     disp(['Mean Absolute Error for Room ', num2str(roomnum),' = ', num2str(metric_mae), 'F'])
 end
+
+%% Return to Simulink Defaults
