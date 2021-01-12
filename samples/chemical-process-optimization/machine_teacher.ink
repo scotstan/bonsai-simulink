@@ -63,7 +63,7 @@ type SimState {
     # Coolant absolute temperature referred from TcEQ:  Tc = TcEQ + dTc_rate_limited
     dTc_rate_limited: number<coolant_temp_min .. coolant_temp_max>,
     
-    # TcEQ(1), relating to Tc = TcEQ + dTc_total_
+    # TcEQ(1), relating to Tc = TcEQ + dTc
     Tc_eq: number<290 .. 310>,
     # dTC delayed 1 timestep
     dTc_prev: number<coolant_temp_min .. coolant_temp_max>,

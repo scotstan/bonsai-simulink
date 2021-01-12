@@ -22,9 +22,9 @@ function config = bonsaiConfig
 
     % % set state and action schemas (overrides data from bonsaiBlock)
     config.stateSchema = ["Cr", "Tr", "Cr_no_noise", "Tr_no_noise", ...
-                          "Cref", "Tref", "dTc_total", "dTc_total_", ...
+                          "Cref", "Tref", "dTc", "dTc_rate_limited", ...
                           "Tc", "Tc_eq", "dTc_prev"];
-    config.actionSchema = ["dTc"];
+    config.actionSchema = ["Tc_adjust"];
 
     % set config schema
     config.configSchema = ["Cref_signal", "noise_percentage"];
