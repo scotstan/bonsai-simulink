@@ -57,10 +57,11 @@ type SimState {
     # Coolant absolute temperature as input to the simulation
     Tc: number<temp_min .. temp_max>,
     
-    # Coolant absolute temperature referred from TcEQ:  Tc = TcEQ + dTc_total_
-    dTc_total: number<coolant_temp_min .. coolant_temp_max>,
-    # Coolant absolute temperature referred from TcEQ:  Tc = TcEQ + dTc_total_
-    dTc_total_: number<coolant_temp_min .. coolant_temp_max>,
+    # Coolant absolute temperature referred from TcEQ:  Tc = TcEQ + dTc
+    # dTc = integral(Tc_adjust)dt
+    dTc: number<coolant_temp_min .. coolant_temp_max>,
+    # Coolant absolute temperature referred from TcEQ:  Tc = TcEQ + dTc_rate_limited
+    dTc_rate_limited: number<coolant_temp_min .. coolant_temp_max>,
     
     # TcEQ(1), relating to Tc = TcEQ + dTc_total_
     Tc_eq: number<290 .. 310>,
@@ -74,6 +75,7 @@ type SimState {
 type ObservableState {
     # Concentration: Real-time reactor read
     Cr: number<conc_min .. conc_max>,
+
     # Temperature: Real-time reactor read
     Tr: number<temp_min .. temp_max>,
 
@@ -88,7 +90,7 @@ type ObservableState {
 # input to the simulator
 type SimAction {
     # Delta to be applied to initial coolant temp (absolutely, not per-iteration)
-    dTc: number<-coolant_temp_deriv_limit .. coolant_temp_deriv_limit>
+    Tc_adjust: number<-coolant_temp_deriv_limit .. coolant_temp_deriv_limit>
 }
 
 # Per-episode configuration that can be sent to the simulator.
