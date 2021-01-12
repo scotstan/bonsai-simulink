@@ -5,7 +5,7 @@ close all;
 clc;
 
 %% Initalize Parameters
-n_rooms =  3;
+n_rooms =  1;
 nWindows_room1 = 6;
 nWindows_room2 = 6;
 nWindows_room3 = 6;
@@ -63,7 +63,7 @@ function [] = plot_results(tout, simout)
     plot(tout, simout(:, 3))
     plot(tout, simout(:, 4))
     hold off
-    legend('Ref', 'Troom1', 'Troom2', 'Troom3')
+    legend('Tset', 'Troom1', 'Troom2', 'Troom3')
     grid, title(''), ylabel('Inside Temperature [\circF]')
 
     subplot(413)
@@ -73,12 +73,14 @@ function [] = plot_results(tout, simout)
     plot(tout, simout(:, 3))
     plot(tout, simout(:, 4))
     hold off
-    legend('Out', 'In')
+    legend('Toutdoor', 'Troom1', 'Troom2', 'Troom3')
     grid, title('Temperature'), ylabel('Temperature [\circF]')
     
     subplot(414)
     plot(tout, simout(:, 8),'.')
     grid, title('Action')
+    xlabel('Hours')
+    ylim([1 3]); yticks([1 2 3]); yticklabels({'AC','Heat','Off'})
 end
 
 function [] = mae(set, actual, roomnum)

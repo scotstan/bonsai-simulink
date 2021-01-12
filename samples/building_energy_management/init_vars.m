@@ -21,4 +21,5 @@ cost = 0.09/3.6e6;
 TinIC = 20;
 
 %% Air conditioner
+dTac = 20*(5/9); % deg C
 eta_ac = 0.85; % efficiency of air conditioner

@@ -55,7 +55,6 @@ graph (input: ObservableState): SimAction {
     concept adjust(input): SimAction {
         curriculum {
             source simulator (action: SimAction, config: SimConfig): SimState {
-                # package "bem_final"
             }
 
             state TransformState
@@ -74,7 +73,7 @@ graph (input: ObservableState): SimAction {
             lesson adjust_easy {
                 scenario {
                     input_Toutdoor: 60.0,
-                    input_nRooms: 3,
+                    input_nRooms: 1,
                     input_nWindowsRoom1: 6,
                     input_nWindowsRoom2: 6,
                     input_nWindowsRoom3: 6,
@@ -83,7 +82,7 @@ graph (input: ObservableState): SimAction {
             lesson adjust_medium {
                 scenario {
                     input_Toutdoor: number<50.0 .. 70.0>,
-                    input_nRooms: 3,
+                    input_nRooms: 1,
                     input_nWindowsRoom1: 6,
                     input_nWindowsRoom2: 6,
                     input_nWindowsRoom3: 6,
@@ -92,7 +91,7 @@ graph (input: ObservableState): SimAction {
             lesson adjust_mediumhard {
                 scenario {
                     input_Toutdoor: number<40.0 .. 80.0>,
-                    input_nRooms: 3,
+                    input_nRooms: 1,
                     input_nWindowsRoom1: 6,
                     input_nWindowsRoom2: 6,
                     input_nWindowsRoom3: 6,
@@ -101,7 +100,7 @@ graph (input: ObservableState): SimAction {
             lesson adjust_hard {
                 scenario {
                     input_Toutdoor: number<30.0 .. 95.0>,
-                    input_nRooms: 3,
+                    input_nRooms: 1,
                     input_nWindowsRoom1: 6,
                     input_nWindowsRoom2: 6,
                     input_nWindowsRoom3: 6,
@@ -110,7 +109,7 @@ graph (input: ObservableState): SimAction {
             lesson adjust_hardest {
                 scenario {
                     input_Toutdoor: number<25.0 .. 100.0>,
-                    input_nRooms: 3,
+                    input_nRooms: 1,
                     input_nWindowsRoom1: 6,
                     input_nWindowsRoom2: 6,
                     input_nWindowsRoom3: 6,
