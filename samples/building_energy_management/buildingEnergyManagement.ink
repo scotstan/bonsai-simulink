@@ -10,17 +10,18 @@ using Goal
 const MaxDeviation = 5.0
 
 type SimState {
-    Tset: number,
+    Tset: number<60 .. 86>,
     Troom1: number,
     Troom2: number,
     Troom3: number,
+    n_rooms: number,
     Toutdoor: number,
     total_cost: number
 }
 
 type ObservableState {
     Tset: number,
-    Troom1: number,
+    Troom_avg: number,
     Toutdoor: number,
     total_cost: number
 }
@@ -30,7 +31,20 @@ type SimAction {
 }
 
 type SimConfig {
-    input_Toutdoor: number
+    input_Toutdoor: number,
+    input_nRooms: number,
+    input_nWindowsRoom1: number,
+    input_nWindowsRoom2: number,
+    input_nWindowsRoom3: number,
+}
+
+function TransformState(State: SimState): ObservableState {
+    return {
+    Tset: State.Tset,
+    Troom_avg: (State.Troom1 + State.Troom2 + State.Troom3) / State.n_rooms,
+    Toutdoor: State.Toutdoor,
+    total_cost: State.total_cost,
+    }
 }
 
 function TempDiff(Tin:number, Tset:number) {
@@ -40,9 +54,11 @@ function TempDiff(Tin:number, Tset:number) {
 graph (input: ObservableState): SimAction {
     concept adjust(input): SimAction {
         curriculum {
-            source simulator (action: SimAction, config: SimConfig): ObservableState {
+            source simulator (action: SimAction, config: SimConfig): SimState {
                 # package "bem_final"
             }
+
+            state TransformState
 
             training {
                 # Limit episodes to 288 iterations, which is 1 day (24 hours).
@@ -50,34 +66,54 @@ graph (input: ObservableState): SimAction {
                 NoProgressIterationLimit: 600000
             }
 
-            goal (State: ObservableState) {
+            goal (State: SimState) {
                 minimize `Temp Deviation`:
-                    TempDiff(State.Troom1, State.Tset) in Goal.RangeBelow(MaxDeviation)
+                    TempDiff(TransformState(State).Troom_avg, TransformState(State).Tset) in Goal.RangeBelow(MaxDeviation)
             }
 
             lesson adjust_easy {
                 scenario {
                     input_Toutdoor: 60.0,
+                    input_nRooms: 3,
+                    input_nWindowsRoom1: 6,
+                    input_nWindowsRoom2: 6,
+                    input_nWindowsRoom3: 6,
                 }
             }
             lesson adjust_medium {
                 scenario {
                     input_Toutdoor: number<50.0 .. 70.0>,
+                    input_nRooms: 3,
+                    input_nWindowsRoom1: 6,
+                    input_nWindowsRoom2: 6,
+                    input_nWindowsRoom3: 6,
                 }
             }
             lesson adjust_mediumhard {
                 scenario {
                     input_Toutdoor: number<40.0 .. 80.0>,
+                    input_nRooms: 3,
+                    input_nWindowsRoom1: 6,
+                    input_nWindowsRoom2: 6,
+                    input_nWindowsRoom3: 6,
                 }
             }
             lesson adjust_hard {
                 scenario {
                     input_Toutdoor: number<30.0 .. 95.0>,
+                    input_nRooms: 3,
+                    input_nWindowsRoom1: 6,
+                    input_nWindowsRoom2: 6,
+                    input_nWindowsRoom3: 6,
                 }
             }
             lesson adjust_hardest {
                 scenario {
                     input_Toutdoor: number<25.0 .. 100.0>,
+                    input_nRooms: 3,
+                    input_nWindowsRoom1: 6,
+                    input_nWindowsRoom2: 6,
+                    input_nWindowsRoom3: 6,
                 }
             }
         }
