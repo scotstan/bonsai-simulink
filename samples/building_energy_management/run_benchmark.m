@@ -5,6 +5,11 @@ close all;
 clc;
 
 %% Initalize Parameters
+n_rooms =  1;
+nWindows_room1 = 6;
+nWindows_room2 = 6;
+nWindows_room3 = 6;
+
 init_vars
 
 %% Benchmark
@@ -15,7 +20,7 @@ sim('buildingEnergyManagement.slx')
 for i = 1:n_rooms
     mae(simout(:, i+1), simout(:, 1), i)
 end
-disp(['Cost = $', num2str(round(simout(end, 6), 2))]) 
+disp(['Cost = $', num2str(round(simout(end, 7), 2))]) 
 
 plot_results(tout, simout)
 
@@ -27,7 +32,7 @@ sim('buildingEnergyManagement.slx')
 for i = 1:n_rooms
     mae(simout(:, i+1), simout(:, 1), i)
 end
-disp(['Cost = $', num2str(round(simout(end, 6), 2))]) 
+disp(['Cost = $', num2str(round(simout(end, 7), 2))]) 
 
 plot_results(tout, simout)
 
@@ -39,7 +44,7 @@ sim('buildingEnergyManagement.slx')
 for i = 1:n_rooms
     mae(simout(:, i+1), simout(:, 1), i)
 end
-disp(['Cost = $', num2str(round(simout(end, 6), 2))]) 
+disp(['Cost = $', num2str(round(simout(end, 7), 2))]) 
 
 plot_results(tout, simout)
 
@@ -48,7 +53,7 @@ plot_results(tout, simout)
 function [] = plot_results(tout, simout)
     figure
     subplot(411)
-    plot(tout, simout(:, 6))
+    plot(tout, simout(:, 7))
     grid, title('Cost'), ylabel('Cost [$]')
 
     subplot(412)
@@ -58,22 +63,24 @@ function [] = plot_results(tout, simout)
     plot(tout, simout(:, 3))
     plot(tout, simout(:, 4))
     hold off
-    legend('Ref', 'Troom1', 'Troom2', 'Troom3')
+    legend('Tset', 'Troom1', 'Troom2', 'Troom3')
     grid, title(''), ylabel('Inside Temperature [\circF]')
 
     subplot(413)
-    plot(tout, simout(:, 3))
+    plot(tout, simout(:, 6))
     hold on
     plot(tout, simout(:, 2))
     plot(tout, simout(:, 3))
     plot(tout, simout(:, 4))
     hold off
-    legend('Out', 'In')
+    legend('Toutdoor', 'Troom1', 'Troom2', 'Troom3')
     grid, title('Temperature'), ylabel('Temperature [\circF]')
     
     subplot(414)
-    plot(tout, simout(:, 7),'.')
+    plot(tout, simout(:, 8),'.')
     grid, title('Action')
+    xlabel('Hours')
+    ylim([1 3]); yticks([1 2 3]); yticklabels({'AC','Heat','Off'})
 end
 
 function [] = mae(set, actual, roomnum)

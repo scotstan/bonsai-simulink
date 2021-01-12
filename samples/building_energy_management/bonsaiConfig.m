@@ -20,11 +20,12 @@ function config = bonsaiConfig()
 %     config.bonsaiBlock = "Bonsai";
 
     % % set state and action schemas (overrides data from bonsaiBlock)
-    config.stateSchema = ["Tset","Troom1","Troom2","Troom3","Toutdoor","total_cost"];
+    config.stateSchema = ["Tset","Troom1","Troom2","Troom3","n_rooms","Toutdoor","total_cost"];
     config.actionSchema = ["command"];
 
     % set config schema
-    config.configSchema = ["input_Toutdoor"];
+    config.configSchema = ["input_Toutdoor","input_nRooms", ...
+        "input_nWindowsRoom1","input_nWindowsRoom2","input_nWindowsRoom3"];
 
     % % time (in seconds) the simulator gateway should wait for
     % %   your simulator to advance, defaults to 60
