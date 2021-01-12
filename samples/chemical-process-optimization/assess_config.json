@@ -1,0 +1,16 @@
+{
+    "version": "1.0.0",
+	"recipe": {},
+	"episodeConfigurations": [
+    {
+        "change_per_step_Tc_control": 1,
+        "j_scenario": 1,
+        "noise_percentage": 0
+    },
+    {
+        "change_per_step_Tc_control": 1,
+        "j_scenario": 1,
+        "noise_percentage": 5
+    }
+	]
+}
