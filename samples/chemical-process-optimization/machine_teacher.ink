@@ -117,7 +117,7 @@ graph (input: ObservableState) {
             }
 
             training {
-                # Limit episodes to 100 iterations instead of the default 1000.
+                # Limit episodes to 90 iterations instead of the default 1000.
                 EpisodeIterationLimit: 90,
                 NoProgressIterationLimit: 500000
             }

@@ -37,6 +37,6 @@ function config = bonsaiConfig
     %config.outputCSV = "chemical_plant_training.csv";
 
     % % display verbose logs
-    %config.verbose = false;
+    config.verbose = false;
 
 end
