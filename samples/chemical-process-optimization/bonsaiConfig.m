@@ -31,12 +31,12 @@ function config = bonsaiConfig
 
     % % time (in seconds) the simulator gateway should wait for
     % %   your simulator to advance, defaults to 60
-    %config.timeout = 60;
+    config.timeout = 60;
 
     % path to csv file where episode data should be logged
     %config.outputCSV = "chemical_plant_training.csv";
 
     % % display verbose logs
-    config.verbose = true;
+    config.verbose = false;
 
 end
