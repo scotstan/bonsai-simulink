@@ -24,7 +24,7 @@ initToutdoor = 60;
 function episodeStartCallback(mdl, episodeConfig)
     assignin('base', 'initToutdoor', episodeConfig.input_Toutdoor);
     assignin('base', 'n_rooms', episodeConfig.input_nRooms);
-    assignin('base', 'numWindows_room_1', episodeConfig.input_nWindowsRoom1);
-    assignin('base', 'numWindows_room_2', episodeConfig.input_nWindowsRoom2);
-    assignin('base', 'numWindows_room_3', episodeConfig.input_nWindowsRoom3);
+    assignin('base', 'nWindows_room1', episodeConfig.input_nWindowsRoom1);
+    assignin('base', 'nWindows_room2', episodeConfig.input_nWindowsRoom2);
+    assignin('base', 'nWindows_room3', episodeConfig.input_nWindowsRoom3);
 end

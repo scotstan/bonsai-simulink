@@ -23,8 +23,8 @@ function episodeStartCallback(mdl, episodeConfig)
     in = Simulink.SimulationInput(mdl);
     in = in.setVariable('initToutdoor', episodeConfig.input_Toutdoor);
     in = in.setVariable('n_rooms', episodeConfig.input_nRooms);
-    in = in.setVariable('numWindows_room_1', episodeConfig.input_nWindowsRoom1);
-    in = in.setVariable('numWindows_room_2', episodeConfig.input_nWindowsRoom2);
-    in = in.setVariable('numWindows_room_3', episodeConfig.input_nWindowsRoom3);
+    in = in.setVariable('nWindows_room1', episodeConfig.input_nWindowsRoom1);
+    in = in.setVariable('nWindows_room2', episodeConfig.input_nWindowsRoom2);
+    in = in.setVariable('nWindows_room3', episodeConfig.input_nWindowsRoom3);
     sim(in);
 end
