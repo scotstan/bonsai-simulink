@@ -34,15 +34,16 @@ Bare minimum for the sim:
 
 Final set for **bonsai training**:
 
+- Performance improved when making the brain learn the per-timestep adjustment to apply to previous dTc.
+- Thus, we mantained control to be dTc_adjustment, and added an accumulator on sim side.
+
 | Action | Continuous Value | Units |
 |----------------------------|-------------------------------|-------------------------------|
-| dTc | [-10, 10] | [Kelvin/min] |
+| dTc_adjustment | [-5, 5]* | [Kelvin/min] |
 
-*Note, given an additional rule that requires keeping dTc changes at no more than 10 Kelvins/min, we decided to incorporate an accumulator on the sim side, and force actions to be on the [-5, 5] range (for Ts=0.5min)
+*Note, given an additional rule that requires keeping dTc changes at no more than 10 Kelvins/min, we forced dTc_adjustment to be on the [-5, 5] range (for Ts=0.5min)
 
 ## States
-
-[TODO] Review
 
 Bare minimum for the sim:
 
@@ -52,38 +53,43 @@ Bare minimum for the sim:
 | Tr | [250, 400] | [Kelvin] |
 | Tc | [250, 400] | [Kelvin] |
 | Cref | [1, 10] | [kmol/m3] |
-| Tref | [250, 400] | [Kelvin] |
 
-Final set for **bonsai training**:
+Final set of Observable States for **bonsai training**:
 
 | State | Continuous Value | Units | Notes |
 |----------------------------|-------------------------------|-------------------------------|-------------------------------|
-| Cr | [1, 10] | [kmol/m3] | reactor concentration |
-| Tr | [250, 400] | [Kelvin] | reactor temperature |
-| Cref_delta | [1, 10] | [kmol/m3] | difference between scheduled concentration and reactor's real time read |
-| Tref_delta | [250, 400] | [Kelvin] | difference between scheduled temperature and reactor's real time read |
-| Tc | [250, 400] | [Kelvin] | coolant temperature |
-| Tc_d | [-10, 10] | [Kelvin/min] | discrete derivative of coolant temperature |
-| Tc_d_d | [-10, 10] | [Kelvin/min] | 2nd discrete derivative of coolant temperature |
+| Cr | [1, 10] | [kmol/m3] |
+| Tr | [250, 400] | [Kelvin] |
+| Tc | [250, 400] | [Kelvin] |
+| Cref | [1, 10] | [kmol/m3] |
+
+*Tref was removed as observable state since brain to simplify brain's training. With Bonsai's solution we don't need Tref to be able to drive the concentration linearly from one point to the next.
+
+
 
 ## Constraints
 
 - Tc < 10 degrees / min
 
-## Configuration Parameters
-
-[TODO] - Review
+## Sim Configuration Parameters
 
 - target concentration: Final desired concentration
 - Cf: Concentration fed to the CSTR
 - Tf: Temperature fed to the CSTR
-- Tc_ini: Initial absolute coolant temperature
+- TcEQ(1): Initial absolute coolant temperature
 - Cref: Scheduled concentration for reaction
 - Tref: Scheduled temperature for reaction (look-up table used to extract corresponding linear desired transition)
 
-## Tested Scenarios
+## Bonsai Configuration Parameters
 
-[TODO] - Review
+- Cref_signal: An integer in [1, 4] range (both included). Indicates the concentration transition to perform:
+    - 1 >> 8.57 to 2.00 kmol/m3 over [0, 10, 36, 45] in minutes
+    - 2 >> 8.57 to 2.00 kmol/m3 over [0, 2, 28, 45] in minutes
+    - 3 >> 8.57 to 2.00 kmol/m3 over [0, 10, 20, 45] in minutes
+    - 4 >> 8.57 to 1.00 kmol/m3 over [0, 10, 36, 45] in minutes
+- noise_percentage: An integer from 0 to 100 that indicates the amount of gaussian noise to include in both conentration and temperature readouts (Cr & Tr)
+
+## Tested Scenarios
 
 Currently we operate under one configuration only, the shceduled values are fixed as follows:
 
@@ -91,7 +97,7 @@ Currently we operate under one configuration only, the shceduled values are fixe
 |----------------------------|-------------------------------|-------------------------------|-------------------------------|
 | Cf | 10 | 10 | [kmol/m3] |
 | Tf | 298.2 | 298.2 | [Kelvin] |
-| Tc_ini | 298.0 | 298.0 | [Kelvin] |
+| TcEQ(1) | 298.0 | 298.0 | [Kelvin] |
 | Cref | 8.57 | 2 | [kmol/m3] |
 | Tref | 311.3 | 373.1 | [Kelvin] |
 | dTc | 0 | 7 | [Kelvin] |
@@ -119,33 +125,16 @@ Note, **"run_benchmark.m" contains the information required to retrieve the benc
 
 ## Bonsai Brain
 
-- 0.3973 kmol/m3 mean error (per iteration)*
+Performance averaged over 4 trained brains:
+- 0.4065 kmol/m3 rms error
+- 3.7276 kmol/m3 rms error
 
-** different set schedule
+Performance for most stable brain (out of 4):
+- 0.2960 kmol/m3 rms error
+- 2.7143 kmol/m3 rms error
 
-<img src="img/brain_assessment.png" alt="drawing" width="500"/>
+<img src="img/most_stable_brain_performance.png" alt="drawing" width="500"/>
 
-**Inkling file required to train the bonsai brain and retrieve provided results is provided as "machine_teacher.ink".**
-
-Note, during assessment the brain would only retrieve 44 iterations (instead of the desired 90). The next version will have this issue fixed. For now, this is the corresponding comparison table of 'error to reference' between benchmark and bonsai brain:
-
-<img src="img/comparing_brain_performance_to_benchmark.png" alt="drawing" width="500"/>
-
-
-## Brain Performance Evaluation
-
-To evaluate performance a Python script is provided under "sim_evaluation" folder.
-
-1. Remove simulator selection on INK file ("package")
-2. Run train_bonsai.m
-3. Run brain assessment, connecting to unmanaged sim
-4. Wait until >20 episodes take place
-5. Stop matlab execution & brain
-6. Transfer created ".csv" file on your sim folder to "sim_evaluation" folder
-7. Modify Python script to point to recently created ".csv" (specified at the very beginning)
-8. Run Python script and retrieve transition VS equilibrium performance
-
-* Note, currently transition is considered from t=2 to t=30 (not t=28, which suits the 'equilibrium' state)
 
 ## Benchmark Stretched
 
