@@ -104,36 +104,13 @@ fprintf('\n')
 %% Vary Windows with 3 Room for Normal Day
 
 n_rooms =  3;
-disp('~~~~Vary Windows with 3 Rooms~~~~')
-
-nWindows_room1 = 3;
-nWindows_room2 = 6;
-nWindows_room3 = 12;
-
-initToutdoor = 60;
-sim('buildingEnergyManagement.slx')
-
-for i = 1:n_rooms
-    mae(simout(:, i+1), simout(:, 1), i);
-end
-disp(['Cost = $', num2str(round(simout(end, 7), 2))]) 
-
-plot_results(tout, simout, 'Vary Windows with 3 Rooms for Normal Day')
-fprintf('\n')
-
-input('Press ''Enter'' to continue...','s');
-fprintf('\n')
-
-%% Vary Windows with 3 Room for Normal Day
-
-n_rooms =  3;
 disp('~~~~Vary Windows with 3 Rooms for Normal Day~~~~')
 
 nWindows_room1 = 3;
 nWindows_room2 = 6;
 nWindows_room3 = 12;
 
-initToutdoor = 95;
+initToutdoor = 60;
 sim('buildingEnergyManagement.slx')
 
 for i = 1:n_rooms
@@ -156,7 +133,7 @@ nWindows_room1 = 3;
 nWindows_room2 = 6;
 nWindows_room3 = 12;
 
-initToutdoor = 60;
+initToutdoor = 95;
 sim('buildingEnergyManagement.slx')
 
 for i = 1:n_rooms
