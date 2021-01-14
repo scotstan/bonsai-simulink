@@ -32,10 +32,10 @@ type SimAction {
 
 type SimConfig {
     input_Toutdoor: number<25.0 .. 100.0>,
-    input_nRooms: number<1.0>,
-    input_nWindowsRoom1: number<6.0>,
-    input_nWindowsRoom2: number<6.0>,
-    input_nWindowsRoom3: number<6.0>,
+    input_nRooms: number,
+    input_nWindowsRoom1: number,
+    input_nWindowsRoom2: number,
+    input_nWindowsRoom3: number,
 }
 
 # return the average of all active rooms (TroomX is 0F if nonexistent)
@@ -69,6 +69,16 @@ graph (input: ObservableState): SimAction {
             goal (State: SimState) {
                 minimize `Temp Deviation`:
                     TempDiff(TransformState(State).Troom_avg, TransformState(State).Tset) in Goal.RangeBelow(MaxDeviation)
+            }
+
+            lesson adjust {
+                scenario {
+                    input_Toutdoor: number<25.0 .. 100.0>,
+                    input_nRooms: 1,
+                    input_nWindowsRoom1: 6,
+                    input_nWindowsRoom2: 6,
+                    input_nWindowsRoom3: 6,
+                }
             }
 
         }
