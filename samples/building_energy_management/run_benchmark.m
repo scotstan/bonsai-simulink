@@ -179,38 +179,41 @@ init_vars
 %% Functions
 
 function [] = plot_results(tout, simout, info)
-    figure('Renderer', 'painters', 'Position', [10 10 900 600])
+%     figure('Renderer', 'painters', 'Position', [10 10 900 600])
     sgtitle(info)
     
     subplot(411)
-    plot(tout, simout(:, 7))
+    plot(tout, simout(:, 7), 'b', 'linewidth',1.5)
     grid, title('Cost'), ylabel('Cost [$]')
 
     subplot(412)
-    plot(tout, simout(:, 1))
+    plot(tout, simout(:, 1),'--k','linewidth',3)
     hold on
-    plot(tout, simout(:, 2))
-    plot(tout, simout(:, 3))
-    plot(tout, simout(:, 4))
+    plot(tout, simout(:, 2), 'b', 'linewidth',1.5)
+    plot(tout, simout(:, 3), 'r', 'linewidth',1.5)
+    plot(tout, simout(:, 4), 'm', 'linewidth',1.5)
     hold off
     legend('Tset', 'Troom1', 'Troom2', 'Troom3')
     grid, title(''), ylabel('Inside Temperature [\circF]')
 
     subplot(413)
-    plot(tout, simout(:, 6))
+    plot(tout, simout(:, 6),'--k','linewidth',3)
     hold on
-    plot(tout, simout(:, 2))
-    plot(tout, simout(:, 3))
-    plot(tout, simout(:, 4))
+    plot(tout, simout(:, 2), 'b', 'linewidth',1.5)
+    plot(tout, simout(:, 3), 'r', 'linewidth',1.5)
+    plot(tout, simout(:, 4), 'm', 'linewidth',1.5)
     hold off
     legend('Toutdoor', 'Troom1', 'Troom2', 'Troom3')
     grid, title(''), ylabel('Temperature [\circF]')
     
     subplot(414)
-    plot(tout, simout(:, 8),'.')
+    plot(tout, simout(:, 8),'.b')
     grid, title('Action')
     xlabel('Hours')
     ylim([1 3]); yticks([1 2 3]); yticklabels({'AC','Heat','Off'})
+    
+    set(findall(gcf,'-property','FontSize'),'FontSize',16)
+    set(findobj(gcf,'type','legend'),'FontSize',12);
 end
 
 function [metric_mae] = mae(set, actual, roomnum)
