@@ -21,20 +21,22 @@ function config = bonsaiConfig
     %config.bonsaiBlock = "ChemicalProcessOptimization/Bonsai";
 
     % % set state and action schemas (overrides data from bonsaiBlock)
-    config.stateSchema = ["Cr_no_noise", "Tr_no_noise", "Cr", "Tr", "Cref_error", "Tref_error", "Cref", "Tref", "Cref_error_abs_accumulated", "Tref_error_abs_accumulated", "equilibrium", "dTc_abs_accumulated", "dTc_increment", "Tc_delta", "Tc", "C_plan", "T_plan"];
-    config.actionSchema = ["Tc_control"];
+    config.stateSchema = ["Cr", "Tr", "Cr_no_noise", "Tr_no_noise", ...
+                          "Cref", "Tref", "dTc", "dTc_rate_limited", ...
+                          "Tc", "Tc_eq", "dTc_prev"];
+    config.actionSchema = ["Tc_adjust"];
 
     % set config schema
-    config.configSchema = ["change_per_step_Tc_control", "j_scenario", "noise_percentage"];
+    config.configSchema = ["Cref_signal", "noise_percentage"];
 
     % % time (in seconds) the simulator gateway should wait for
     % %   your simulator to advance, defaults to 60
-    % config.timeout = 60;
+    config.timeout = 60;
 
     % path to csv file where episode data should be logged
     %config.outputCSV = "chemical_plant_training.csv";
 
     % % display verbose logs
-    % config.verbose = false;
+    config.verbose = false;
 
 end

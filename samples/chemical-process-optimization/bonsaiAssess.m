@@ -22,11 +22,9 @@ BonsaiConfigureAssessment(config, mdl, @episodeStartCallback);
 
 % callback for provided episode configuration
 function episodeStartCallback(mdl, episodeConfig)
-    assignin('base', 'change_per_step_Tc_control', episodeConfig.change_per_step_Tc_control);
-    assignin('base', 'j_scenario', episodeConfig.j_scenario);
+    assignin('base', 'Cref_signal', episodeConfig.Cref_signal);
     aux_data = load('CSTRData.mat');
     noise_magnitude = episodeConfig.noise_percentage/100;
-    %ini_scenario = uint8(1); % starting temp/conc is fixed
     assignin('base', 'temp_noise', (aux_data.TrEQ(1)-aux_data.TrEQ(5))*noise_magnitude);
     assignin('base', 'conc_noise', (aux_data.CrEQ(1)-aux_data.CrEQ(5))*noise_magnitude);
 end

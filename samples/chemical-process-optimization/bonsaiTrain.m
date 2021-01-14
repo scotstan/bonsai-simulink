@@ -19,8 +19,7 @@ BonsaiRunTraining(config, mdl, @episodeStartCallback);
 % callback for running model with provided episode configuration
 function episodeStartCallback(mdl, episodeConfig)
     in = Simulink.SimulationInput(mdl);
-    in = in.setVariable('change_per_step_Tc_control', episodeConfig.change_per_step_Tc_control);
-    in = in.setVariable('j_scenario', episodeConfig.j_scenario);
+    in = in.setVariable('Cref_signal', episodeConfig.Cref_signal);
     aux_data = load('CSTRData.mat');
     noise_magnitude = episodeConfig.noise_percentage/100;
     in = in.setVariable('temp_noise', (aux_data.TrEQ(1)-aux_data.TrEQ(5))*noise_magnitude);

@@ -1,0 +1,14 @@
+{
+    "version": "1.0.0",
+	"recipe": {},
+	"episodeConfigurations": [
+    {
+        "Cref_signal": 1,
+        "noise_percentage": 0
+    },
+    {
+        "Cref_signal": 1,
+        "noise_percentage": 5
+    }
+	]
+}
