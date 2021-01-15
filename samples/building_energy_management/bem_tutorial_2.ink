@@ -83,10 +83,10 @@ graph (input: ObservableState): SimAction {
             lesson adjust {
                 scenario {
                     input_Toutdoor: number<25.0 .. 100.0>,
-                    input_nRooms: 1,
-                    input_nWindowsRoom1: 6,
-                    input_nWindowsRoom2: 6,
-                    input_nWindowsRoom3: 6,
+                    input_nRooms: number<1, 2, 3>,
+                    input_nWindowsRoom1: number<1 .. 12>,
+                    input_nWindowsRoom2: number<1 .. 12>,
+                    input_nWindowsRoom3: number<1 .. 12>,
                 }
             }
 

@@ -88,7 +88,6 @@ Results:
 <img src="img/cold.png" alt="drawing" width="500"/>
 
 ## Tutorial 2
-
 ### Benchmark, 3 rooms
 Configuration:
 - Toutdoor = 60F
@@ -101,7 +100,7 @@ Results:
 
 <img src="img/benchmark_3room.png" alt="drawing" width="500"/>
 
-### Benchmark, hot day
+## Benchmark, hot day
 Configuration:
 - Toutdoor = 95F
 - number of rooms = 3
@@ -113,7 +112,7 @@ Results:
 
 <img src="img/hot_3room.png" alt="drawing" width="500"/>
 
-### Benchmark, cold day
+## Benchmark, cold day
 Configuration:
 - Toutdoor = 35F
 - number of rooms = 3
