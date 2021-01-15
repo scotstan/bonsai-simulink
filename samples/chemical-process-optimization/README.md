@@ -101,7 +101,7 @@ Currently we operate under one configuration only, the shceduled values are fixe
 
 ## Switching between Benchmark and Bonsai Block
 
-The controller block in ChemicalProcessOptimization.slx allows you to use the same file for both the benchmark controller and the bonsai brain. Simply right click on the block, then choose Variant-> Label Mode Active Choice -> Bonsai.
+The controller block in ChemicalProcessOptimization.slx allows you to use the same file for both the benchmark controller and the bonsai brain. Simply double click on the block, then choose Source -> "Bonsai".
 
 <img src="img/variant.png" alt="drawing" width="500"/>
 
@@ -130,7 +130,7 @@ For the same scenario used for benchmark, we introduce gaussian noise to the con
 
 <img src="img/benchmark_stretch.png" alt="drawing" width="500"/>
 
-* Note, to not accumulate error due to signal noise when evaluating performance, we campared references (Cref and Tref) against the "no_noise" versions of Cr and Tr. This results in a more accurate measure of RMS error.
+* Note, to not accumulate error due to signal noise when evaluating performance, we campared references (Cref and Tref) against the "no_noise" versions of Cr and Tr. This results in more accurate measure of RMS error.
 
 
 ## Acknowledgements
