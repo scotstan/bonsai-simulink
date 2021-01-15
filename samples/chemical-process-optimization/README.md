@@ -1,10 +1,13 @@
 # Chemical Process Optimization
 
-The simulink model used for this project simulates an Continuous Stirred Tank Reactor (CSTR). CSTR consists of an exothermic reaction that is controlled setting the temperature of the coolant (separate from the container where the reaction is happening):
+The process considered here is a Continuous Stirred Tank Reactor (CSTR) during transition from low to high conversion rate (high to low residual concentration). Because the chemical reaction is exothermic (produces heat), the reactor temperature must be controlled to prevent a thermal runaway. The control task is complicated by the fact that the process dynamics are nonlinear and transition from stable to unstable and back to stable as the conversion rate increases. The reactor dynamics are modeled in Simulink. The controlled variables (states) are the residual concentration  and the reactor temperature , and the manipulated variable (action) is the temperature  of the coolant circulating in the reactor's cooling jacket.
+
+<img src="img/physics_diagram.png" alt="drawing" width="500"/>
+
+
+This example shows how to use Project Bonsai’s Machine Teaching strategies to learn a controller for a chemical reactor transitioning from low to high conversion rate. For background, see Seborg, D.E. et al., "Process Dynamics and Control", 2nd Ed., 2004, Wiley, pp. 34-36. This sample is largely adapted from the MathWorks’ [Gain scheduled control of a chemical reactor](https://www.mathworks.com/help/control/ug/gain-scheduled-control-of-a-chemical-reactor.html).
 
 <img src="img/chemical_reactor_simulink.png" alt="drawing" width="500"/>
-
-*More information can be found [HERE](https://www.mathworks.com/help/control/ug/gain-scheduled-control-of-a-chemical-reactor.html)
 
 ## Objective
 
@@ -45,7 +48,7 @@ Final set for **bonsai training**:
 
 ## States
 
-Bare minimum for the sim:
+Which matches the set of Observable States used for **bonsai training**
 
 | State | Continuous Value | Units |
 |----------------------------|-------------------------------|-------------------------------|
@@ -54,14 +57,7 @@ Bare minimum for the sim:
 | Tc | [250, 400] | [Kelvin] |
 | Cref | [1, 10] | [kmol/m3] |
 
-Final set of Observable States for **bonsai training**:
-
-| State | Continuous Value | Units | Notes |
-|----------------------------|-------------------------------|-------------------------------|-------------------------------|
-| Cr | [1, 10] | [kmol/m3] |
-| Tr | [250, 400] | [Kelvin] |
-| Tc | [250, 400] | [Kelvin] |
-| Cref | [1, 10] | [kmol/m3] |
+- Note, .ink file defines ranges higher than the ones shown here. That is made in purpose since the brain will try to explore, and thus will hit extreme limits in doing so.
 
 *Tref was removed as observable state since brain to simplify brain's training. With Bonsai's solution we don't need Tref to be able to drive the concentration linearly from one point to the next.
 
@@ -78,6 +74,7 @@ Final set of Observable States for **bonsai training**:
 - Tf: Temperature fed to the CSTR
 - TcEQ(1): Initial absolute coolant temperature
 - Cref: Scheduled concentration for reaction
+  - From starting equilibrium point, linearly moving towards scheduled target
 - Tref: Scheduled temperature for reaction (look-up table used to extract corresponding linear desired transition)
 
 ## Bonsai Configuration Parameters
@@ -114,33 +111,27 @@ Constant gains demonstrate the instabilities and how complex it is to transition
 
 <img src="img/constant_gains.png" alt="drawing" width="500"/>
 
-## Benchmark
+## Benchmark - Tutorial 1
 
 - 0.5641 kmol/m3 rms error
 - 4.6046 degrees K rms error
 
 <img src="img/benchmark.png" alt="drawing" width="500"/>
 
-Note, **"run_benchmark.m" contains the information required to retrieve the benchmark results.**
-
-## Bonsai Brain
-
-Performance averaged over 4 trained brains:
-- 0.4065 kmol/m3 rms error
-- 3.7276 kmol/m3 rms error
-
-Performance for most stable brain (out of 4):
-- 0.2960 kmol/m3 rms error
-- 2.7143 kmol/m3 rms error
-
-<img src="img/most_stable_brain_performance.png" alt="drawing" width="500"/>
+Note, **"run_benchmark.m" can be run to retrieve the benchmark results.**
 
 
-## Benchmark Stretched
+## Benchmark Stretched - Tutorial 2
 
-The gains were designed with a specific region in mind and here we changed the range from [8.57, 2] to [8.57, 1] kmol/m3. 
+For the same scenario used for benchmark, we introduce gaussian noise to the concentration and temperature read-outs (Cr and Tr, respectively). We evaluate how well does the model respond to perturbances (noise).
+
+- 2.9722 kmol/m3 rms error
+- 30.7213 degrees K rms error
 
 <img src="img/benchmark_stretch.png" alt="drawing" width="500"/>
+
+* Note, to not accumulate error due to signal noise when evaluating performance, we campared references (Cref and Tref) against the "no_noise" versions of Cr and Tr. This results in a more accurate measure of RMS error.
+
 
 ## Acknowledgements
 
