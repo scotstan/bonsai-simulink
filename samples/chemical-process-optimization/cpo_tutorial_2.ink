@@ -4,12 +4,15 @@
 # Copyright 2021 Microsoft
 # This code is licensed under MIT license (see LICENSE for details)
 
-# CPO Tutorial 1 - Chemical Process Optimization
+# CPO Tutorial 2 - Chemical Process Optimization
 # This introductory sample demonstrates how to teach a policy for 
 # controlling a chemical process, specifically a CSTR, Continuous
 # Stirred Tank Reactor
 #
-# Note, in this first tutorial, no noise is introduced for learning
+# In this second version of the Chemical Process Optimization, we
+# introduce gaussian noise in the concentration and temperature
+# read-outs. Note, though, we use the "no_noise" states to provide
+# more accurate reward to the brain on how well it is doing.
 
 ###
 
@@ -99,10 +102,10 @@ type SimAction {
 # All iterations within an episode will use the same configuration.
 type SimConfig {
     # Scenario to be run - 4 scenarios: 1-based INT
-    # > 1: Concentration transition -->  8.57 to 2.000 over [0, 10, 36, 45] (minutes)
-    # > 2: Concentration transition -->  8.57 to 2.000 over [0, 2, 28, 45] (minutes)
-    # > 3: Concentration transition -->  8.57 to 2.000 over [0, 10, 20, 45] (minutes)
-    # > 4: Concentration transition -->  8.57 to 1.000 over [0, 10, 36, 45] (minutes)
+    # > 1: Concentration transition -->  8.57 to 2.000 over [0, 10, 36, 45]
+    # > 2: Concentration transition -->  8.57 to 2.000 over [0, 2, 28, 45]
+    # > 3: Concentration transition -->  8.57 to 2.000 over [0, 10, 20, 45]
+    # > 4: Concentration transition -->  8.57 to 1.000 over [0, 10, 36, 45]
     Cref_signal: number<1 .. 4 step 1>,
 
     # Percentage of noise to include
@@ -129,13 +132,13 @@ graph (input: ObservableState) {
             algorithm {
                 Algorithm: "SAC",
             }
-            
+
             # The objective of training is expressed as 2 goals
-            # (1) drive concentration close to reference
+            # (1) drive concentration close to reference -- note, we use no_noise input
             # (2) avoid temperature going beyond limit
             goal (State: SimState) {
                 minimize `Concentration Reference`: 
-                    Math.Abs(State.Cref - State.Cr) in Goal.RangeBelow(0.25)
+                    Math.Abs(State.Cref - State.Cr_no_noise) in Goal.RangeBelow(0.25)
                 avoid `Thermal Runaway`:
                     Math.Abs(State.Tr) in Goal.RangeAbove(400)
             }
@@ -144,13 +147,13 @@ graph (input: ObservableState) {
                 # Specify the configuration parameters that should be varied
                 # from one episode to the next during this lesson.
                 scenario {
-                    # > 1: Concentration transition -->  8.57 to 2.000 over [0, 10, 36, 45] (minutes)
-                    # > 2: Concentration transition -->  8.57 to 2.000 over [0, 2, 28, 45] (minutes)
-                    # > 3: Concentration transition -->  8.57 to 2.000 over [0, 10, 20, 45] (minutes)
-                    # > 4: Concentration transition -->  8.57 to 1.000 over [0, 10, 36, 45] (minutes)
+                    # > 1: Concentration transition -->  8.57 to 2.000 over [0, 10, 36, 45]
+                    # > 2: Concentration transition -->  8.57 to 2.000 over [0, 2, 28, 45]
+                    # > 3: Concentration transition -->  8.57 to 2.000 over [0, 10, 20, 45]
+                    # > 4: Concentration transition -->  8.57 to 1.000 over [0, 10, 36, 45]
                     Cref_signal: 1,
                     # 1-100
-                    noise_percentage: 0,
+                    noise_percentage: 5,
                 }
             }
         }
