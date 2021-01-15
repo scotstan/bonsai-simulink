@@ -45,7 +45,7 @@ Train a brain to replace the thermostat controller for the heating and cooling a
 
 ## Switching between Benchmark and Bonsai Block
 
-The controller block in buildingEnergyManagement.slx allows you to use the same file for both the benchmark thermostat and the bonsai brain. Simply right click on the block, then choose Variant-> Label Mode Active Choice -> Bonsai.
+The controller block in buildingEnergyManagement.slx allows you to use the same file for both the benchmark thermostat and the bonsai brain. Simply double click on the block to choose between the benchmark thermostat and the Bonsai block.
 
 <img src="img/controller.png" alt="drawing" width="700"/>
 
