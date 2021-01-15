@@ -16,7 +16,8 @@ type SimState {
     Troom3: number,
     n_rooms: number,
     Toutdoor: number,
-    total_cost: number
+    total_cost: number,
+    step_cost: number,
 }
 
 type ObservableState {

@@ -6,10 +6,9 @@
 % simulator.
 
 % Load startupFiles 
-% DEFAULT_SIMULATION_RATE = 0.25; % sec 
 init_vars
 
-% load model and enable fast restart
+% load model and enable fast restartd
 mdl = 'buildingEnergyManagement';
 load_system(mdl);
 set_param(mdl, 'FastRestart', 'on');

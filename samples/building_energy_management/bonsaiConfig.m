@@ -20,7 +20,8 @@ function config = bonsaiConfig()
 %     config.bonsaiBlock = "Bonsai";
 
     % % set state and action schemas (overrides data from bonsaiBlock)
-    config.stateSchema = ["Tset","Troom1","Troom2","Troom3","n_rooms","Toutdoor","total_cost"];
+    config.stateSchema = ["Tset","Troom1","Troom2","Troom3","n_rooms", ...
+                          "Toutdoor","total_cost", "step_cost"];
     config.actionSchema = ["command"];
 
     % set config schema
@@ -32,7 +33,7 @@ function config = bonsaiConfig()
     config.timeout = 60;
 
     % path to csv file where episode data should be logged
-    config.outputCSV = "bem-training.csv";
+%     config.outputCSV = "bem-training.csv";
 
     % % display verbose logs
 %     config.verbose = true;
