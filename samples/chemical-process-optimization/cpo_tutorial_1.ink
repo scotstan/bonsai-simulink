@@ -27,12 +27,12 @@ const coolant_temp_deriv_limit_per_min = 10
 const coolant_temp_deriv_limit = Ts*coolant_temp_deriv_limit_per_min
 
 # Limits for concentration
-const conc_max = 10
-const conc_min = 0.5
+const conc_max = 12
+const conc_min = 0.1
 
 # Limits for temperature
-const temp_max = 500
-const temp_min = 40
+const temp_max = 800
+const temp_min = 10
 
 # Coolant temperature control dTc
 const coolant_temp_ini = 297.9798

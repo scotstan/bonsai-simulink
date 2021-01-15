@@ -39,7 +39,7 @@ Final set for **bonsai training**:
 
 | Action | Continuous Value | Units |
 |----------------------------|-------------------------------|-------------------------------|
-| dTc_adjustment | [-5, 5]* | [Kelvin/min] |
+| dTc_adjust | [-5, 5]* | [Kelvin/min] |
 
 *Note, given an additional rule that requires keeping dTc changes at no more than 10 Kelvins/min, we forced dTc_adjustment to be on the [-5, 5] range (for Ts=0.5min)
 
