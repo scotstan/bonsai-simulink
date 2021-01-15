@@ -25,6 +25,6 @@ function episodeStartCallback(mdl, episodeConfig)
     assignin('base', 'Cref_signal', episodeConfig.Cref_signal);
     aux_data = load('CSTRData.mat');
     noise_magnitude = episodeConfig.noise_percentage/100;
-    assignin('base', 'temp_noise', (aux_data.TrEQ(1)-aux_data.TrEQ(5))*noise_magnitude);
-    assignin('base', 'conc_noise', (aux_data.CrEQ(1)-aux_data.CrEQ(5))*noise_magnitude);
+    assignin('base', 'temp_noise', abs(aux_data.TrEQ(1)-aux_data.TrEQ(5))*noise_magnitude);
+    assignin('base', 'conc_noise', abs(aux_data.CrEQ(1)-aux_data.CrEQ(5))*noise_magnitude);
 end

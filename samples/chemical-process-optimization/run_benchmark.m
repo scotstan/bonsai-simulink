@@ -74,8 +74,8 @@ plot_results(tout, simout)
 % Percentage of noise to include
 noise_magnitude = 5/100;
 % Auxiliary params
-conc_noise = (CrEQ(1)-CrEQ(5))*noise_magnitude;
-temp_noise = (TrEQ(1)-TrEQ(5))*noise_magnitude;
+conc_noise = abs(CrEQ(1)-CrEQ(5))*noise_magnitude;
+temp_noise = abs(TrEQ(1)-TrEQ(5))*noise_magnitude;
 
 sim('ChemicalProcessOptimization')
 
