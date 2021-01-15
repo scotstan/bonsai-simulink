@@ -15,7 +15,7 @@ function config = bonsaiConfig
     config.accessKey = getenv('SIM_ACCESS_KEY');
 
     % simulator name, for an unmanaged simulator launched from the desktop to show up on the web
-    config.name = "Simulink Chemical Plant";
+    config.name = "Simulink - Chemical Process";
 
     % path to bonsai block in your model, used to determine state and action schemas
     %config.bonsaiBlock = "ChemicalProcessOptimization/Bonsai";
