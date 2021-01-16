@@ -23,7 +23,18 @@ function episodeStartCallback(mdl, episodeConfig)
     in = in.setVariable('initToutdoor', episodeConfig.input_Toutdoor);
     in = in.setVariable('n_rooms', episodeConfig.input_nRooms);
     in = in.setVariable('nWindows_room1', episodeConfig.input_nWindowsRoom1);
-    in = in.setVariable('nWindows_room2', episodeConfig.input_nWindowsRoom2);
-    in = in.setVariable('nWindows_room3', episodeConfig.input_nWindowsRoom3);
+    
+    % Error handle to default values if user does not provide # of windows
+    try
+        in = in.setVariable('nWindows_room2', episodeConfig.input_nWindowsRoom2);
+    catch
+        in = in.setVariable('nWindows_room2', 6);
+    end
+    try
+        in = in.setVariable('nWindows_room3', episodeConfig.input_nWindowsRoom3);
+    catch
+        in = in.setVariable('nWindows_room3', 6);
+    end
+    
     sim(in);
 end
