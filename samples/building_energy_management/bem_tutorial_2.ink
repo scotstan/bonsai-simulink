@@ -76,8 +76,10 @@ graph (input: ObservableState): SimAction {
             }
 
             goal (State: SimState) {
-                minimize `Cost per Comfort`:
-                    Math.Hypot((State.Tset - TransformState(State).Troom_avg)/120, (State.step_cost - 0)/0.5) in Goal.RangeBelow(1)
+                minimize `Temp Deviation`:
+                    TempDiff(State.Troom1, State.Tset) in Goal.RangeBelow(MaxDeviation)
+                minimize Cost:
+                    State.step_cost in Goal.RangeBelow(0)
             }
 
             lesson `Comfort and Cost in Building` {

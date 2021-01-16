@@ -64,8 +64,10 @@ graph (input: ObservableState): SimAction {
             }
 
             goal (State: SimState) {
-                drive `Cost per Comfort`:
-                    [State.Troom1 / 120, State.step_cost / 0.5] in Goal.Sphere([State.Tset / 120, 0], 1)
+                minimize `Temp Deviation`:
+                    TempDiff(State.Troom1, State.Tset) in Goal.RangeBelow(MaxDeviation)
+                minimize Cost:
+                    State.step_cost in Goal.RangeBelow(0)
             }
 
             lesson `Comfort and Cost` {
