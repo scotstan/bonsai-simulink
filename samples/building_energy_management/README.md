@@ -6,7 +6,7 @@ The process considered here is a thermal model of rooms in a building with a cen
 
 This example shows how to use Project Bonsai’s Machine Teaching strategies to learn a controller to balance comfort and cost for heating and cooling rooms with various equivalent thermal resistances and outdoor environment. This sample is largely adapted from the [MathWorks' Thermal Model of A House](https://www.mathworks.com/help/simulink/slref/thermal-model-of-a-house.html)
 
-<img src="img/model_integration.png" alt="drawing" width="800"/>
+<img src="img/model_integration.PNG" alt="drawing" width="800"/>
 
 ## Action
 
