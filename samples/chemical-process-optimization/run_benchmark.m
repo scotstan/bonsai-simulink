@@ -17,6 +17,7 @@ open_system('ChemicalProcessOptimization')
 target_t = [0; 10; 36; 45];
 target_Cr = [8.57; 8.57; 2; 2]; 
 signalbuilder('ChemicalProcessOptimization/Target concentration', 'set', 'Signal 1', 'Group 1', target_t, target_Cr);
+
 %% Using Constant Gains (No Lookup)
 
 % PI Controller
@@ -69,7 +70,7 @@ disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
 plot_results(tout, simout)
 
-%% Benchmark (stretch - 5% noise)
+%% Benchmark (with 5% noise)
 
 % Percentage of noise to include
 noise_magnitude = 5/100;
@@ -126,5 +127,5 @@ function [] = plot_results(tout, simout)
     plot(tout, simout(:, 6))
     hold off
     legend('Raw', 'Saturated')
-    grid, title('Coolant temperature'), ylabel('dTc_total')
+    grid, title('Coolant temperature'), ylabel('dTc')
 end
