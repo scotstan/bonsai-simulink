@@ -25,6 +25,16 @@ function episodeStartCallback(mdl, episodeConfig)
     assignin('base', 'initToutdoor', episodeConfig.input_Toutdoor);
     assignin('base', 'n_rooms', episodeConfig.input_nRooms);
     assignin('base', 'nWindows_room1', episodeConfig.input_nWindowsRoom1);
-    assignin('base', 'nWindows_room2', episodeConfig.input_nWindowsRoom2);
-    assignin('base', 'nWindows_room3', episodeConfig.input_nWindowsRoom3);
+    
+    % Error handle to default values if user does not provide # of windows
+    try
+        assignin('base', 'nWindows_room2', episodeConfig.input_nWindowsRoom2);
+    catch
+        assignin('base', 'nWindows_room2', 6);
+    end
+    try
+        assignin('base', 'nWindows_room3', episodeConfig.input_nWindowsRoom3);
+    catch
+        assignin('base', 'nWindows_room3', 6);
+    end
 end

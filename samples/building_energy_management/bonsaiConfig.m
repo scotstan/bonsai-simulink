@@ -8,13 +8,13 @@ function config = bonsaiConfig()
     % config.url = "https://api.bons.ai";
 
     % bonsai workspace
-    config.workspace = "<workspace_id>";
+    config.workspace = "<your workspace here>";
 
     % access key, generated from https://beta.bons.ai/brains/accounts/settings
-    config.accessKey = "<key>";
-
+    config.accessKey = "<your access key here>"
+    
     % simulator name, for an unmanaged simulator launched from the desktop to show up on the web
-    config.name = "BuildingEnergyManagement";
+    config.name = "Simulink - Building Energy Management";
 
     % path to bonsai block in your model, used to determine state and action schemas
 %     config.bonsaiBlock = "Bonsai";
