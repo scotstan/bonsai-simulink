@@ -5,22 +5,16 @@
         {
             "n_rooms": 1,
             "nWindows_room1": 6,
-            "nWindows_room2": 6,
-            "nWindows_room3": 6,
             "input_Toutdoor": 60
         },
         {
             "n_rooms": 1,
             "nWindows_room1": 6,
-            "nWindows_room2": 6,
-            "nWindows_room3": 6,
             "input_Toutdoor": 95
         },
         {
             "n_rooms": 1,
             "nWindows_room1": 6,
-            "nWindows_room2": 6,
-            "nWindows_room3": 6,
             "input_Toutdoor": 35
         },
         {
