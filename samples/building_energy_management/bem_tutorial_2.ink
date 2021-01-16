@@ -18,7 +18,7 @@ type SimState {
     n_rooms: number<1,2,3>,
     Toutdoor: number<-20 .. 120>,
     total_cost: number<0 .. 100>,
-    step_cost: number<0 .. 5>,
+    step_cost: number<0 .. 0.5>,
 }
 
 # This is the subset of the simulator state that is observable by the AI.
@@ -26,7 +26,7 @@ type ObservableState {
     Tset: number<60 .. 86>,
     Troom_avg: number<-20 .. 120>,
     Toutdoor: number<-20 .. 120>,
-    step_cost: number<0 .. 5>,
+    step_cost: number<0 .. 0.5>,
 }
 
 # This is the action that is sent to the simulator.
@@ -77,7 +77,7 @@ graph (input: ObservableState): SimAction {
 
             goal (State: SimState) {
                 minimize `Cost per Comfort`:
-                    Math.Hypot((State.Tset - TransformState(State).Troom_avg)/120, (State.step_cost - 0)/5) in Goal.RangeBelow(1)
+                    Math.Hypot((State.Tset - TransformState(State).Troom_avg)/120, (State.step_cost - 0)/0.5) in Goal.RangeBelow(1)
             }
 
             lesson `Comfort and Cost in Building` {
