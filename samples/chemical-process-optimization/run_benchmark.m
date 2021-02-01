@@ -41,6 +41,9 @@ disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 plot_results(tout, simout)
 
 %% Benchmark
+
+% Copyright 1990-2013 The MathWorks, Inc.
+
 % To prevent thermal runaway while ramping down the residual concentration,
 % use feedback control to adjust the coolant temperature |Tc| based on
 % measurements of the residual concentration |Cr| and reactor temperature |Tr|.
