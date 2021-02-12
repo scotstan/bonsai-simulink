@@ -5,6 +5,8 @@
 
 function BonsaiConfigurePrediction(config, mdl, episodeStartCallback)
 
+    config.predict = true;
+    
     % configure session
     session = bonsai.Session.getInstance();
     session.configure(config, mdl, episodeStartCallback, false);

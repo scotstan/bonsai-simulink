@@ -1,7 +1,7 @@
 % Copyright (c) Microsoft Corporation.
 % Licensed under the MIT License.
 
-function config = bonsaiConfig(predict)
+function config = bonsaiConfig()
 
     config = BonsaiConfiguration();
 
@@ -37,7 +37,7 @@ function config = bonsaiConfig(predict)
     % % display verbose logs
     % config.verbose = true;
 
-    config.predict = predict;
-%     config.predictionUrl = '<your prediction url>';
+    % Set prediction url. Defaults to localhost:5000
+    % config.predictionUrl = '<your prediction url>';
 
 end

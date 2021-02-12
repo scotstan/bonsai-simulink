@@ -11,7 +11,7 @@ load_system(mdl);
 set_param(mdl, 'FastRestart', 'off');
 
 % run training
-config = bonsaiConfig(true);
+config = bonsaiConfig();
 BonsaiConfigurePrediction(config, mdl, @episodeConfigCallback);
 
 % any initial data required for compilation should go here
