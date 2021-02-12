@@ -122,7 +122,8 @@ classdef Session < handle
             end
 
 
-        end 
+        end
+
         function startNewSession(obj)
 
             % reset session
@@ -151,7 +152,7 @@ classdef Session < handle
                 % update session data
                 obj.sessionId = r.sessionId;
                 obj.lastEvent = bonsai.EventTypes.Registered;
-                end
+            end
         end
 
         function keepGoing = startNewEpisode(obj)

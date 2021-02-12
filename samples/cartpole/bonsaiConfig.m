@@ -38,6 +38,6 @@ function config = bonsaiConfig(predict)
     % config.verbose = true;
 
     config.predict = predict;
-    config.predictionUrl = '<your prediction url>';
+%     config.predictionUrl = '<your prediction url>';
 
 end

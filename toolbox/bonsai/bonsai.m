@@ -125,15 +125,15 @@ function Outputs(block)
         block.OutputPort(1).Data = bonsai.Utilities.getStructValuesInOrder(session.lastAction, session.config.actionSchema);
     end
 
-if session.isPredictingSession == false
-    % signal a reset if last event was episode finish or unregister
-    if eq(session.lastEvent, bonsai.EventTypes.EpisodeFinish) || ...
-        eq(session.lastEvent, bonsai.EventTypes.Unregister)
-        block.OutputPort(2).Data = true;
-    else
-        block.OutputPort(2).Data = false;
+    if session.isPredictingSession == false
+        % signal a reset if last event was episode finish or unregister
+        if eq(session.lastEvent, bonsai.EventTypes.EpisodeFinish) || ...
+            eq(session.lastEvent, bonsai.EventTypes.Unregister)
+            block.OutputPort(2).Data = true;
+        else
+            block.OutputPort(2).Data = false;
+        end
     end
-end
 end
 
 function Terminate(block)
