@@ -6,21 +6,12 @@ function config = bonsaiConfig(predict)
     config = BonsaiConfiguration();
 
     % % override api url, defaults to "https://api.bons.ai"
-<<<<<<< HEAD
-    config.url = "https://api.bons.ai";
+    % config.url = "https://api.bons.ai";
 
     % bonsai workspace ID, see https://preview.bons.ai/accounts/settings
     config.workspace = "<your workspace ID here>";
 
     % access key, generated from https://preview.bons.ai/accounts/settings
-=======
-    % config.url = "https://api.bons.ai";
-
-    % bonsai workspace
-    config.workspace = "<your workspace here>";
-
-    % access key, generated from https://beta.bons.ai/brains/accounts/settings
->>>>>>> pushing configs
     config.accessKey = "<your access key here>";
 
     % simulator name, for an unmanaged simulator launched from the desktop to show up on the web
@@ -47,10 +38,5 @@ function config = bonsaiConfig(predict)
     % config.verbose = true;
 
     config.predict = predict;
-<<<<<<< HEAD
     config.predictionUrl = 'http://localhost:5100/v1/prediction';
-=======
-    config.predictionUrl = '<your prediction url>';
->>>>>>> pushing configs
-
 end
