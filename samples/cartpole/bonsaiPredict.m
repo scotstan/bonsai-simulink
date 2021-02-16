@@ -1,5 +1,5 @@
 % Script to configure prediction of your trained Bonsai brain. Prediction can be
-% run in 3 steps:
+% run in a few steps:
 %   1. export your brain
 %   2. start exported brain
 %   3. configure the endpoint (defaults to localhost:5000)
