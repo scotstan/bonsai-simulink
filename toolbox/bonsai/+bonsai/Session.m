@@ -281,6 +281,7 @@ classdef Session < handle
 
     function getNextPrediction(obj, time, state, halted)
 
+            % TODO: Fix CSV writer for prediction.
             % write session data to file
             %  if obj.config.csvWriterEnabled()
             %    obj.csvWriter.addEntry(time, obj.lastEvent.str, state, halted, obj.lastAction, obj.episodeConfig);
