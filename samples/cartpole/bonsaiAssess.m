@@ -13,7 +13,7 @@ load_system(mdl);
 set_param(mdl, 'FastRestart', 'off');
 
 % configure assessment
-config = bonsaiConfig(false);
+config = bonsaiConfig();
 BonsaiConfigureAssessment(config, mdl, @episodeStartCallback);
 
 % any initial data required for compilation should go here
