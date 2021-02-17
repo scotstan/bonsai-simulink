@@ -19,4 +19,4 @@ open_system(moab_mdl);
 
 % configure assessment
 config = bonsaiConfig;
-BonsaiConfigurePrediction(config, moab_mdl, @episodeStartCallback);
+BonsaiConfigurePrediction(config, moab_mdl);

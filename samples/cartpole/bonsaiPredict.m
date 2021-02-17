@@ -12,7 +12,7 @@ set_param(mdl, 'FastRestart', 'off');
 
 % run training
 config = bonsaiConfig;
-BonsaiConfigurePrediction(config, mdl, @episodeConfigCallback);
+BonsaiConfigurePrediction(config, mdl);
 
 % any initial data required for compilation should go here
 initialPos = 0;
