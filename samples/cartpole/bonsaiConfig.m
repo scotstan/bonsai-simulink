@@ -8,10 +8,10 @@ function config = bonsaiConfig
     % % override api url, defaults to "https://api.bons.ai"
     % config.url = "https://api.bons.ai";
 
-    % bonsai workspace
-    config.workspace = "<your workspace here>";
+    % bonsai workspace ID, see https://preview.bons.ai/accounts/settings
+    config.workspace = "<your workspace ID here>";
 
-    % access key, generated from https://beta.bons.ai/brains/accounts/settings
+    % access key, generated from https://preview.bons.ai/accounts/settings
     config.accessKey = "<your access key here>";
 
     % simulator name, for an unmanaged simulator launched from the desktop to show up on the web
