@@ -1,7 +1,7 @@
 % Copyright (c) Microsoft Corporation.
 % Licensed under the MIT License.
 
-% function to configure assessment of a Bonsai brain
+% function to configure prediction of a Bonsai brain
 
 function BonsaiConfigurePrediction(config, mdl)
 
