@@ -17,6 +17,6 @@ set_param(moab_mdl, 'FastRestart', 'off');
 % load model
 open_system(moab_mdl);
 
-% configure assessment
+% configure prediction
 config = bonsaiConfig;
 BonsaiConfigurePrediction(config, moab_mdl);

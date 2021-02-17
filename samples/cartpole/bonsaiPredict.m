@@ -10,7 +10,7 @@ mdl = 'cartpole_discrete';
 load_system(mdl);
 set_param(mdl, 'FastRestart', 'off');
 
-% run training
+% configure prediction
 config = bonsaiConfig;
 BonsaiConfigurePrediction(config, mdl);
 
