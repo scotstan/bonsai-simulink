@@ -1,3 +1,6 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
 % Script to configure prediction of your trained Bonsai brain. Prediction can be
 % run in a few steps:
 %   1. export your brain
@@ -6,13 +9,14 @@
 %   4. run this script to configure a predicting session and set required variables
 %   5. open the model and click "Run"
 
-mdl = 'cartpole_discrete';
-load_system(mdl);
-set_param(mdl, 'FastRestart', 'off');
+initializeMoab;
 
-% run training
-config = bonsaiConfig();
-BonsaiConfigurePrediction(config, mdl, @episodeConfigCallback);
+% see the visualization
+set_param(moab_mdl, 'FastRestart', 'off');
 
-% any initial data required for compilation should go here
-initialPos = 0;
+% load model
+open_system(moab_mdl);
+
+% configure assessment
+config = bonsaiConfig;
+BonsaiConfigurePrediction(config, moab_mdl, @episodeStartCallback);
