@@ -41,7 +41,7 @@ The **bonsaiConfig** script contains the BonsaiConfig functions. This is used to
 
 ### bonsaiTrain.m
 
-**bonsaiTrain.m** validates that the model has all the appropriate dependencies in the project folder and begins training. Note that `mdl` defines the model file, and fast restart is turned on. The script validates the setings in **bonsaiConfig.m**.
+**bonsaiTrain.m** validates that the model has all the appropriate dependencies in the project folder and begins training. Note that `mdl` defines the model file, and fast restart is turned on. The script validates the settings in **bonsaiConfig.m**.
 
 Run **bonsaiTrain.m** once now to ensure the Simulink toolbox is hooked up correctly. If it succeeds, the command window should show `Sim successfully registered`.
 
