@@ -21,6 +21,8 @@ classdef BonsaiConfiguration < handle
         timeout
         outputCSV char
         verbose logical
+        predict logical
+    	predictionUrl char
     end
 
     properties (Constant, Access = private)
@@ -46,6 +48,8 @@ classdef BonsaiConfiguration < handle
             obj.timeout = 60;
             obj.outputCSV = '';
             obj.verbose = false;
+            obj.predict = false;
+	        obj.predictionUrl = 'http://localhost:5000/v1/prediction'; 
         end
 
         % set properties from the environment, if present
@@ -101,6 +105,10 @@ classdef BonsaiConfiguration < handle
         end
 
         % helper functions
+        function obj = set.predictionUrl(obj, predictionUrl)
+            obj.predictionUrl = char(predictionUrl);
+        end
+
 
         function enabled = csvWriterEnabled(obj)
             enabled = ~strcmp(obj.outputCSV, '');

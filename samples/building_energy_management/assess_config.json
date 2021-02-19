@@ -1,0 +1,42 @@
+{
+    "version": "1.0.0",
+    "recipe": {},
+    "episodeConfigurations": [
+        {
+            "n_rooms": 1,
+            "nWindows_room1": 6,
+            "input_Toutdoor": 60
+        },
+        {
+            "n_rooms": 1,
+            "nWindows_room1": 6,
+            "input_Toutdoor": 95
+        },
+        {
+            "n_rooms": 1,
+            "nWindows_room1": 6,
+            "input_Toutdoor": 35
+        },
+        {
+            "n_rooms": 3,
+            "nWindows_room1": 3,
+            "nWindows_room2": 6,
+            "nWindows_room3": 12,
+            "input_Toutdoor": 60
+        },
+        {
+            "n_rooms": 3,
+            "nWindows_room1": 3,
+            "nWindows_room2": 6,
+            "nWindows_room3": 12,
+            "input_Toutdoor": 95
+        },
+        {
+            "n_rooms": 3,
+            "nWindows_room1": 3,
+            "nWindows_room2": 6,
+            "nWindows_room3": 12,
+            "input_Toutdoor": 35
+        }
+  ]
+}
