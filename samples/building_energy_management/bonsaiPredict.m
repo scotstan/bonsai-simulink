@@ -12,7 +12,7 @@ mdl = 'buildingEnergyManagement';
 load_system(mdl);
 set_param(mdl, 'FastRestart', 'off');
 
-% configure assessment
+% configure prediction
 config = bonsaiConfig;
 BonsaiConfigurePrediction(config, mdl);
 
