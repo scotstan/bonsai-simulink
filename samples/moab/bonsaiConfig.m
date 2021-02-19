@@ -5,7 +5,7 @@ function config = bonsaiConfig()
     config = BonsaiConfiguration();
     
     % bonsai workspace ID, see https://preview.bons.ai/accounts/settings
-    config.workspace = "<your workspace here>";
+    config.workspace = "<your workspace ID here>";
 
     % access key, generated from https://preview.bons.ai/accounts/settings
     config.accessKey = "<your access key here>";
