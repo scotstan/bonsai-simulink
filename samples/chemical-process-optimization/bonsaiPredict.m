@@ -6,15 +6,14 @@
 %   4. run this script to configure a predicting session and set required variables
 %   5. open the model and click "Run"
 
-% load model and disable fast restart
+% Initial data required for compilation should be initialized
 init_vars
-mdl = 'buildingEnergyManagement';
+
+% load model and disable fast restart
+mdl = 'ChemicalProcessOptimization';
 load_system(mdl);
 set_param(mdl, 'FastRestart', 'off');
 
 % configure prediction
 config = bonsaiConfig;
-BonsaiConfigurePrediction(config, mdl);
-
-% any initial data required for compilation should go here
-initToutdoor = 60;
+BonsaiConfigurePrediction(config, mdl, @episodeStartCallback);
