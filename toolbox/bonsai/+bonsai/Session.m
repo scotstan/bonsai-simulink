@@ -13,7 +13,7 @@ classdef Session < handle
         config BonsaiConfiguration
         sessionId char
         isTrainingSession logical
-        isPredictingSession logical
+        isExportSession logical
         lastSequenceId double
         lastEvent bonsai.EventTypes
         lastAction struct
@@ -27,7 +27,7 @@ classdef Session < handle
         logger bonsai.Logger
         csvWriter bonsai.CSVWriter
         episodeCount double
-        predictionClient bonsai.PredictionClient
+        exportedBrainClient bonsai.ExportedBrainClient
     end
 
     methods (Static)
@@ -109,16 +109,16 @@ classdef Session < handle
             % set session properties
             obj.config = config;
             obj.model = char(mdl);
-            if ~config.predict
+            if ~config.export
                 obj.episodeStartCallback = episodeStartCallback;
                 obj.isTrainingSession = isTrainingSession;
-                obj.isPredictingSession = false;
+                obj.isExportSession = false;
                 obj.client = bonsai.Client(config);
                 obj.resetSessionProperties();
             else
                 obj.isTrainingSession = false;
-                obj.isPredictingSession = true;
-                obj.predictionClient = bonsai.PredictionClient(config);
+                obj.isExportSession = true;
+                obj.exportedBrainClient = bonsai.ExportedBrainClient(config);
             end
 
 
@@ -137,7 +137,7 @@ classdef Session < handle
                 obj.logger.verboseLog('CSV Writer disabled');
             end
 
-            if  ~obj.isPredictingSession
+            if  ~obj.isExportSession
                 % register sim and reset episode count
                 r = obj.client.registerSimulator(obj.config.registrationJson());
                 obj.episodeCount = 0;
@@ -206,7 +206,7 @@ classdef Session < handle
                 obj.client.deleteSimulator(obj.sessionId);
             end
 
-            if ~obj.isPredictingSession
+            if ~obj.isExportSession
                 % reset session and close csv
                 obj.resetSessionProperties();
                 if obj.config.csvWriterEnabled()
@@ -279,9 +279,9 @@ classdef Session < handle
 
     
 
-    function getNextPrediction(obj, time, state, halted)
+    function getNextExportedBrainAction(obj, time, state, halted)
 
-            % TODO: Fix CSV writer for prediction.
+            % TODO: Fix CSV writer for exported brains.
             % write session data to file
             %  if obj.config.csvWriterEnabled()
             %    obj.csvWriter.addEntry(time, obj.lastEvent.str, state, halted, obj.lastAction, obj.episodeConfig);
@@ -291,7 +291,7 @@ classdef Session < handle
             simState = containers.Map(obj.config.stateSchema, state);
 
             data = jsonencode(simState);
-            r = obj.predictionClient.getNextEvent(data);
+            r = obj.exportedBrainClient.getNextEvent(data);
 
             actionString = jsonencode(r);
             obj.logger.log(['Received event: Predict, actions: ', actionString]);

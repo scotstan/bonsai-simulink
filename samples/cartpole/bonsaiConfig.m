@@ -37,7 +37,7 @@ function config = bonsaiConfig
     % % display verbose logs
     % config.verbose = true;
 
-    % Set prediction url. Defaults to localhost:5000
-    % config.predictionUrl = '<your prediction url>';
+    % Set exported brain url. Defaults to localhost:5000
+    % config.exportedBrainUrl = '<your exported brain url>';
 
 end

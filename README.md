@@ -14,7 +14,7 @@ Each sample contains several files:
 1. **bonsaiConfig.m**
 2. **bonsaiTrain.m**
 3. **bonsaiAssess.m**
-4. **bonsaiPredict.m**
+4. **bonsaiExportConnect.m**
 5. **your_model.slx** (cartpole_discrete.slx or MOAB.slx in the case of the samples)
 
 
@@ -52,9 +52,9 @@ Run **bonsaiTrain.m** once now to ensure the Simulink toolbox is hooked up corre
 **bonsaiAssess.m** sets the values necessary for a user to initiate assessment of a trained model.
 
 
-### bonsaiPredict.m
+### bonsaiExportConnect.m
 
-**bonsaiPredict.m** sets the values necessary for a user to use prediction with a trained model. 
+**bonsaiExportConnect.m** sets the values necessary for a user to use an exported brain with a trained model. 
 
 
 ## Configuring the Bonsai Toolbox

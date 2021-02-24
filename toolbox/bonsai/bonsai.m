@@ -18,7 +18,7 @@ function setup(block)
         if ~strcmp(simStatus, 'stopped')
 
             % if not in a training session, start assessment
-            if ~session.isTrainingSession && ~session.isPredictingSession
+            if ~session.isTrainingSession && ~session.isExportSession
 
                 % start assessment session
                 logger = bonsai.Logger('BonsaiBlock', session.config.verbose);
@@ -101,7 +101,7 @@ function Update(block)
     state = block.InputPort(1).Data;
     halted = block.InputPort(2).Data;
 
-    if session.isPredictingSession == false
+    if session.isExportSession == false
         % get next event (unless last event was EpisodeFinish or Unregister)
         if eq(session.lastEvent, bonsai.EventTypes.EpisodeFinish) || ...
             eq(session.lastEvent, bonsai.EventTypes.Unregister)
@@ -110,7 +110,7 @@ function Update(block)
             session.getNextEvent(block.CurrentTime, state, halted);
         end
     else
-        session.getNextPrediction(block.CurrentTime, state, halted)
+        session.getNextExportedBrainAction(block.CurrentTime, state, halted)
     end
 end
 
@@ -125,7 +125,7 @@ function Outputs(block)
         block.OutputPort(1).Data = bonsai.Utilities.getStructValuesInOrder(session.lastAction, session.config.actionSchema);
     end
 
-    if session.isPredictingSession == false
+    if session.isExportSession == false
         % signal a reset if last event was episode finish or unregister
         if eq(session.lastEvent, bonsai.EventTypes.EpisodeFinish) || ...
             eq(session.lastEvent, bonsai.EventTypes.Unregister)
