@@ -11,7 +11,7 @@ function config = bonsaiConfig()
     config.workspace = "<your workspace here>";
 
     % access key, generated from https://preview.bons.ai/brains/accounts/settings
-    config.accessKey = "<your access key here>"
+    config.accessKey = "<your access key here>";
     
     % simulator name, for an unmanaged simulator launched from the desktop to show up on the web
     config.name = "Simulink - Building Energy Management";
