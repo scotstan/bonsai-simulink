@@ -9,7 +9,7 @@ init_vars
 % load model and enable fast restart
 mdl = 'seEstimatingAssemblyLineThroughput';
 load_system(mdl);
-set_param(mdl, 'FastRestart', 'off');
+set_param(mdl, 'FastRestart', 'on');
 
 % run training
 config = bonsaiConfig;
