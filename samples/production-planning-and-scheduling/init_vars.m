@@ -1,7 +1,7 @@
 % Initialization of variables used in the model
 excelFile   = 'seEstimatingAssemblyLineThroughput.xlsx';
 
-schedule    = xlsread(excelFile, 'MfgSchedule');
+% schedule    = xlsread(excelFile, 'MfgSchedule');
 optimes     = xlsread(excelFile, 'OperationTimes');
 parameters  = xlsread(excelFile, 'Parameters');
 
@@ -12,4 +12,4 @@ scheduleID = 1;
 numMfgWorkers = 3;
 numInspectWorkers = 3;
 
-schedule = schedule(:, 2);
+% schedule = schedule(:, 2);
