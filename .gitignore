@@ -6,3 +6,6 @@
 **/*.slx.autosave
 **/*.slx.original
 **/.DS_store
+
+# Visual Studio cache/options directory
+.vs/
