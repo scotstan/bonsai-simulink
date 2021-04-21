@@ -25,14 +25,17 @@ function episodeStartCallback(~, episodeConfig)
     
     logger.log('Starting pure MATLAB Episode');
     
-    iteration = 0;
+    iteration = 1;
     halted = false;
     while true
-        iteration = iteration + 1;
         session.getNextEvent(iteration, simulation.getState(), halted);
-        if session.lastEvent ~= bonsai.EventTypes.EpisodeStep
+        if session.lastEvent == bonsai.EventTypes.EpisodeStep
+            iteration = iteration + 1;
+            halted = simulation.step(session.lastAction);
+        elseif session.lastEvent == bonsai.EventTypes.Idle
+            % no action -- stand by for next event
+        else
             return
         end
-        halted = simulation.step(session.lastAction);
     end
 end
