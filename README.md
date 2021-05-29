@@ -147,11 +147,11 @@ Once you have successfully trained your AI and you have reached a point of goal 
 
 The cartpole sample in [samples/cartpole/](samples/cartpole/) contains model and code based on copyrighted example files from The MathWorks, Inc. and is licensed by the terms outlined in [samples/cartpole/XSLA.txt](samples/cartpole/XSLA.txt).
 
-## Other Sample Models
-
-#### MATLAB
+## MATLAB
 
 The [Pure MATLAB](samples/pure-matlab/README.md) sample demonstrates how to create a simulation via MATLAB code without a Simulink model. Although Simulink is commonly used to create simulations, this simple demonstrates an alternative approach using MATLAB functions.
+
+## Other Sample Models
 
 #### Building Energy Management
 
