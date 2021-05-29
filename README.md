@@ -143,12 +143,27 @@ Once you have successfully trained your AI and you have reached a point of goal 
 
 >Note: You do not need to export your brain to test the AI that you have trained, necessarily. You may elect to use the 'assessment' feature (aka next to export, select "Start Assessment" on the Train tab) which will test the AI.
 
-## Uploading and Scaling Your Model
-
-
 ## Cartpole Sample Model
 
 The cartpole sample in [samples/cartpole/](samples/cartpole/) contains model and code based on copyrighted example files from The MathWorks, Inc. and is licensed by the terms outlined in [samples/cartpole/XSLA.txt](samples/cartpole/XSLA.txt).
+
+## Other Sample Models
+
+#### Pure MATLAB
+
+The [Pure MATLAB](samples/pure-matlab/README.md) sample demonstrates how to create a simulation via MATLAB code without a Simulink model. Although Simulink is commonly used to create simulations, this simple demonstrates an alternative approach using MATLAB functions.
+
+#### Building Energy Management
+
+The [Building Energy Management](samples/building_energy_management/README.md) sample optimizes central heating and cooling systems for comfort while minimizing cost.
+
+#### Chemical Process Optimization
+
+The [Chemical Process Optimization](samples/chemical-process-optimization/README.md) sample transitions a Continuous Stirred Tank Reactor (CSTR) from low to high conversion rate while controlling temperature to prevent a thermal runaway.
+
+#### Moab
+
+The [Moab](samples/moab/README.md) sample controls a machine teaching robot to balance a ball on a tilting plate.
 
 ## Microsoft Open Source Code of Conduct
 
