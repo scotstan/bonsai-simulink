@@ -149,7 +149,7 @@ The cartpole sample in [samples/cartpole/](samples/cartpole/) contains model and
 
 ## Other Sample Models
 
-#### Pure MATLAB
+#### MATLAB
 
 The [Pure MATLAB](samples/pure-matlab/README.md) sample demonstrates how to create a simulation via MATLAB code without a Simulink model. Although Simulink is commonly used to create simulations, this simple demonstrates an alternative approach using MATLAB functions.
 
