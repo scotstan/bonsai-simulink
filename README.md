@@ -143,27 +143,13 @@ Once you have successfully trained your AI and you have reached a point of goal 
 
 >Note: You do not need to export your brain to test the AI that you have trained, necessarily. You may elect to use the 'assessment' feature (aka next to export, select "Start Assessment" on the Train tab) which will test the AI.
 
-## Cartpole Sample Model
+### Samples
 
-The cartpole sample in [samples/cartpole/](samples/cartpole/) contains model and code based on copyrighted example files from The MathWorks, Inc. and is licensed by the terms outlined in [samples/cartpole/XSLA.txt](samples/cartpole/XSLA.txt).
-
-## MATLAB
-
-The [Pure MATLAB](samples/pure-matlab/README.md) sample demonstrates how to create a simulation via MATLAB code without a Simulink model. Although Simulink is commonly used to create simulations, this sample demonstrates an alternative approach using MATLAB functions.
-
-## Other Sample Models
-
-#### Building Energy Management
-
-The [Building Energy Management](samples/building_energy_management/README.md) sample optimizes central heating and cooling systems for comfort while minimizing cost.
-
-#### Chemical Process Optimization
-
-The [Chemical Process Optimization](samples/chemical-process-optimization/README.md) sample transitions a Continuous Stirred Tank Reactor (CSTR) from low to high conversion rate while controlling temperature to prevent a thermal runaway.
-
-#### Moab
-
-The [Moab](samples/moab/README.md) sample controls a machine teaching robot to balance a ball on a tilting plate.
+- [**Action-State MATLAB template**](samples/pure-matlab/README.md): a pure MATLAB sample using MATLAB code without a Simulink model that demonstrates how to use states and actions that contain arrays.
+- [**Building Energy Management**](samples/building_energy_management/README.md): Simulink model of an HVAC system that includes central heating and cooling and Inkling file that teaches the system to optimize occupant comfort while minimizing cost.
+- [**Cartpole**](samples/cartpole/README.md): copyrighted model and code example files from MathWorks, Inc. Use of these files is licensed under the terms outlined in [samples/cartpole/XSLA.txt](samples/cartpole/XSLA.txt).
+- [**Chemical Process Optimization**](samples/chemical-process-optimization/README.md): Simulink model of a Continuous Stirred Tank Reactor (CSTR) and Inkling file that teaches the system to transition from low to high conversion rates while controlling temperature to prevent thermal runaway.
+- [**Moab**](samples/moab/README.md): Simulink model of a machine teaching robot controlling a tilting plate and Inkling file that teaches the robot to balance a ball in the center of the plate.
 
 ## Microsoft Open Source Code of Conduct
 
