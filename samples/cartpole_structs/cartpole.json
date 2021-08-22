@@ -1,0 +1,10 @@
+{
+    "cart": {
+        "position": 0,
+        "velocity": 0
+    },
+    "pole": {
+        "angle": 0,
+        "rotation": 0
+    }
+}
