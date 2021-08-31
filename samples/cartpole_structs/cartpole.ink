@@ -4,20 +4,26 @@
 inkling "2.0"
 
 using Math
+using Goal
 
 # thresholds
 const PositionThreshold = 4.0
 const AngleThreshold = 0.26
 
 type SimState {
-    position: number,
-    velocity: number,
-    angle: number,
-    rotation: number
+    myArray:number[5],
+    cart: {
+        position: number,
+        velocity: number,
+    },
+    pole: {
+        angle: number,
+        rotation: number,
+    }
 }
 
 type Action {
-    command: number<-10.0, 10.0,>
+    command: number<-10,10,>
 }
 
 type CartPoleConfig {
@@ -36,11 +42,11 @@ function Terminal(obs: SimState) {
 }
 
 function FellOver(obs: SimState) {
-    return Math.Abs(obs.angle) > AngleThreshold
+    return Math.Abs(obs.pole.angle) > AngleThreshold
 }
 
 function OutOfRange(obs: SimState) {
-    return Math.Abs(obs.position) > PositionThreshold
+    return Math.Abs(obs.cart.position) > PositionThreshold
 }
 
 simulator CartpoleSimulator(action: Action, config: CartPoleConfig): SimState {
@@ -54,7 +60,7 @@ graph (input: SimState): Action {
             terminal Terminal
             lesson balancing {
                 scenario {
-                    pos: 0.0
+                    pos: 0
                 }
             }
         }

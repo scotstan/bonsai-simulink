@@ -16,14 +16,11 @@ function RunBonsaiTraining(mdl, config, episodeStartCallback)
     runException = [];
     try
         
-        while ~eq(bonsaiApi.lastEvent, bonsai.EventTypes.Unregister)
-            
+        while ~eq(bonsaiApi.lastEvent, bonsai.EventTypes.Unregister)            
             simState = evalin('base','simState');
             bonsaiApi.getNext(simState); 
         end
-        
-        disp("cant keep going");
-        
+
     catch runException
         % exception still gets checked below
         disp(runException);

@@ -35,6 +35,3 @@ aBusVar = evalin('base',brainActionBus.busName);
 ActionBus = copy(aBusVar);
 evalin('base',['clear ' brainActionBus.busName])
 clear aBusVar brainActionBus;
- 
-% other init variables -- in this case, for episode configuration
-initialPos = 0;

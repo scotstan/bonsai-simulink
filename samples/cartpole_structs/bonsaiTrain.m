@@ -1,58 +1,27 @@
 % Copyright (c) Microsoft Corporation.
 % Licensed under the MIT License.
 
-% This sample demonstrates how to create a simulation via MATLAB
-% code without using a Simulink model.
+%initialize the buses
+initModel;
 
-% Main entrypoint for training a Bonsai brain. After starting this script you
-% must begin training your brain in the web, selecting the "Pure MATLAB"
-% simulator.
-
-mdl = 'cartpole_discrete_api';
+mdl = 'cartpole_discrete_api_loop';
 load_system(mdl);
-%set_param(mdl, 'FastRestart', 'on');
+set_param(mdl, 'FastRestart', 'off');
 
-%set the default values
-fid = fopen('cartpole.json');
-raw = fread(fid, inf);
-str = char(raw');
-simState = jsondecode(str);
-
-action = 0;
+% other init variables -- in this case, for episode configuration
 initialPos = 0;
-initialSimState = simState;
-Tmp = get_param(bdroot,'SimulationTime');
-Ts = 0;
 
 config = bonsaiConfig;
-bonsaiApi = BonsaiApiClient(config);
-bonsaiApi.start(initialSimState, @episodeStart, @episodeStep, @getState, @episodeFinish);
+RunBonsaiTraining(mdl, config, @episodeStart);
+
 
 % callback for running model with provided episode configuration
-function episodeStart(episodeConfig)
-    assignin('base','initialPos', episodeConfig.pos);
-    set_param(bdroot, 'SimulationCommand', 'Start');
+function episodeStart(mdl, episodeConfig)
+
+   in = Simulink.SimulationInput(mdl);
+   in = in.setVariable('initialPos', episodeConfig.pos);
+   sim(in);
+      
 end
 
-% callback for stepping the model with provided action
-function episodeStep(lastAction)
-    %the action from the brain
-    assignin('base','action', lastAction.command);
-end
-
-% callback for getting the state from the model
-function state = getState()
-    
-    %the simStateT value comes from the to_workspace block and and is stored as 
-    %a time series where we need to access the .data values
-    simStateT = evalin('base','simStateT');
-    
-    %use the helper function to copy the structs
-    state = copyFromWorkspace(simStateT);
-end
-
-% callback for when an episode finishes
-function episodeFinish()
-    %cleanup if needed
-end
 
