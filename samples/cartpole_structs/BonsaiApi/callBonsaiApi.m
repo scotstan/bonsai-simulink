@@ -1,3 +1,5 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
 
 function [action,reset] = callBonsaiApi(simState)
     bonsaiApi = evalin('base','bonsaiApi');
