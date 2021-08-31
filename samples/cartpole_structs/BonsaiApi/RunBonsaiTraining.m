@@ -1,0 +1,33 @@
+% Copyright (c) Microsoft Corporation.
+% Licensed under the MIT License.
+
+% Model run loop for training a Bonsai brain
+
+function RunBonsaiTraining(mdl, config, episodeStartCallback)
+    logger = bonsai.Logger('BonsaiRunTraining', config.verbose);
+
+    defaultBrainAction = evalin('base','brainAction');
+    bonsaiApi = BonsaiApiClient(mdl, config, defaultBrainAction);
+    bonsaiApi.connect(episodeStartCallback);
+    
+    assignin('base','bonsaiApi',bonsaiApi);
+
+    % loop over training
+    runException = [];
+    try
+        
+        while ~eq(bonsaiApi.lastEvent, bonsai.EventTypes.Unregister)
+            
+            simState = evalin('base','simState');
+            bonsaiApi.getNext(simState); 
+        end
+        
+        disp("cant keep going");
+        
+    catch runException
+        % exception still gets checked below
+        disp(runException);
+    end
+
+    disp("training loop finished");
+end

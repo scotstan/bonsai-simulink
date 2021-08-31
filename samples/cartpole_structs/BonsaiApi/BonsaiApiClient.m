@@ -1,16 +1,26 @@
-classdef BonsaiApiClient
+classdef BonsaiApiClient < handle
 
+    properties
+        sessionId 
+        episodeStartCallback
+        lastSequenceId 
+        lastEvent
+    end
+    
     properties (Access = private)
         config BonsaiConfiguration
         logger bonsai.Logger
-        sessionId 
+        defaultAction
+        model
     end
-
+  
     methods
-
-        function obj = BonsaiApiClient(config)
+        function obj = BonsaiApiClient(mdl,config, emptyBrainAction)
             obj.config = config;
             obj.logger = bonsai.Logger('BonsaiApiClient', config.verbose);
+            obj.defaultAction = emptyBrainAction;
+            obj.lastEvent = bonsai.EventTypes.Registered;
+            obj.model = mdl;
         end
 
         function r = makeRequest(obj, data, method, endpoint)
@@ -95,6 +105,7 @@ classdef BonsaiApiClient
             r = obj.attemptRequest(data, 'post', endpoint);
         end
 
+        %{
         function start(obj, initialSimState, episodeStartCallback, episodeStepCallback, getStateCallback, episodeFinishCallback)
             r = obj.registerSimulator(obj.config.registrationJson());
             obj.sessionId = r.sessionId;
@@ -142,7 +153,7 @@ classdef BonsaiApiClient
                             simState = getStateCallback(); 
 
                             %pause the model and wait for the next action
-                            set_param(bdroot, 'SimulationCommand','pause');
+                            %set_param(bdroot, 'SimulationCommand','pause');
                          case bonsai.EventTypes.EpisodeFinish.str
                             obj.logger.log('Received event: EpisodeFinish');
                             set_param(bdroot, 'SimulationCommand', 'Stop');
@@ -164,6 +175,70 @@ classdef BonsaiApiClient
                 disp(runException);
             end
         end
+        %} 
+
+        function connect(obj, episodeStartCallback)
+            obj.episodeStartCallback = episodeStartCallback;
+            r = obj.registerSimulator(obj.config.registrationJson());
+            obj.lastSequenceId  = 1;
+            obj.sessionId = r.sessionId;
+            obj.logger.log(['Registered session: ', r.sessionId]);    
+    
+        end
         
+        function [action,reset] = getNext(obj, simState)
+            action = obj.defaultAction;
+            reset = false;
+            halted = false;
+            try
+                keepGoing = true;
+                while keepGoing
+                    
+                    requestData = struct('sequenceId', obj.lastSequenceId, ...
+                                                'sessionId', obj.sessionId, ...
+                                                'halted', halted, ...
+                                                'state', simState);
+                    data = jsonencode(requestData);
+
+                    obj.logger.log(['getNext, data: ', data]);
+
+                    r = obj.getNextEvent(obj.sessionId,data);
+                    obj.lastSequenceId = r.sequenceId;
+                    obj.lastEvent = bonsai.EventTypes(r.type);
+                    
+                    switch r.type
+                        case bonsai.EventTypes.Idle.str
+                            obj.logger.log('Received event: Idle');
+                        case bonsai.EventTypes.EpisodeStart.str
+                           episodeConfig = r.episodeStart.config;
+                           obj.logger.log(['Received event: EpisodeStart, config: ', jsonencode(episodeConfig)]);
+                           obj.episodeStartCallback(obj.model, episodeConfig);
+                           %set_param(obj.model, 'SimulationCommand','Start');
+                           keepGoing = false;
+                        case bonsai.EventTypes.EpisodeStep.str
+                            actionString = jsonencode(r.episodeStep.action);
+                            obj.logger.log(['Received event: EpisodeStep, actions: ', actionString]);
+                            action = r.episodeStep.action;
+                            keepGoing = false;
+                         case bonsai.EventTypes.EpisodeFinish.str
+                            obj.logger.log('Received event: EpisodeFinish');
+                            keepGoing = false;
+                            %obj.episodeFinishCallback();
+                            reset = true;
+                            %set_param(obj.model, 'SimulationCommand','Stop');
+                        case bonsai.EventTypes.Unregister.str
+                            obj.logger.log('Received event: Unregister');
+                            keepGoing = false;
+                            reset = true;
+                    end
+                end
+            catch runException
+                % exception still gets checked below
+                disp(runException);
+            end
+            
+            
+            %assignin('base','bonsaiApi',obj);
+        end
     end
 end

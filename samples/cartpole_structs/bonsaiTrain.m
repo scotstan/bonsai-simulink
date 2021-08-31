@@ -16,11 +16,11 @@ load_system(mdl);
 fid = fopen('cartpole.json');
 raw = fread(fid, inf);
 str = char(raw');
-initialSimState = jsondecode(str);
-simState = initialSimState;
+simState = jsondecode(str);
 
 action = 0;
 initialPos = 0;
+initialSimState = simState;
 Tmp = get_param(bdroot,'SimulationTime');
 Ts = 0;
 
