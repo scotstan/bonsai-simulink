@@ -7,14 +7,17 @@
 %   2. open the model and click "Run"
 %   3. begin assessmnet in the web, selecting the "Simulink Cartpole" simulator.
 
+%initialize the buses
+initModel;
+
 % load model and disable fast restart
-mdl = 'cartpole_discrete';
+mdl = 'cartpole_discrete_api_loop';
 load_system(mdl);
 set_param(mdl, 'FastRestart', 'off');
 
 % configure assessment
 config = bonsaiConfig;
-BonsaiConfigureAssessment(config, mdl, @episodeStartCallback);
+BonsaiApiConfigureAssessment(config, mdl, @episodeStartCallback);
 
 % any initial data required for compilation should go here
 initialPos = 0;

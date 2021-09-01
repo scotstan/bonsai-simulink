@@ -3,15 +3,15 @@
 
 % Model run loop for training a Bonsai brain
 
-function RunBonsaiTraining(mdl, config, episodeStartCallback)
-    logger = bonsai.Logger('BonsaiRunTraining', config.verbose);
+function BonsaiApiRunTraining(mdl, config, episodeStartCallback)
+    logger = bonsai.Logger('BonsaiApiRunTraining', config.verbose);
 
     defaultBrainAction = evalin('base','brainAction');
     bonsaiApi = BonsaiApiClient(mdl, config, defaultBrainAction);
     bonsaiApi.connect(episodeStartCallback);
     
     assignin('base','bonsaiApi',bonsaiApi);
-
+    
     % loop over training
     runException = [];
     try
@@ -26,5 +26,5 @@ function RunBonsaiTraining(mdl, config, episodeStartCallback)
         disp(runException);
     end
 
-    disp("training loop finished");
+    logger.log('Training loop finished');
 end
