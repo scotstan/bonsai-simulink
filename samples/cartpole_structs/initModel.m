@@ -1,34 +1,30 @@
 % add the BonsaiApi folder to the path
 addpath([pwd filesep 'BonsaiApi']);
 
-%%%%%%%%
-% STATE 
-%
-% use the state.json file to define the simState struct, which creates the StateBus used in Simulink 
-%
-%%%%%%%%
-fid = fopen('state.json');
-raw = fread(fid, inf);
-str = char(raw');
-simState = jsondecode(str);
+%the user can choose a script file
+if exist('initializeStateAndAction.m','file')
+    initializeStateAndAction
+%or the state.json and action.json files depending on their preference
+elseif exist('state.json','file') && exist('action.json','file')
+    fid = fopen('state.json');
+    raw = fread(fid, inf);
+    str = char(raw');
+    simState = jsondecode(str);
+
+    fid = fopen('action.json');
+    raw = fread(fid, inf);
+    str = char(raw');
+    brainAction = jsondecode(str);
+else
+    ME = MException("FilesNotFound","cannot load initializeStateAndAction.m or state.json and action.json");
+    throw ME
+end
 
 simStateBus = Simulink.Bus.createObject(simState);
 sBusVar = evalin('base',simStateBus.busName);
 StateBus = copy(sBusVar);
 evalin('base',['clear ' simStateBus.busName])
 clear sBusVar simStateBus;
-
-
-%%%%%%%%
-% ACTION 
-%
-% use the action.json file to define the brainAction struct, which creates the ActionBus used in Simulink 
-%
-%%%%%%%%
-fid = fopen('action.json');
-raw = fread(fid, inf);
-str = char(raw');
-brainAction = jsondecode(str);
 
 brainActionBus = Simulink.Bus.createObject(brainAction);
 aBusVar = evalin('base',brainActionBus.busName);
