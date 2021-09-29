@@ -3,7 +3,7 @@
 
 % Model run loop for training a Bonsai brain
 
-function BonsaiApiRunTraining(mdl, config, episodeStartCallback)
+function BonsaiApiRunTraining(config, mdl, episodeStartCallback)
     logger = bonsai.Logger('BonsaiApiRunTraining', config.verbose);
 
     defaultBrainAction = evalin('base','brainAction');

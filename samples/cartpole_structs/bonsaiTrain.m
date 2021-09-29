@@ -12,7 +12,7 @@ set_param(mdl, 'FastRestart', 'off');
 initialPos = 0;
 
 config = bonsaiConfig;
-BonsaiApiRunTraining(mdl, config, @episodeStart);
+BonsaiApiRunTraining(config, mdl, @episodeStart);
 
 % callback for running model with provided episode configuration
 function episodeStart(mdl, episodeConfig)
