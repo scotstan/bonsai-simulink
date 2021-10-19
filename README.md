@@ -143,13 +143,12 @@ Once you have successfully trained your AI and you have reached a point of goal 
 
 >Note: You do not need to export your brain to test the AI that you have trained, necessarily. You may elect to use the 'assessment' feature (aka next to export, select "Start Assessment" on the Train tab) which will test the AI.
 
-### Samples
+## Uploading and Scaling Your Model
 
-- [**Action-State MATLAB template**](samples/pure-matlab/README.md): a pure MATLAB sample using MATLAB code without a Simulink model that demonstrates how to use states and actions that contain arrays.
-- [**Building Energy Management**](samples/building_energy_management/README.md): Simulink model of an HVAC system that includes central heating and cooling and Inkling file that teaches the system to optimize occupant comfort while minimizing cost.
-- [**Cartpole**](samples/cartpole/): copyrighted model and code example files from MathWorks, Inc. Use of these files is licensed under the terms outlined in [samples/cartpole/XSLA.txt](samples/cartpole/XSLA.txt).
-- [**Chemical Process Optimization**](samples/chemical-process-optimization/README.md): Simulink model of a Continuous Stirred Tank Reactor (CSTR) and Inkling file that teaches the system to transition from low to high conversion rates while controlling temperature to prevent thermal runaway.
-- [**Moab**](samples/moab/README.md): Simulink model of a machine teaching robot controlling a tilting plate and Inkling file that teaches the robot to balance a ball in the center of the plate.
+
+## Cartpole Sample Model
+
+The cartpole sample in [samples/cartpole/](samples/cartpole/) contains model and code based on copyrighted example files from The MathWorks, Inc. and is licensed by the terms outlined in [samples/cartpole/XSLA.txt](samples/cartpole/XSLA.txt).
 
 ## Microsoft Open Source Code of Conduct
 

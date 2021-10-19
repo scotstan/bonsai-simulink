@@ -87,7 +87,12 @@ classdef BonsaiConfiguration < handle
         function obj = set.context(obj, context)
             env_context = getenv('SIM_CONTEXT');
             if isempty(env_context)
-                obj.context = char(context);
+                if strcmp(context, '')
+                    uuid = string(java.util.UUID.randomUUID);
+                    obj.context = jsonencode(struct('simulatorClientId', uuid));
+                else
+                    obj.context = char(context);
+                end
             else
                 obj.logger.log('Using SIM_CONTEXT from the environment');
                 obj.context = char(env_context);
