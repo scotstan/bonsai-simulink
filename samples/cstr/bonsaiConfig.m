@@ -7,7 +7,6 @@ function config = bonsaiConfig
 
     try
         % bonsai workspace ID, see https://preview.bons.ai/accounts/settings
-        % a15dc3f5-5397-46ee-9dcd-08e642771829
         % SIM_WORKSPACE = 00000000-0000-0000-0000-000000000000
         config.workspace = env("SIM_WORKSPACE");
    
