@@ -1,25 +1,21 @@
 %% Run the sample with brain
-%clear;
-%close all;
+clear;
+close all;
 clc;
 
-%config.exportedBrainUrl = 'http://localhost:5004/v1/prediction'; %Brain trained with 10% noise, Signal 1
+
 %% Initialize Workspace 
 
 % Initialize model params (reused for bonsai training)
 init_vars
-%exportedBrainUrl = 'http://localhost:5005/v1/prediction'; 
+
 % Residual Concentration Range
 Cr_vec = [2 2.5 3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9];
 
 open_system('ChemicalProcessOptimization_Bonsai')
 set_param('ChemicalProcessOptimization/Variant Subsystem', 'VChoice', 'Bonsai')
-% This writes to the Default Signal builder (Cref_signal = 1)
-% target_t = [0; 0; 26; 45];
-% target_Cr = [8.57; 8.57; 2; 2]; 
-% signalbuilder('ChemicalProcessOptimization/Target concentration', 'set', 'Signal 1', 'Group 1', target_t, target_Cr);
 
-Cref_signal=5;
+Cref_signal=2;
 
 %% Brain (0% noise)
 
@@ -64,27 +60,6 @@ metric_rms_T_brain_5 = metric_rms;
 
 % plot_results(tout, simout_5_b, title)
 
-%% Benchmark (with 10% noise)
-
-% % Percentage of noise to include
-% noise_magnitude = 10/100;
-% % Auxiliary params
-% conc_noise = abs(CrEQ(1)-CrEQ(5))*noise_magnitude;
-% temp_noise = abs(TrEQ(1)-TrEQ(5))*noise_magnitude;
-% 
-% sim('ChemicalProcessOptimization');
-% tout_10_b = tout;
-% simout_10_b = simout;
-% 
-% % Calculate metrics
-% metric_rms = sqrt(mean((simout_10_b(:, 1) - simout_10_b(:, 2)).^2));
-% disp(['Brain (10% noise): Target Concentration followed with RMS of: ', num2str(metric_rms)])
-% metric_rms_C_brain_10 = metric_rms;
-% 
-% metric_rms = sqrt(mean((simout_10_b(:, 3) - simout_10_b(:, 4)).^2));
-% disp(['Brain (10% noise): Target Reactor Temperature followed with RMS of: ', num2str(metric_rms)])
-% disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-% metric_rms_C_brain_10 = metric_rms;
 
 %% Plot
 

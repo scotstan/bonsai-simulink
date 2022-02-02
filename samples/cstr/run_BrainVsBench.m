@@ -1,10 +1,14 @@
 %% Run the sample with benchmark and brain and plot results
 % This script can be run once you have trained, exported, and are locally
-% running a brain
-% Specify the brain endpoint on line 18
+% running a brain.
+% This script will run 4 simulation scenarios:
+% 1st: Gain scheduled PI without noise
+% 2nd: Gain scheduled PI with noise (as configured below)
+% 3rd: Brain with no noise
+% 4th: Brain with noise (as configured below)
 
 clear;
-%close all;
+close all;
 clc;
 
 %% Set simulation configuration
@@ -13,12 +17,9 @@ clc;
 signal = 2;
 
 % Set noise
-noise = 15;
-
-% Set brain version
-% Brain = 'http://localhost:5010/v1/prediction'; % Multiconcept brain steady state vs transient trained with 0-5% noise
-Brain = 'http://localhost:5015/v1/prediction'; % Monolithic brain trained with 0-5% noise
-
+% configure noise 1:
+noise = 5; % in percentage
+ 
 %% Initialize Workspace for Benchmark
 
 % Initialize model params (reused for bonsai training)
@@ -28,7 +29,6 @@ init_vars
 Cr_vec = [2 2.5 3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9];
 
 open_system('ChemicalProcessOptimization_PI')
-%set_param('ChemicalProcessOptimization/Variant Subsystem', 'VChoice', 'GainScheduled')
 
 Cref_signal = signal;
 
@@ -73,18 +73,12 @@ mdl = 'ChemicalProcessOptimization_Bonsai';
 load_system(mdl);
 set_param(mdl, 'FastRestart', 'off');
 
-% configure exported brain
-config = bonsaiConfig;
-config.exportedBrainUrl = Brain; 
-BonsaiConfigureExportConnect(config, mdl);
-
 init_vars
 
 % Residual Concentration Range
 Cr_vec = [2 2.5 3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9];
 
 open_system('ChemicalProcessOptimization_Bonsai')
-%set_param('ChemicalProcessOptimization/Variant Subsystem', 'VChoice', 'Bonsai')
 
 Cref_signal=signal;
 
@@ -109,32 +103,14 @@ sim('ChemicalProcessOptimization_Bonsai');
 tout_b_noise = tout;
 simout_b_noise = simout;
 
-%% Save data as CSV
-
-% Benchmark without noise
-SimData =[tout_PI simout_PI];
-csvwrite(['Data_PI.csv'],SimData);
-
-% Benchmark with noise
-SimData =[tout_PI_noise simout_PI_noise];
-csvwrite(['Data_PI_', num2str(noise),'.csv'],SimData);
-
-% Brain without noise
-SimData =[tout_b simout_b];
-csvwrite(['Data_b.csv'],SimData)
-%%
-% Brain with noise
-SimData =[tout_b_noise simout_b_noise];
-csvwrite(['Data_b_', num2str(noise),'.csv'],SimData)
-
 %% Plot
 
-plot_comparison2(tout_b, simout_b,tout_b_noise, simout_b_noise,...
+plot_comparison(tout_b, simout_b,tout_b_noise, simout_b_noise,...
     tout_PI, simout_PI,tout_PI_noise, simout_PI_noise,noise)
 
 
 %%
-function []=plot_comparison2(tout_b, simout_b,tout_b_noise, simout_b_noise,...
+function []=plot_comparison(tout_b, simout_b,tout_b_noise, simout_b_noise,...
     tout_PI, simout_PI,tout_PI_noise, simout_PI_noise, noise)
 
     % Calculate Error RMS of concentration

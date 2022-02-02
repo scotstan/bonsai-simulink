@@ -1,6 +1,6 @@
-%% Run the sample without toolboxes
-%clear;
-%close all;
+%% Run the Chemical Process Optimization sample without Bonsai
+clear;
+close all;
 clc;
 
 %% Initialize Workspace 
@@ -13,41 +13,35 @@ Cr_vec = [2 2.5 3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9];
 
 open_system('ChemicalProcessOptimization_PI')
 
-%set_param('ChemicalProcessOptimization/Variant Subsystem', 'VChoice', 'GainScheduled')
-% This writes to the Default Signal builder (Cref_signal = 1)
-target_t = [0; 0; 36; 45];
-target_Cr = [8.57; 8.57; 2; 2]; 
-signalbuilder('ChemicalProcessOptimization_PI/Target concentration', 'set', 'Signal 1', 'Group 1', target_t, target_Cr);
-
+% Set Refrence Signal
 Cref_signal = 2;
 
-% target_t = [0; 10; 36; 45];
-% target_Cr = [8.57; 8.57; 1; 1]; 
-% signalbuilder('ChemicalProcessOptimization/Target concentration', 'set', 'Signal 1', 'Group 1', target_t, target_Cr);
+% Percentage of noise to include
+noise = 5;
 
 %% Using Constant Gains (No Lookup)
 
-% % PI Controller
-% Kp_vec = ones(1, length(Cr_vec)) * -2.00046148741648;
-% Ki_vec = ones(1, length(Cr_vec)) * -7.98512854300473;
-% 
-% % Lead Controller
-% Kt_vec = ones(1, length(Cr_vec)) * 3.60620000481947;
-% a_vec = ones(1, length(Cr_vec)) * 0.384207621232031;
-% b_vec = ones(1, length(Cr_vec)) * 0.0628087670628903;
-% 
-% sim('ChemicalProcessOptimization')
-% % Calculate metrics
-% metric_rms_C_bench = sqrt(mean((simout(:, 1) - simout(:, 2)).^2));
-% disp(['Constant Gains: Target Concentration followed with RMS of: ', num2str(metric_rms_C_bench)])
-% 
-% metric_rms_T_bench = sqrt(mean((simout(:, 3) - simout(:, 4)).^2));
-% disp(['Constant Gains: Target Reactor Temperature followed with RMS of: ', num2str(metric_rms_T_bench)])
-% disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-% 
-% plot_results(tout, simout)
+% PI Controller
+Kp_vec = ones(1, length(Cr_vec)) * -2.00046148741648;
+Ki_vec = ones(1, length(Cr_vec)) * -7.98512854300473;
 
-%% Benchmark
+% Lead Controller
+Kt_vec = ones(1, length(Cr_vec)) * 3.60620000481947;
+a_vec = ones(1, length(Cr_vec)) * 0.384207621232031;
+b_vec = ones(1, length(Cr_vec)) * 0.0628087670628903;
+
+sim('ChemicalProcessOptimization_PI')
+% Calculate metrics
+metric_rms_C_bench = sqrt(mean((simout(:, 1) - simout(:, 2)).^2));
+disp(['Constant Gains: Target Concentration followed with RMS of: ', num2str(metric_rms_C_bench)])
+
+metric_rms_T_bench = sqrt(mean((simout(:, 3) - simout(:, 4)).^2));
+disp(['Constant Gains: Target Reactor Temperature followed with RMS of: ', num2str(metric_rms_T_bench)])
+disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
+plot_results(tout, simout)
+
+%% Using Gain Scheduled PI (Benchmark)
 
 % Copyright 1990-2013 The MathWorks, Inc.
 
@@ -81,55 +75,34 @@ metric_rms_T_bench = sqrt(mean((simout_PI(:, 3) - simout_PI(:, 4)).^2));
 disp(['Benchmark: Target Reactor Temperature followed with RMS of: ', num2str(metric_rms_T_bench)])
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
-%plot_results(tout_PI, simout_PI)
+plot_results(tout_PI, simout_PI)
 
 %% Benchmark (with 5% noise)
 
-% Percentage of noise to include
-noise_magnitude = 3/100;
+noise_magnitude = noise/100;
 % Auxiliary params
 conc_noise = abs(CrEQ(1)-CrEQ(5))*noise_magnitude;
 temp_noise = abs(TrEQ(1)-TrEQ(5))*noise_magnitude;
 
 sim('ChemicalProcessOptimization_PI')
 
-simout_PI_5 = simout;
-tout_PI_5 = tout;
+simout_PI_noise = simout;
+tout_PI_noise = tout;
 
 % Calculate metrics
-metric_rms_C_bench_5 = sqrt(mean((simout_PI_5(:, 1) - simout_PI_5(:, 2)).^2));
+metric_rms_C_bench_5 = sqrt(mean((simout_PI_noise(:, 1) - simout_PI_noise(:, 2)).^2));
 disp(['Strech Benchmark (5% noise): Target Concentration followed with RMS of: ', num2str(metric_rms_C_bench_5)])
 
-metric_rms_T_bench_5 = sqrt(mean((simout_PI_5(:, 3) - simout_PI_5(:, 4)).^2));
+metric_rms_T_bench_5 = sqrt(mean((simout_PI_noise(:, 3) - simout_PI_noise(:, 4)).^2));
 disp(['Strech Benchmark (5% noise): Target Reactor Temperature followed with RMS of: ', num2str(metric_rms_T_bench_5)])
 disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-%%
-plot_results(tout_PI_5, simout_PI_5)
-%%
-%plot_all_results(tout_PI, simout_PI,tout_PI_5, simout_PI_5,metric_rms_C_bench,metric_rms_T_bench,metric_rms_C_bench_5,metric_rms_T_bench_5)
+
+plot_results(tout_PI_noise, simout_PI_noise)
 
 %% Initialize Default Variables to avoid issues with Bonsai training
 % i.e. signal builder
 % no noise, etc
 init_vars
-
-% This writes to the Default Signal builder (Cref_signal = 1)
-target_t = [0; 10; 36; 45];
-target_Cr = [8.57; 8.57; 2; 2]; 
-signalbuilder('ChemicalProcessOptimization_PI/Target concentration', 'set', 'Signal 1', 'Group 1', target_t, target_Cr);
-
-%% Plot RMS
-
-% x = categorical({'Concentration RMS - 0% noise', 'Temp RMS - 0% noise', 'Concentration RMS - 5% noise', 'Temp RMS - 5% nosie'});
-% x = redordercats(x, {'Concentration RMS - 0% noise', 'Temp RMS - 0% noise', 'Concentration RMS - 5% noise', 'Temp RMS - 5% nosie'});
-x = categorical({'Concentration error RMS', 'Temp error RMS'});
-x = reordercats(x, {'Concentration error RMS', 'Temp error RMS'});
-y = [metric_rms_C_bench metric_rms_C_bench_5; metric_rms_T_bench metric_rms_T_bench_5];
-
-save('benchmarkRMS.mat','metric_rms_C_bench' ,'metric_rms_C_bench_5', 'metric_rms_T_bench', 'metric_rms_T_bench_5')
-
-% figure
-% bar(x,y)
 
 %% Functions 
 
@@ -159,50 +132,4 @@ function [] = plot_results(tout, simout)
     hold off
     legend('dTc', 'dTc rate limited','Tc')
     grid, title('Coolant temperature'), ylabel('Kelvin')
-end
-
-function [] = plot_all_results(tout_PI, simout_PI,tout_PI_5, simout_PI_5,metric_rms_C_bench, metric_rms_T_bench,metric_rms_C_bench_5, metric_rms_T_bench_5)
-    figure
-    subplot(221)
-    plot(tout_PI, simout_PI(:, 1))
-    hold on
-    plot(tout_PI, simout_PI(:, 2))
-    hold off
-    legend('Ref', 'Actual')
-    grid, title('0% noise simulated'), ylabel('Residual Concentration (Cr)')
-    txt = ['Error RMS: ' num2str(metric_rms_C_bench) ' units'];
-    text(1,9,txt)
-
-    subplot(223)
-    plot(tout_PI, simout_PI(:, 3))
-    hold on
-    plot(tout_PI, simout_PI(:, 4))
-    hold off
-    legend('Ref', 'Actual')
-    grid, ylabel('Reactor Temperature (Tr)'), xlabel ('time (s)')
-    txt = ['Error RMS: ' num2str(metric_rms_T_bench) ' units'];
-    text(1,360,txt)
-    
-    subplot(222)
-    plot(tout_PI_5, simout_PI_5(:, 1))
-    hold on
-    plot(tout_PI_5, simout_PI_5(:, 2))
-    hold off
-    legend('Ref', 'Actual')
-    grid, title('5% noise simulated'), ylabel('Residual Concentration (Cr)')
-    txt = ['Error RMS: ' num2str(metric_rms_C_bench_5) ' units'];
-    text(1,9,txt)
-    
-    subplot(224)
-    plot(tout_PI_5, simout_PI_5(:, 3))
-    hold on
-    plot(tout_PI_5, simout_PI_5(:, 4))
-    hold off
-    legend('Ref', 'Actual')
-    grid, ylabel('Reactor Temperature (Tr)'), xlabel ('time (s)')
-    txt = ['Error RMS: ' num2str(metric_rms_T_bench_5) ' units'];
-    text(1,380,txt)
-
-    
-    sgtitle('Gain Scheduled PI Control')
 end
