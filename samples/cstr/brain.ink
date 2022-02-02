@@ -23,7 +23,7 @@ using Math
 using Number
 using Goal
 
-const SimulatorVisualizer = "https://scotstan.github.io/bonsai-viz-example/debug"
+#const SimulatorVisualizer = 
 
 # Sim Period
 const Ts = 0.5
@@ -60,10 +60,6 @@ type SimState {
     # Coolant absolute temperature as input to the simulation
     Tc: number<temp_min .. temp_max>,
 
-    # Coolant absolute temperature referred from TcEQ: Tc = TcEQ + dTc
-    # dTc = integral(Tc_adjust)dt
-    #dTc: number <coolant_temp_offset_min .. coolant_temp_offset_max>,
-    # Coolant absolute temperature referred from TcEQ: Tc = TcEQ + dTc_rate_limited
 }
 
 
@@ -93,10 +89,10 @@ type SimAction {
 # All iterations within an episode will use the same configuration.
 type SimConfig {
     # Scenario to be run - 4 scenarios: 1-based INT
-    # > 1: Concentration transition --> 8.57 to 2.000 over [0, 0, 26, 45] (minutes) - 0 delay
-    # > 2: Concentration transition --> 8.57 to 2.000 over [0, 10, 36, 45] (minutes) - original - 10 sec delay
-    # > 3: Concentration transition --> 8.57 to 2.000 over [0, 20, 46, 45] (minutes) - 20 sec delay
-    # > 4: Concentration transition --> 8.57 to 1.000 over [0, 30, 56, 45] (minutes) - 30 sec delay
+    # > 1: Concentration transition --> 8.57 to 2.000 over [0, 0, 26, 90] (minutes) - 0 delay
+    # > 2: Concentration transition --> 8.57 to 2.000 over [0, 10, 36, 90] (minutes) - 10 sec delay
+    # > 3: Concentration transition --> 8.57 to 2.000 over [0, 20, 46, 90] (minutes) - 20 sec delay
+    # > 4: Concentration transition --> 8.57 to 1.000 over [0, 30, 56, 90] (minutes) - 30 sec delay
     # > 5: Steady State --> 2
     Cref_signal: number<1 .. 5 step 1>,
 
@@ -120,9 +116,6 @@ graph (input: ObservableState) {
             # - accepts per-iteration actions defined in SimAction, and
             # - outputs states with the fields defined in SimState.
             source simulator Simulator(Action: SimAction, Config: SimConfig): SimState {
-                # Automatically launch the simulator with this
-                # registered package name.
-                package "CSTR-20220106"
 
             }
 
@@ -142,18 +135,13 @@ graph (input: ObservableState) {
                     in Goal.RangeAbove(400)
             }
 
-            lesson `Follow Planned Concentration` {
+            lesson `Transiant Condition` {
                 # Specify the configuration parameters that should be varied
                 # from one episode to the next during this lesson.
                 scenario {
-                    # > 1: Concentration transition --> 8.57 to 2.000 over [0, 0, 26, 45] (minutes) - 0 delay
-                    # > 2: Concentration transition --> 8.57 to 2.000 over [0, 10, 36, 45] (minutes) - original - 10 sec delay
-                    # > 3: Concentration transition --> 8.57 to 2.000 over [0, 20, 46, 45] (minutes) - 20 sec delay
-                    # > 4: Concentration transition --> 8.57 to 1.000 over [0, 30, 56, 45] (minutes) - 30 sec delay
-                    # > 5: Steady State --> 8.57
-
+                    # use Cref_signal 1 to simulate the transiant condition
                     Cref_signal: number<1>,
-                    # 1-100
+                    # vary noise between 0 and 5%
                     noise_percentage: number<0 .. 5>,
                 }
             }
@@ -170,9 +158,6 @@ graph (input: ObservableState) {
             # - accepts per-iteration actions defined in SimAction, and
             # - outputs states with the fields defined in SimState.
             source simulator Simulator(Action: SimAction, Config: SimConfig): SimState {
-                # Automatically launch the simulator with this
-                # registered package name.
-                package "CSTR-20220106"
             }
 
             training {
@@ -190,17 +175,11 @@ graph (input: ObservableState) {
                     in Goal.RangeAbove(400)
             }
 
-            lesson `Lesson 1` {
+            lesson `Steady State Condition` {
                 scenario {
-                    # Scenario to be run - 4 scenarios: 1-based INT
-                    # > 1: Concentration transition --> 8.57 to 2.000 over [0, 0, 26, 45] (minutes) - 0 delay
-                    # > 2: Concentration transition --> 8.57 to 2.000 over [0, 10, 36, 45] (minutes) - original - 10 sec delay
-                    # > 3: Concentration transition --> 8.57 to 2.000 over [0, 20, 46, 45] (minutes) - 20 sec delay
-                    # > 4: Concentration transition --> 8.57 to 1.000 over [0, 30, 56, 45] (minutes) - 30 sec delay
-                    # > 5: Steady State --> 8.57
-
+                    # Use Cref_signal 5 to simulate steady state condition
                     Cref_signal: number<5>,
-                    # 1-100
+                    # vary noise between 0 and 5%
                     noise_percentage: number<0 .. 5>,
                 }
             }
@@ -212,7 +191,6 @@ graph (input: ObservableState) {
         select ModifyConcentration
         curriculum {
             source simulator Simulator(Action: SimAction, Config: SimConfig): SimState {
-                package "CSTR-20220106"
             }
 
             training {
@@ -234,21 +212,14 @@ graph (input: ObservableState) {
 
             lesson `Lesson 1` {
                 scenario {
-                    # > 1: Concentration transition --> 8.57 to 2.000 over [0, 10, 36, 45] (minutes) - 0
-                    # > 2: Concentration transition --> 8.57 to 2.000 over [0, 0, 26, 45] (minutes) - 10 sec delay (original)
-                    # > 3: Concentration transition --> 8.57 to 2.000 over [0, 10, 20, 45] (minutes) - 20 sec delay
-                    # > 4: Concentration transition --> 8.57 to 1.000 over [0, 10, 36, 45] (minutes) - 30 sec delay
-                    # > 5: Steady State --> 8.57
-
+                    # use Cref_signal 2, 3, and 4 to simulate transient and steady state conditions
                     Cref_signal: number<2 .. 4 step 1>,
-                    # 1-100
+                    # vary noise between 0 and 5%
                     noise_percentage: number<0 .. 5>,
                 }
             }
         }
     }
-
-
 }
 
 
