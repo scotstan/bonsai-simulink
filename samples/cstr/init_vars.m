@@ -4,13 +4,14 @@
 % Load equilibrium points, used as initial conditions
 load('CSTRData.mat')
 
-% Scenario to be run - 4 scenarios: 1-based INT
-% > 1: Concentration transition -->  8.57 to 2.000 over [0, 10, 36, 45]
-% > 2: Concentration transition -->  8.57 to 2.000 over [0, 2, 28, 45]
-% > 3: Concentration transition -->  8.57 to 2.000 over [0, 10, 20, 45]
-% > 4: Concentration transition -->  8.57 to 1.000 over [0, 10, 36, 45]
+% Scenario to be run - 5 scenarios: 1-based INT
+% > 1: Concentration transition -->  8.57 to 2.000 over [0, 0, 36, 45]
+% > 2: Concentration transition -->  8.57 to 2.000 over [0, 10, 36, 45]
+% > 3: Concentration transition -->  8.57 to 2.000 over [0, 20, 46, 55]
+% > 4: Concentration transition -->  8.57 to 2.000 over [0, 30, 56, 65]
+% > 5: Steady state -->  8.57
 
-Cref_signal = 1;
+Cref_signal = 2;
 
 % Percentage of noise to include
 noise_magnitude = 0/100;
