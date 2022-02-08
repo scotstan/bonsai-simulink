@@ -11,14 +11,13 @@
 init_vars
 
 % load model and disable fast restart
-mdl = 'ChemicalProcessOptimization';
+mdl = 'ChemicalProcessOptimization_Bonsai';
 load_system(mdl);
 set_param(mdl, 'FastRestart', 'off');
 
 % configure assessment
 config = bonsaiConfig;
 BonsaiConfigureAssessment(config, mdl, @episodeStartCallback);
-
 
 % callback for provided episode configuration
 function episodeStartCallback(mdl, episodeConfig)
