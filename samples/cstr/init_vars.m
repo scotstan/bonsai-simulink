@@ -16,8 +16,6 @@ Cref_signal = 2;
 % Percentage of noise to include
 noise_magnitude = 0/100;
 
-%% GENERAL SETTINGS
-
 % Sample time used for controller
 Ts = 0.5;
 
