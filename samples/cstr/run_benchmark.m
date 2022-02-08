@@ -1,15 +1,10 @@
 %% Run the Chemical Process Optimization sample without Bonsai
-clear;
-close all;
-clc;
+clear; close all; clc;
 
 %% Initialize Workspace 
 
 % Initialize model params (reused for bonsai training)
 init_vars
-
-% Residual Concentration Range
-Cr_vec = [2 2.5 3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9];
 
 open_system('ChemicalProcessOptimization_PI')
 
@@ -22,6 +17,9 @@ noise = 5;
 %% Using Constant Gains (No Lookup)
 
 % PI Controller
+% Goal is to take concentration from ~8.5 down to 2
+Cr_vec = [2:.5:9]; 
+
 Kp_vec = ones(1, length(Cr_vec)) * -2.00046148741648;
 Ki_vec = ones(1, length(Cr_vec)) * -7.98512854300473;
 
@@ -37,7 +35,6 @@ disp(['Constant Gains: Target Concentration followed with RMS of: ', num2str(met
 
 metric_rms_T_bench = sqrt(mean((simout(:, 3) - simout(:, 4)).^2));
 disp(['Constant Gains: Target Reactor Temperature followed with RMS of: ', num2str(metric_rms_T_bench)])
-disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
 plot_results(tout, simout)
 
@@ -73,7 +70,6 @@ disp(['Benchmark: Target Concentration followed with RMS of: ', num2str(metric_r
 
 metric_rms_T_bench = sqrt(mean((simout_PI(:, 3) - simout_PI(:, 4)).^2));
 disp(['Benchmark: Target Reactor Temperature followed with RMS of: ', num2str(metric_rms_T_bench)])
-disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
 plot_results(tout_PI, simout_PI)
 
@@ -95,7 +91,6 @@ disp(['Strech Benchmark (5% noise): Target Concentration followed with RMS of: '
 
 metric_rms_T_bench_5 = sqrt(mean((simout_PI_noise(:, 3) - simout_PI_noise(:, 4)).^2));
 disp(['Strech Benchmark (5% noise): Target Reactor Temperature followed with RMS of: ', num2str(metric_rms_T_bench_5)])
-disp('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
 plot_results(tout_PI_noise, simout_PI_noise)
 

@@ -7,9 +7,7 @@
 % 3rd: Brain with no noise
 % 4th: Brain with noise (as configured below)
 
-clear;
-close all;
-clc;
+clear; close all; clc;
 
 %% Set simulation configuration
 
@@ -24,9 +22,6 @@ noise = 5; % in percentage
 
 % Initialize model params (reused for bonsai training)
 init_vars
-
-% Residual Concentration Range
-Cr_vec = [2 2.5 3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9];
 
 open_system('ChemicalProcessOptimization_PI')
 
@@ -74,9 +69,6 @@ load_system(mdl);
 set_param(mdl, 'FastRestart', 'off');
 
 init_vars
-
-% Residual Concentration Range
-Cr_vec = [2 2.5 3 3.5 4 4.5 5 5.5 6 6.5 7 7.5 8 8.5 9];
 
 open_system('ChemicalProcessOptimization_Bonsai')
 
