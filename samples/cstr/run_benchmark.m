@@ -85,10 +85,10 @@ tout_PI_noise = tout;
 
 % Calculate metrics
 metric_rms_C_bench_5 = sqrt(mean((simout_PI_noise(:, 1) - simout_PI_noise(:, 2)).^2));
-disp(['Strech Benchmark (5% noise): Target Concentration followed with RMS of: ', num2str(metric_rms_C_bench_5)])
+disp(['Stretch Benchmark (5% noise): Target Concentration followed with RMS of: ', num2str(metric_rms_C_bench_5)])
 
 metric_rms_T_bench_5 = sqrt(mean((simout_PI_noise(:, 3) - simout_PI_noise(:, 4)).^2));
-disp(['Strech Benchmark (5% noise): Target Reactor Temperature followed with RMS of: ', num2str(metric_rms_T_bench_5)])
+disp(['Stretch Benchmark (5% noise): Target Reactor Temperature followed with RMS of: ', num2str(metric_rms_T_bench_5)])
 
 plot_results(tout_PI_noise, simout_PI_noise)
 
