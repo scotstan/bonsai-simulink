@@ -19,6 +19,9 @@ noise_magnitude = 0/100;
 % Sample time used for controller
 Ts = 0.5;
 
+% Goal is to take concentration from ~8.5 down to 2
+Cr_vec = [2:.5:9]; 
+
 % Auxiliary params
 conc_noise = abs(CrEQ(1)-CrEQ(5))*noise_magnitude;
 temp_noise = abs(TrEQ(1)-TrEQ(5))*noise_magnitude;

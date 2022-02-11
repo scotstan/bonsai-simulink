@@ -17,8 +17,6 @@ noise = 5;
 %% Using Constant Gains (No Lookup)
 
 % PI Controller
-% Goal is to take concentration from ~8.5 down to 2
-Cr_vec = [2:.5:9]; 
 
 Kp_vec = ones(1, length(Cr_vec)) * -2.00046148741648;
 Ki_vec = ones(1, length(Cr_vec)) * -7.98512854300473;
