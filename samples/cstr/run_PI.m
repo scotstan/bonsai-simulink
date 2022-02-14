@@ -6,7 +6,7 @@ clear; close all; clc;
 % Initialize model params (reused for bonsai training)
 init_vars
 
-open_system('ChemicalProcessOptimization_PI')
+open_system('CSTR_PI')
 
 % Set Refrence Signal
 Cref_signal = 2;
@@ -14,7 +14,9 @@ Cref_signal = 2;
 % Percentage of noise to include
 noise = 5;
 
-%% Using Constant Gains (No Lookup)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SCENARIO 1: Using Constant Gains (No Lookup)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % PI Controller
 
@@ -26,7 +28,7 @@ Kt_vec = ones(1, length(Cr_vec)) * 3.60620000481947;
 a_vec = ones(1, length(Cr_vec)) * 0.384207621232031;
 b_vec = ones(1, length(Cr_vec)) * 0.0628087670628903;
 
-sim('ChemicalProcessOptimization_PI')
+sim('CSTR_PI')
 % Calculate metrics
 metric_rms_C_bench = sqrt(mean((simout(:, 1) - simout(:, 2)).^2));
 disp(['Constant Gains: Target Concentration followed with RMS of: ', num2str(metric_rms_C_bench)])
@@ -36,9 +38,9 @@ disp(['Constant Gains: Target Reactor Temperature followed with RMS of: ', num2s
 
 plot_results(tout, simout)
 
-%% Using Gain Scheduled PI (Benchmark)
-
-% Copyright 1990-2013 The MathWorks, Inc.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SCENARIO 2: Using Gain Scheduled PI (Benchmark)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % To prevent thermal runaway while ramping down the residual concentration,
 % use feedback control to adjust the coolant temperature |Tc| based on
@@ -57,7 +59,7 @@ Kt_vec = [3.60620000481947;3.57285570622906;3.55992955218359;3.56742154268306;3.
 a_vec = [0.384207621232031;0.492686723524811;0.580956543031792;0.649017079752974;0.696868333688357;0.72451030483794;0.731942993201725;0.71916639877971;0.686180521571896;0.632985361578283;0.55958091879887;0.465967193233659;0.352144184882648;0.218111893745838;0.0638703198232284];
 b_vec = [0.0628087670628903;0.0875474545057933;0.110088960048547;0.130433283691153;0.148580425433609;0.164530385275917;0.178283163218075;0.189838759260085;0.199197173401946;0.206358405643658;0.211322455985221;0.214089324426636;0.214659010967901;0.213031515609018;0.209206838349985];
 
-sim('ChemicalProcessOptimization_PI')
+sim('CSTR_PI')
 
 simout_PI = simout;
 tout_PI = tout;
@@ -71,14 +73,16 @@ disp(['Benchmark: Target Reactor Temperature followed with RMS of: ', num2str(me
 
 plot_results(tout_PI, simout_PI)
 
-%% Benchmark (with 5% noise)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% SCENARIO 3: Benchmark (with 5% noise)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 noise_magnitude = noise/100;
 % Auxiliary params
 conc_noise = abs(CrEQ(1)-CrEQ(5))*noise_magnitude;
 temp_noise = abs(TrEQ(1)-TrEQ(5))*noise_magnitude;
 
-sim('ChemicalProcessOptimization_PI')
+sim('CSTR_PI')
 
 simout_PI_noise = simout;
 tout_PI_noise = tout;
@@ -92,12 +96,11 @@ disp(['Stretch Benchmark (5% noise): Target Reactor Temperature followed with RM
 
 plot_results(tout_PI_noise, simout_PI_noise)
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Initialize Default Variables to avoid issues with Bonsai training
 % i.e. signal builder
 % no noise, etc
 init_vars
-
-%% Functions 
 
 function [] = plot_results(tout, simout)
     figure

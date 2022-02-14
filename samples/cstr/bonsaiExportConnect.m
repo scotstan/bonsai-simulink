@@ -13,7 +13,7 @@
 init_vars
 
 % load model and disable fast restart
-mdl = 'ChemicalProcessOptimization_Bonsai';
+mdl = 'CSTR_Bonsai';
 load_system(mdl);
 set_param(mdl, 'FastRestart', 'off');
 

@@ -23,7 +23,7 @@ noise = 5; % in percentage
 % Initialize model params (reused for bonsai training)
 init_vars
 
-open_system('ChemicalProcessOptimization_PI')
+open_system('CSTR_PI')
 
 Cref_signal = signal;
 
@@ -39,7 +39,7 @@ Kt_vec = [3.60620000481947;3.57285570622906;3.55992955218359;3.56742154268306;3.
 a_vec = [0.384207621232031;0.492686723524811;0.580956543031792;0.649017079752974;0.696868333688357;0.72451030483794;0.731942993201725;0.71916639877971;0.686180521571896;0.632985361578283;0.55958091879887;0.465967193233659;0.352144184882648;0.218111893745838;0.0638703198232284];
 b_vec = [0.0628087670628903;0.0875474545057933;0.110088960048547;0.130433283691153;0.148580425433609;0.164530385275917;0.178283163218075;0.189838759260085;0.199197173401946;0.206358405643658;0.211322455985221;0.214089324426636;0.214659010967901;0.213031515609018;0.209206838349985];
 
-sim('ChemicalProcessOptimization_PI')
+sim('CSTR_PI')
 
 simout_PI = simout;
 tout_PI = tout;
@@ -53,7 +53,7 @@ noise_magnitude = noise/100;
 conc_noise = abs(CrEQ(1)-CrEQ(5))*noise_magnitude;
 temp_noise = abs(TrEQ(1)-TrEQ(5))*noise_magnitude;
 
-sim('ChemicalProcessOptimization_PI')
+sim('CSTR_PI')
 
 simout_PI_noise = simout;
 tout_PI_noise = tout;
@@ -64,19 +64,19 @@ tout_PI_noise = tout;
 init_vars
 
 % load model and disable fast restart
-mdl = 'ChemicalProcessOptimization_Bonsai';
+mdl = 'CSTR_Bonsai';
 load_system(mdl);
 set_param(mdl, 'FastRestart', 'off');
 
 init_vars
 
-open_system('ChemicalProcessOptimization_Bonsai')
+open_system('CSTR_Bonsai')
 
 Cref_signal=signal;
 
 %% Run Brain without noise
 
-sim('ChemicalProcessOptimization_Bonsai');
+sim('CSTR_Bonsai');
 
 tout_b = tout;
 simout_b = simout;
@@ -90,7 +90,7 @@ noise_magnitude = noise/100;
 conc_noise = abs(CrEQ(1)-CrEQ(5))*noise_magnitude;
 temp_noise = abs(TrEQ(1)-TrEQ(5))*noise_magnitude;
 
-sim('ChemicalProcessOptimization_Bonsai');
+sim('CSTR_Bonsai');
 
 tout_b_noise = tout;
 simout_b_noise = simout;
